@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:background="@color/colorGrey"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/item_search_mv_logo"
+        android:layout_width="170dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/item_search_mv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="想象之中"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="19sp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/item_search_mv_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="许嵩"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/item_search_mv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04:22"/>
+    </LinearLayout>
+</LinearLayout>

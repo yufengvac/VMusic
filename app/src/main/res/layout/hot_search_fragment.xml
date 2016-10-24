@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorGrey"
+    android:padding="@dimen/main_home_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hot_search"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"/>
+    <com.vac.vmusic.views.WordWrapView
+        android:id="@+id/hot_search_fragment_wordwrapView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/history_search"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"/>
+</LinearLayout>

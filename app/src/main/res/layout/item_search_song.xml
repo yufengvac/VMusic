@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/colorGrey"
+              android:orientation="horizontal"
+              android:padding="10dp"
+              android:clickable="true"
+              android:id="@+id/item_search_song_content"
+    android:descendantFocusability="afterDescendants">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_home_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="千古"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:id="@+id/item_home_quality_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_hq"/>
+
+        <ImageView
+            android:id="@+id/item_home_mv_imageview"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_mv"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_home_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="许嵩"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="·"/>
+
+        <TextView
+            android:id="@+id/item_home_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="千古"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_home_alias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="别称"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/item_search_song_add_songlist_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_plus"
+        android:paddingLeft="@dimen/main_home_padding"
+        android:paddingRight="@dimen/main_home_padding"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/app_name"/>
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">VMusic</string>
+
+    <!--首页 本地音乐-->
+    <string name="local_music">本地音乐</string>
+    <string name="default_music_num">0首</string>
+    <string name="music_download">歌曲下载</string>
+    <string name="default_music_download">没有下载任务</string>
+    <string name="mv_download">MV下载</string>
+    <string name="recent_play_music">最近播放</string>
+    <string name="my_favor">我的收藏</string>
+    <string name="my_create_songlist">我创建的歌单</string>
+    <string name="my_favor_title">我的最爱</string>
+    <string name="default_music_count">0个</string>
+    <string name="favor_song_list">收藏的歌单</string>
+    <string name="create_new_song_list">点击新建歌单</string>
+    <string name="create">新建</string>
+    <string name="manager">管理</string>
+
+    <string name="hot_search">热门搜索</string>
+    <string name="history_search">历史搜索</string>
+
+</resources>
