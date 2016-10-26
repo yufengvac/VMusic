@@ -29,7 +29,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout
@@ -47,7 +47,8 @@
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:singleLine="true"
-                android:textSize="17sp"/>
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/base_text_size"/>
 
             <TextView
                 android:id="@+id/main_song_artist"
@@ -57,7 +58,8 @@
                 android:ellipsize="marquee"
                 android:focusable="true"
                 android:singleLine="true"
-                android:textColor="@color/colorGrey"/>
+                android:textSize="@dimen/base_text_size_small"
+                android:textColor="@color/colorBlack"/>
         </LinearLayout>
 
         <LinearLayout

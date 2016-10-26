@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +19,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.vac.vmusic.R;
+import com.vac.vmusic.beans.BinderSingleton;
+import com.vac.vmusic.service.PlayService;
 import com.vac.vmusic.swipebackbase.SwipeBackLayout;
 
 
@@ -29,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private SwipeBackLayout mSwipeBackLayout;
     private int mDefaultFragmentBackground = 0;
+    private IBinder musicIbinder;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void getContentViewId();
     public abstract void initView();
+
+    public void setMusicIbinder(IBinder ibinder){
+        musicIbinder = ibinder;
+        BinderSingleton.getInstance().setMusicBinder(musicIbinder);
+    }
+    public void clearMusicIbinder(){
+        musicIbinder = null;
+    }
+    public PlayService.MusicBinder getMusicIbinder(){
+        return (PlayService.MusicBinder) BinderSingleton.getInstance().getMusicBinder();
+    }
 
     public void beginStartActivity(Context fromActivity, Class claszz){
         Intent intent = new Intent(fromActivity,claszz);
@@ -62,6 +78,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                     .hide(fromFragment)
                     .addToBackStack(toFragment.getClass().getName())
                     .commit();
+        }
+        if (toFragment instanceof BaseSwipeBackFragment){
+            ((BaseSwipeBackFragment) toFragment).setMusicIbinder(musicIbinder);
         }
 
     }

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hot_search"
-        android:textSize="18sp"
+        android:textSize="@dimen/base_text_size"
         android:textColor="@color/colorBlack"/>
     <com.vac.vmusic.views.WordWrapView
         android:id="@+id/hot_search_fragment_wordwrapView"
@@ -21,6 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/history_search"
-        android:textSize="18sp"
+        android:textSize="@dimen/base_text_size"
         android:textColor="@color/colorBlack"/>
 </LinearLayout>

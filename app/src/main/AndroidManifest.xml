@@ -23,6 +23,10 @@
 
         <activity android:name=".homemain.view.MainActivity"
             />
+        <activity android:name=".playmusic.PlayMusicActivity"/>
+        <activity android:name=".playmusicqueue.view.MusicQueueActivity"
+            android:theme="@style/BaseAppTheme.Dialog"/>
+        <service android:name=".service.PlayService"/>
     </application>
 
 </manifest>

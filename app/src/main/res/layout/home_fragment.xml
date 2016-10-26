@@ -38,6 +38,7 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/main_head_left_menu"
                 android:clickable="true"
+                android:contentDescription="@string/app_name"
                 />
 
             <android.support.design.widget.TabLayout
@@ -52,7 +53,7 @@
                 android:backgroundTint="@android:color/transparent"
                 app:tabPaddingStart="25dp"
                 app:tabPaddingEnd="25dp"
-                style="@style/MyTabLayoutTextAppearance"
+                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
                 app:tabSelectedTextColor="@color/colorWhite"
                 app:tabTextColor="@color/colorGrey"/>
 
@@ -64,6 +65,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:clickable="true"
+                android:contentDescription="@string/app_name"
                 android:background="@android:color/transparent"
                 android:src="@drawable/main_head_right_search"/>
         </RelativeLayout>

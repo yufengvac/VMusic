@@ -27,7 +27,7 @@
             android:layout_gravity="center_vertical"
             android:text="千古"
             android:textColor="@color/colorBlack"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/base_text_size"/>
 
         <ImageView
             android:id="@+id/item_home_quality_imageview"
@@ -59,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="许嵩"
+            android:textSize="@dimen/base_text_size_small"
             android:textColor="@color/colorPrimary"/>
 
         <TextView
@@ -66,12 +67,14 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
+            android:textSize="@dimen/base_text_size_small"
             android:text="·"/>
 
         <TextView
             android:id="@+id/item_home_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/base_text_size_small"
             android:text="千古"/>
     </LinearLayout>
 
@@ -80,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:textSize="@dimen/base_text_size_small"
         android:text="别称"/>
     </LinearLayout>
     <ImageView

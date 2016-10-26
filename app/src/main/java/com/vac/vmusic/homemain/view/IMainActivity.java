@@ -15,4 +15,5 @@ import rx.Observable;
 public interface IMainActivity {
     void addHomeFragment(Fragment fromFragment, Fragment toFragment);
     Observable<AddFragment> getAddFragmentObservable();
+    void initService();
 }

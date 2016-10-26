@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:text="正在加载..."/>
+        android:text="正在加载..."
+        android:textSize="@dimen/base_text_size_small"/>
 </LinearLayout>

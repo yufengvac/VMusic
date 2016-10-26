@@ -45,14 +45,14 @@
                     android:layout_height="wrap_content"
                     android:text="灵魂的声音"
                     android:textColor="@color/colorWhite"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/base_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="vac"
                     android:textColor="@color/colorGrey"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/base_text_size_small" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/local_music"
                             android:textColor="@color/colorWhite"
-                            android:textSize="19sp" />
+                            android:textSize="@dimen/base_text_size" />
 
                         <TextView
                             android:id="@+id/local_music_fra_totalnumber"
@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/default_music_num"
                             android:textColor="#7fff"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/base_text_size_small" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -126,14 +126,14 @@
                             android:layout_height="wrap_content"
                             android:text="@string/music_download"
                             android:textColor="@color/colorWhite"
-                            android:textSize="19sp" />
+                            android:textSize="@dimen/base_text_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/default_music_download"
                             android:textColor="#7fff"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/base_text_size_small" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -163,14 +163,14 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mv_download"
                             android:textColor="@color/colorWhite"
-                            android:textSize="19sp" />
+                            android:textSize="@dimen/base_text_size" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/default_music_download"
                             android:textColor="#7fff"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/base_text_size_small" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -202,7 +202,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/recent_play_music"
                             android:textColor="@color/colorWhite"
-                            android:textSize="19sp" />
+                            android:textSize="@dimen/base_text_size" />
 
                         <TextView
                             android:id="@+id/local_music_fra_recentplay_count"
@@ -210,7 +210,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/default_music_num"
                             android:textColor="#7fff"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/base_text_size_small" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -225,7 +225,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/my_favor"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/base_text_size"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/fovor"/>
+                        android:src="@drawable/favor"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -255,12 +255,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="我的最爱"/>
+                        android:text="我的最爱"
+                        android:textSize="@dimen/base_text_size_small"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/default_music_num"/>
+                        android:text="@string/default_music_num"
+                        android:textSize="@dimen/base_text_size_small"/>
                 </LinearLayout>
                 <ImageView
                     android:layout_width="wrap_content"
@@ -297,11 +299,13 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/base_text_size_small"
                         android:text="@string/favor_song_list"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:textSize="@dimen/base_text_size_small"
                         android:text="@string/default_music_count"/>
                 </LinearLayout>
                 <ImageView
@@ -324,7 +328,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/my_create_songlist"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/base_text_size"/>
                 <TextView
                     android:id="@+id/my_music_fra_num"
                     android:layout_width="wrap_content"
@@ -332,7 +336,7 @@
                     android:text="@string/default_music_count"
                     android:textColor="#90454545"
                     android:layout_marginLeft="10dp"
-                    android:textSize="14sp"/>
+                    android:textSize="@dimen/base_text_size_small"/>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -345,13 +349,15 @@
                         android:text="@string/create"
                         android:gravity="center"
                         android:clickable="true"
-                        android:textColor="@color/colorGrey"/>
+                        android:textSize="@dimen/base_text_size_small"
+                        android:textColor="@color/colorBlack"/>
                     <TextView
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:text="@string/manager"
                         android:gravity="center"
-                        android:textColor="@color/colorGrey"/>
+                        android:textSize="@dimen/base_text_size_small"
+                        android:textColor="@color/colorBlack"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -428,6 +434,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/base_text_size_small"
                         android:text="@string/create_new_song_list"/>
 
                 </LinearLayout>

@@ -12,11 +12,13 @@ import android.widget.LinearLayout;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.homemain.view.MainActivity;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchAlbumAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchMVAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongListAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.presenter.SearchTabFragmentPresenter;
+import com.vac.vmusic.service.PlayService;
 import com.vac.vmusic.utils.RxBus;
 import com.vac.vmusic.utils.ViewUtil;
 import com.vac.vmusic.views.AutoLoadMoreRecyclerView;
@@ -37,6 +39,7 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
     private SearchTabFragmentPresenter searchTabFragmentPresenter;
     private LinearLayout refreshLayout;
     private String keyWord;
+    private PlayService.MusicBinder musicBinder;
 
     public static SearchTabFragment newInstance(String type,Bundle b){
         SearchTabFragment searchTabFragment = new SearchTabFragment();
@@ -63,6 +66,7 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
             type = getArguments().getString("type");
             keyWord = getArguments().getString("keyword");
         }
+
     }
 
     @Override
@@ -70,11 +74,6 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
         super.onDestroy();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        clearFragmentRootView();
-    }
 
     @Override
     public void getFragmentViewId() {
@@ -86,15 +85,17 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
         autoLoadMoreRecyclerView = (AutoLoadMoreRecyclerView) view.findViewById(R.id.home_fragment_recyclerView);
         refreshLayout = (LinearLayout) view.findViewById(R.id.home_fragment_refresh);
 
+        musicBinder = getMusicIbinder();
 
         if (type.equals(HomeFragmentType.SINGLE)){
             homeAdapter = new SearchSongAdapter(getActivity(), new OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     if (view instanceof ImageView){
-                        Log.i("TAG","添加到歌单里面去,"+position);
+
                     }else if(view instanceof LinearLayout){
-                        Log.i("TAG","点击开始播放,"+position);
+                        musicBinder.setMusicPlayList(((SearchSongAdapter)homeAdapter).getmData());
+                        musicBinder.beginToPlay(position,((SearchSongAdapter)homeAdapter).getmData().get(position));
                     }
                 }
 

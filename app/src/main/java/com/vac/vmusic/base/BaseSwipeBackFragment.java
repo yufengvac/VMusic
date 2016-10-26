@@ -1,10 +1,14 @@
 package com.vac.vmusic.base;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +22,8 @@ import android.view.animation.AnimationUtils;
 
 
 import com.vac.vmusic.R;
+import com.vac.vmusic.beans.BinderSingleton;
+import com.vac.vmusic.service.PlayService;
 import com.vac.vmusic.swipebackbase.SwipeBackLayout;
 
 
@@ -36,17 +42,7 @@ public abstract class BaseSwipeBackFragment extends Fragment {
 
     protected BaseActivity _mActivity;
 
-    protected void _initToolbar(Toolbar toolbar) {
-//        toolbar.setTitle("SwipeBackActivity的Fragment");
-//        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().onBackPressed();
-//            }
-//        });
-    }
-
+    private IBinder musicIbinder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,23 +51,21 @@ public abstract class BaseSwipeBackFragment extends Fragment {
             mFragmentRootView = inflater.inflate(fragmentViewId,container,false);
             initView(mFragmentRootView);
         }
+
         return mFragmentRootView;
     }
 
     public abstract void getFragmentViewId();
     public abstract void initView(View view);
 
-    public void clearFragmentRootView(){
-        mFragmentRootView = null;
-    }
 
-    public void addFragment(FragmentManager fragmentManager,int contentId,Fragment fromFragment, Fragment toFragment) {
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.h_fragment_enter, R.anim.h_fragment_exit, R.anim.h_fragment_pop_enter, R.anim.h_fragment_pop_exit)
-                .add(contentId, toFragment, toFragment.getClass().getName())
-                .hide(fromFragment)
-                .addToBackStack(toFragment.getClass().getName())
-                .commit();
+    public void setMusicIbinder(IBinder ibinder){
+        if (musicIbinder==null&&ibinder!=null){
+            BinderSingleton.getInstance().setMusicBinder(ibinder);
+        }
+    }
+    public PlayService.MusicBinder getMusicIbinder(){
+       return (PlayService.MusicBinder) BinderSingleton.getInstance().getMusicBinder();
     }
 
 //

@@ -20,4 +20,9 @@
     <string name="hot_search">热门搜索</string>
     <string name="history_search">历史搜索</string>
 
+    <string name="mode_repeat_single">单曲循环</string>
+    <string name="mode_repeat">列表循环</string>
+    <string name="mode_sequential">顺序播放</string>
+    <string name="mode_shuffle">随机播放</string>
+
 </resources>

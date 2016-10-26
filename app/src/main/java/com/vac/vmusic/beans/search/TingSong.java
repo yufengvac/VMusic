@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 @JsonIgnoreProperties(value = {"mvPickCount","mvBulletCount","outFlag","outList","commentCount","riskRank",
 "outLinks","rightKey","loginStatus","musicPackage","albumPackage","promotionPackage","operType","level",
-"isExclusive","picUrl","listenCount","singers"})
+"isExclusive","picUrl","listenCount","singers","isPlaying"})
 public class TingSong implements Parcelable{
 
     private long songId;
@@ -50,7 +50,24 @@ public class TingSong implements Parcelable{
 
     private ArrayList<TingAudition> llList;
 
+    private boolean isPlaying;
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+    private boolean isFavored;
+
+    public boolean isFavored() {
+        return isFavored;
+    }
+
+    public void setFavored(boolean favored) {
+        isFavored = favored;
+    }
 
     public int getReleaseYear() {
         return releaseYear;

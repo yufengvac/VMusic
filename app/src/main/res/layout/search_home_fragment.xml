@@ -11,6 +11,7 @@
         android:background="@color/colorWhite"
         app:tabGravity="fill"
         app:tabMode="fixed"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
         android:backgroundTint="@color/colorWhite"
         />
     <android.support.v4.view.ViewPager
