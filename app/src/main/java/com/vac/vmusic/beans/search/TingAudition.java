@@ -3,13 +3,19 @@ package com.vac.vmusic.beans.search;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.litepal.crud.DataSupport;
+
 /***
  * 天天动听的audition资源
  * @author vac
  * create by vac 2016年10月15日14:25:01
  *
  */
-public class TingAudition implements Parcelable{
+@JsonIgnoreProperties(value = {"tingSong"})
+public class TingAudition extends DataSupport implements Parcelable{
 
     private int bitRate;//码率 32 128 320
     private int duration;//歌曲时长
@@ -17,6 +23,16 @@ public class TingAudition implements Parcelable{
     private String suffix;//歌曲类型 m4a、mp3、..
     private String url;//歌曲下载地址
     private String typeDescription;//歌曲类型说明  流畅品质、标准品质、超高品质
+
+    private TingSong tingSong;
+
+    public TingSong getTingSong() {
+        return tingSong;
+    }
+
+    public void setTingSong(TingSong tingSong) {
+        this.tingSong = tingSong;
+    }
 
     public int getBitRate() {
         return bitRate;
@@ -90,4 +106,15 @@ public class TingAudition implements Parcelable{
         }
     };
 
+    @Override
+    public String toString() {
+        return "TingAudition{" +
+                "bitRate=" + bitRate +
+                ", duration=" + duration +
+                ", size=" + size +
+                ", suffix='" + suffix + '\'' +
+                ", url='" + url + '\'' +
+                ", typeDescription='" + typeDescription + '\'' +
+                '}';
+    }
 }

@@ -2,9 +2,6 @@ package com.vac.vmusic.base;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -20,7 +17,7 @@ import android.view.WindowManager;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.BinderSingleton;
-import com.vac.vmusic.service.PlayService;
+import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.swipebackbase.SwipeBackLayout;
 
 
@@ -55,8 +52,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void clearMusicIbinder(){
         musicIbinder = null;
     }
-    public PlayService.MusicBinder getMusicIbinder(){
-        return (PlayService.MusicBinder) BinderSingleton.getInstance().getMusicBinder();
+    public MusicBinder getMusicIbinder(){
+        return (MusicBinder) BinderSingleton.getInstance().getMusicBinder();
     }
 
     public void beginStartActivity(Context fromActivity, Class claszz){

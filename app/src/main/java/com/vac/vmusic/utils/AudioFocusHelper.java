@@ -3,7 +3,7 @@ package com.vac.vmusic.utils;
 import android.content.Context;
 import android.media.AudioManager;
 
-import com.vac.vmusic.service.PlayService;
+import com.vac.vmusic.service.service.PlayService;
 /**
  * Convenience class to deal with audio focus. This class deals with everything
  * related to audio focus: it can request and abandon focus, and will intercept

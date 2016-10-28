@@ -2,7 +2,6 @@ package com.vac.vmusic.beans;
 
 import android.os.IBinder;
 
-import com.vac.vmusic.service.PlayService;
 
 /**
  * Created by vac on 16/10/25.

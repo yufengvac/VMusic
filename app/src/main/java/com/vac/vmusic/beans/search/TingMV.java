@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * Created by vac on 2016年10月15日14:26:31
  *
  */
-public class TingMV implements Parcelable{
+public class TingMV  implements Parcelable{
 
     private long id;
     private long songId;

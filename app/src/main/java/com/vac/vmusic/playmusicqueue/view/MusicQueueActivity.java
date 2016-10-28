@@ -2,13 +2,10 @@ package com.vac.vmusic.playmusicqueue.view;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +18,8 @@ import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.playmusicqueue.adapter.MusicQueueAdapter;
 import com.vac.vmusic.playmusicqueue.presenter.MusicQueueActivityPresenter;
-import com.vac.vmusic.service.PlayService;
+import com.vac.vmusic.service.binder.MusicBinder;
+import com.vac.vmusic.service.service.PlayService;
 
 /**
  * Created by vac on 16/10/25.
@@ -58,6 +56,8 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
         if (position>=0){
             musicQueueAdapter.setFocuse(lastPosition,getMusicBinder().getCurrentPlayingPosition());
             lastPosition = getMusicBinder().getCurrentPlayingPosition();
+            recyclerView.smoothScrollToPosition(position);
+            onPlayModeChanged(getMusicBinder().getPlayMode());
         }
 
     }
@@ -94,7 +94,7 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
     }
 
     @Override
-    public PlayService.MusicBinder getMusicBinder() {
+    public MusicBinder getMusicBinder() {
         return getMusicIbinder();
     }
 
@@ -140,24 +140,27 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
 
     @Override
     public void onPlayModeChanged(int playMode) {
+        int size = getMusicBinder().getMusicPlayList().size();
+        String modeStr="";
         switch (playMode){
             case PlayService.PlayMode.REPEAT_SINGLE:
-                modeImageView.setBackgroundResource(R.drawable.icon_mode_repete_one);
-                modeTextView.setText(getString(R.string.mode_repeat_single));
+                modeImageView.setImageResource(R.drawable.icon_mode_repete_one);
+                modeStr = getString(R.string.mode_repeat_single)+"("+size+"首)";
                 break;
             case PlayService.PlayMode.REPEAT:
-                modeImageView.setBackgroundResource(R.drawable.icon_mode_all_repeat);
-                modeTextView.setText(getString(R.string.mode_repeat));
+                modeImageView.setImageResource(R.drawable.icon_mode_all_repeat);
+                modeStr = getString(R.string.mode_repeat)+"("+size+"首)";
                 break;
             case PlayService.PlayMode.SEQUENTIAL:
-                modeImageView.setBackgroundResource(R.drawable.icon_mode_order);
-                modeTextView.setText(getString(R.string.mode_sequential));
+                modeImageView.setImageResource(R.drawable.icon_mode_order);
+                modeStr = getString(R.string.mode_sequential)+"("+size+"首)";
                 break;
             case PlayService.PlayMode.SHUFFLE:
-                modeImageView.setBackgroundResource(R.drawable.icon_mode_shuffle);
-                modeTextView.setText(getString(R.string.mode_shuffle));
+                modeImageView.setImageResource(R.drawable.icon_mode_shuffle);
+                modeStr = getString(R.string.mode_shuffle)+"("+size+"首)";
                 break;
         }
+        modeTextView.setText(modeStr);
     }
 
     public void changeMode(View view){

@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/music_queue_icon_size"
                 android:contentDescription="@string/app_name"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/icon_mode_order"/>
+                android:src="@drawable/icon_mode_shuffle"/>
 
             <TextView
                 android:id="@+id/music_queue_activity_mode_text_view"

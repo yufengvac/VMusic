@@ -5,7 +5,11 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /***
  * 天天动听单曲
@@ -15,7 +19,7 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(value = {"mvPickCount","mvBulletCount","outFlag","outList","commentCount","riskRank",
 "outLinks","rightKey","loginStatus","musicPackage","albumPackage","promotionPackage","operType","level",
 "isExclusive","picUrl","listenCount","singers","isPlaying"})
-public class TingSong implements Parcelable{
+public class TingSong extends DataSupport implements Parcelable{
 
     private long songId;
     private String name;
@@ -42,15 +46,28 @@ public class TingSong implements Parcelable{
     private int audit;
     private int lang;
 
+    private List<TingAudition> auditionList = new ArrayList<>();
+
+    @Column(ignore = true)
     private int status;
-    private ArrayList<TingAudition> auditionList;
+
+
+
+    @Column(ignore = true)
     private ArrayList<TingMV> mvList;
 
-    private ArrayList<TingAudition> urlList;
+//    @Column(ignore = true)
+    private ArrayList<TingAudition> urlList = new ArrayList<>();
 
-    private ArrayList<TingAudition> llList;
+//    @Column(ignore = true)
+    private ArrayList<TingAudition> llList = new ArrayList<>();
 
+    @Column(ignore = true)
     private boolean isPlaying;
+
+    @Column(ignore = true)
+    private boolean isFavored;
+
 
     public boolean isPlaying() {
         return isPlaying;
@@ -59,7 +76,6 @@ public class TingSong implements Parcelable{
     public void setPlaying(boolean playing) {
         isPlaying = playing;
     }
-    private boolean isFavored;
 
     public boolean isFavored() {
         return isFavored;
@@ -224,10 +240,10 @@ public class TingSong implements Parcelable{
     public void setStatus(int status) {
         this.status = status;
     }
-    public ArrayList<TingAudition> getAuditionList() {
+    public List<TingAudition> getAuditionList() {
         return auditionList;
     }
-    public void setAuditionList(ArrayList<TingAudition> auditionList) {
+    public void setAuditionList(List<TingAudition> auditionList) {
         this.auditionList = auditionList;
     }
     public ArrayList<TingMV> getMvList() {

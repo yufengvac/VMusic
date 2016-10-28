@@ -10,6 +10,7 @@ import com.vac.vmusic.application.App;
 import com.vac.vmusic.beans.httpresult.HttpResult;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
 import com.vac.vmusic.beans.search.TingAlbum;
+import com.vac.vmusic.beans.search.TingArtist;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
@@ -199,6 +200,16 @@ public class RetrofitManager {
 
     public Observable<HttpResultPlus<TingSearchMV>> searchMV(int size, int page, String q){
         return mSearchService.searchMV(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * 搜索歌手
+     * @param q 关键词
+     * @return Observable
+     */
+    public Observable<HttpResultPlus<TingArtist>> searchArtist(String q){
+        return mSearchService.searchArtist(getCacheControl(),1,q).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 }

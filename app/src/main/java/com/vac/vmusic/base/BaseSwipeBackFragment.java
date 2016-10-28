@@ -11,20 +11,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-
-
-import com.vac.vmusic.R;
 import com.vac.vmusic.beans.BinderSingleton;
-import com.vac.vmusic.service.PlayService;
-import com.vac.vmusic.swipebackbase.SwipeBackLayout;
+import com.vac.vmusic.service.binder.MusicBinder;
 
 
 /**
@@ -64,8 +55,8 @@ public abstract class BaseSwipeBackFragment extends Fragment {
             BinderSingleton.getInstance().setMusicBinder(ibinder);
         }
     }
-    public PlayService.MusicBinder getMusicIbinder(){
-       return (PlayService.MusicBinder) BinderSingleton.getInstance().getMusicBinder();
+    public MusicBinder getMusicIbinder(){
+       return (MusicBinder) BinderSingleton.getInstance().getMusicBinder();
     }
 
 //

@@ -12,14 +12,12 @@ import android.widget.LinearLayout;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.callback.OnItemClickListener;
-import com.vac.vmusic.homemain.view.MainActivity;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchAlbumAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchMVAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongListAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.presenter.SearchTabFragmentPresenter;
-import com.vac.vmusic.service.PlayService;
-import com.vac.vmusic.utils.RxBus;
+import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.utils.ViewUtil;
 import com.vac.vmusic.views.AutoLoadMoreRecyclerView;
 import com.vac.vmusic.views.DividerItemDecoration;
@@ -39,7 +37,7 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
     private SearchTabFragmentPresenter searchTabFragmentPresenter;
     private LinearLayout refreshLayout;
     private String keyWord;
-    private PlayService.MusicBinder musicBinder;
+    private MusicBinder musicBinder;
 
     public static SearchTabFragment newInstance(String type,Bundle b){
         SearchTabFragment searchTabFragment = new SearchTabFragment();
@@ -94,7 +92,7 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
                     if (view instanceof ImageView){
 
                     }else if(view instanceof LinearLayout){
-                        musicBinder.setMusicPlayList(((SearchSongAdapter)homeAdapter).getmData());
+                        musicBinder.setMusicPlayList(((SearchSongAdapter)homeAdapter).getmData(),true);
                         musicBinder.beginToPlay(position,((SearchSongAdapter)homeAdapter).getmData().get(position));
                     }
                 }

@@ -4,6 +4,7 @@ package com.vac.vmusic.http.services;
 import com.vac.vmusic.beans.httpresult.HttpResult;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
 import com.vac.vmusic.beans.search.TingAlbum;
+import com.vac.vmusic.beans.search.TingArtist;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
@@ -65,4 +66,8 @@ public interface SearchService {
     @GET("songlist/search")
     Observable<HttpResultPlus<TingSongList>> searchSongList(@Header("Cache-Control") String cacheControl,
                                                             @Query("size") int size, @Query("page") int page, @Query("q") String q);
+
+    @GET("artist/search")
+    Observable<HttpResultPlus<TingArtist>> searchArtist(@Header("Cache-Control") String cacheControl,
+                                                        @Query("size") int size,@Query("q") String q);
 }

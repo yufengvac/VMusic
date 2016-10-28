@@ -20,7 +20,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:onClick="toPlayMusicActivity">
 
         <ImageView
             android:id="@+id/main_singer_logo"
@@ -29,7 +31,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:contentDescription="@string/app_name"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout

@@ -8,6 +8,7 @@
 
     <dimen name="top_height">75dp</dimen>
     <dimen name="top_status_bar_height">20dp</dimen>
+    <dimen name="top_bar_height">55dp</dimen>
 
     <dimen name="base_text_size">17sp</dimen>
     <dimen name="base_text_size_small">14sp</dimen>
