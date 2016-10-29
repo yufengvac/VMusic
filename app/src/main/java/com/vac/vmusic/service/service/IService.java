@@ -60,4 +60,6 @@ public interface IService {
     void setPlayerMode(int playerMode);
 
     int getPlayingMusicPosition();
+
+    TingSong getCurrentSong();
 }

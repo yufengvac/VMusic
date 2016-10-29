@@ -42,5 +42,5 @@ public interface OnPlayMusicStateListener {
      * @param   percent
      *
      */
-     void onPlayProgressUpdate(int percent);
+     void onPlayProgressUpdate(int percent,long currentTime);
 }

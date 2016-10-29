@@ -8,12 +8,15 @@ import android.util.SparseArray;
 
 import com.vac.vmusic.application.App;
 import com.vac.vmusic.beans.httpresult.HttpResult;
+import com.vac.vmusic.beans.httpresult.HttpResultPic;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
 import com.vac.vmusic.beans.search.TingAlbum;
 import com.vac.vmusic.beans.search.TingArtist;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
+import com.vac.vmusic.beans.search.artistpic.ArtistPic;
+import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.http.apiconstant.ApiConstants;
 import com.vac.vmusic.http.services.SearchService;
 import com.vac.vmusic.utils.NetUtil;
@@ -210,6 +213,16 @@ public class RetrofitManager {
      */
     public Observable<HttpResultPlus<TingArtist>> searchArtist(String q){
         return mSearchService.searchArtist(getCacheControl(),1,q).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * 搜索歌手图片
+     * @param artist 歌手名字
+     * @return Observable
+     */
+    public Observable<HttpResultPic<ArtistPic<PicUrls>>> searchArtistPics(String artist){
+        return mSearchService.searchArtistPic(getCacheControl(),artist).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 }

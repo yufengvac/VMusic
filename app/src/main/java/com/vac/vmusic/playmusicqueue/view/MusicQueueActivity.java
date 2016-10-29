@@ -174,7 +174,7 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
     }
 
     @Override
-    public void onPlayProgressUpdate(int percent) {
+    public void onPlayProgressUpdate(int percent,long currentTime) {
 
     }
 

@@ -10,7 +10,7 @@ import android.view.View;
 public class MyMenuButton extends View {
 
 	private int defaultWidth=38;
-	private int color = Color.argb(255,48,63, 159);
+	private int color = Color.argb(255,255,255, 255);
 	private Paint mPaint,mCirclePaint;
 	private int dividerHeight = 15;
 	private int defaultRadius = 5;

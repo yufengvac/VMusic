@@ -467,7 +467,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                     public void call(Long aLong) {
                         int progress = (int)(mPlayer.getCurrentPosition()*1.0/currentTingSong.getAuditionList().get(0).getDuration()*300);
                         for (int i=0;i<onPlayMusicStateListenerList.size();i++){
-                            onPlayMusicStateListenerList.get(i).onPlayProgressUpdate(progress);
+                            onPlayMusicStateListenerList.get(i).onPlayProgressUpdate(progress,mPlayer.getCurrentPosition());
                         }
                     }
                 });
@@ -530,6 +530,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     @Override
     public void setRequestMusicPosition(int position) {
         mRequestMusicPosition = position;
+        currentTingSong = mPlayingMusicList.get(mRequestMusicPosition);
     }
 
     @Override
@@ -565,5 +566,10 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     @Override
     public int getPlayingMusicPosition() {
         return mPlayingMusicPosition;
+    }
+
+    @Override
+    public TingSong getCurrentSong() {
+        return currentTingSong;
     }
 }

@@ -142,4 +142,14 @@ public class MusicBinder extends Binder implements IMusicBinder{
     public int getPlayMode(){
         return iService.getPlayerMode();
     }
+
+    @Override
+    public TingSong getCurrentSong() {
+        return iService.getCurrentSong();
+    }
+
+    @Override
+    public int getCurrentState() {
+        return iService.getPlayerState();
+    }
 }

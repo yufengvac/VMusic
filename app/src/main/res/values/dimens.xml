@@ -2,6 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">15dp</dimen>
     <dimen name="activity_vertical_margin">15dp</dimen>
+    <dimen name="activity_vertical_margin_big">33dp</dimen>
 
     <dimen name="main_home_padding">20dp</dimen>
     <dimen name="tab_max_width">500dp</dimen>
@@ -12,6 +13,7 @@
 
     <dimen name="base_text_size">17sp</dimen>
     <dimen name="base_text_size_small">14sp</dimen>
+    <dimen name="base_text_size_big">23sp</dimen>
 
     <dimen name="music_queue_icon_size">27dp</dimen>
 </resources>

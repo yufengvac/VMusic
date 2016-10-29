@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     }
 
     @Override
-    public void onPlayProgressUpdate(int percent) {
+    public void onPlayProgressUpdate(int percent,long currentTime) {
         myProgressbar.setProgress(percent);
     }
 }

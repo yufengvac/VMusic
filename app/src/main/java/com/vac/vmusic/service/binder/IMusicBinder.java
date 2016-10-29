@@ -24,4 +24,7 @@ public interface IMusicBinder {
     int getCurrentPlayingPosition();
     void changePlayMode();
     int getPlayMode();
+
+    TingSong getCurrentSong();
+    int getCurrentState();
 }
