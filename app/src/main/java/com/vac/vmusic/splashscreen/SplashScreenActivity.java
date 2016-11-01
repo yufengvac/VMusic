@@ -29,7 +29,6 @@ public class SplashScreenActivity extends BaseActivity{
                 finish();
             }
         });
-//        setStautsColor();
     }
 
 }

@@ -19,6 +19,7 @@ import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.http.apiconstant.ApiConstants;
 import com.vac.vmusic.http.services.SearchService;
+import com.vac.vmusic.utils.Constants;
 import com.vac.vmusic.utils.NetUtil;
 
 import java.io.File;
@@ -86,7 +87,7 @@ public class RetrofitManager {
             synchronized (RetrofitManager.class){
                 if (sOkHttpClient==null){
                     /**缓存100M*/
-                    Cache cache = new Cache(new File(Environment.getExternalStorageDirectory()+"/vmusic/","httpCache")
+                    Cache cache = new Cache(new File(Constants.ROOT_PATH,Constants.CHILD_HTTP_CACHE)
                     ,1024*1024*100);
                     sOkHttpClient = new OkHttpClient.Builder().cache(cache)
                             .retryOnConnectionFailure(true)

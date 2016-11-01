@@ -1,21 +1,30 @@
 package com.vac.vmusic.playmusic.model;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.vac.vmusic.beans.httpresult.HttpResultPic;
 import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.callback.RequestCallback;
 import com.vac.vmusic.http.apiconstant.HostType;
 import com.vac.vmusic.http.retrofitmanager.RetrofitManager;
+import com.vac.vmusic.utils.FileUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by vac on 16/10/29.
@@ -74,5 +83,41 @@ public class PlayMusicActivityModel {
                 callback.requestSuccess(list);
             }
         });
+    }
+
+    public void downloadPic(final Context context,final String picUrl,final String singerName) {
+        Observable.create(new Observable.OnSubscribe<Bitmap>() {
+            @Override
+            public void call(Subscriber<? super Bitmap> subscriber) {
+                try {
+                    Bitmap bitmap = Glide.with(context).load(picUrl)
+                            .asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                   subscriber.onNext(bitmap);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                    Log.e("PlayMusicActivityPre", e.getMessage());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.e("PlayMusicActivityPre", e.getMessage());
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+                        if (bitmap != null) {
+                            boolean result = FileUtil.saveBitmap(singerName,picUrl,bitmap);
+                            if (result)Log.i("PlayMusicActivityPre","存储成功");
+                        } else {
+                            Log.i("PlayMusicActivityPre", "bitmap==null");
+                        }
+
+                        if(bitmap!=null){
+                            bitmap.recycle();
+                            System.gc();
+                        }
+
+                    }
+                });
     }
 }

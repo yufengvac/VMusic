@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.BinderSingleton;
 import com.vac.vmusic.service.binder.MusicBinder;
@@ -25,7 +26,7 @@ import com.vac.vmusic.swipebackbase.SwipeBackLayout;
  * Created by vac on 16/10/21.
  *
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
     public int contentViewId;
 
     private SwipeBackLayout mSwipeBackLayout;

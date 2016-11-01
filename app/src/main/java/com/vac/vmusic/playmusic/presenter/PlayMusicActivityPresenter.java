@@ -1,5 +1,6 @@
 package com.vac.vmusic.playmusic.presenter;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
@@ -8,10 +9,9 @@ import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.callback.RequestCallback;
 import com.vac.vmusic.playmusic.model.PlayMusicActivityModel;
 import com.vac.vmusic.playmusic.view.IPlayMusicActivity;
+import com.vac.vmusic.utils.FileUtil;
 
-import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by vac on 16/10/29.
@@ -19,14 +19,23 @@ import java.util.concurrent.ExecutionException;
  */
 public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
     private IPlayMusicActivity iPlayMusicActivity;
+    private PlayMusicActivityModel playMusicActivityModel;
+    private String singerName;
 
     public PlayMusicActivityPresenter(IPlayMusicActivity iPlayMusicActivity_){
         this.iPlayMusicActivity = iPlayMusicActivity_;
     }
 
-    public void loadArtistPic(String singerName){
-        PlayMusicActivityModel playMusicActivityModel = new PlayMusicActivityModel();
-        playMusicActivityModel.searchArtistPics(singerName,this);
+    public void loadArtistPic(String singerName_){
+        singerName = singerName_;
+        if (FileUtil.isExitAritstPic(singerName)){
+            Log.i("TAG","存在图片-"+singerName_);
+            iPlayMusicActivity.showArtistPic(singerName);
+        }else {
+            Log.i("TAG","不存在图片-"+singerName_+",开始下载");
+            playMusicActivityModel = new PlayMusicActivityModel();
+            playMusicActivityModel.searchArtistPics(singerName,this);
+        }
 
     }
 
@@ -42,22 +51,12 @@ public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
 
     @Override
     public void requestSuccess(List<PicUrls> data) {
+        Log.i("PlayMusicActivityPre","size="+data.size());
         for (int i=0;i<data.size();i++){
             String picUrl = data.get(i).getPicUrl();
-            try {
-                Log.e("PlayMusicActivityPre","i="+i+",url="+picUrl);
-                File file = Glide.with(iPlayMusicActivity.getPlayMusicContext()).load(picUrl)
-                        .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
-                Log.i("PlayMusicActivityPre",file.getAbsolutePath());
-            }catch (ExecutionException e){
-                e.printStackTrace();
-                Log.e("PlayMusicActivityPre",e.getMessage());
-            }catch (InterruptedException e){
-                e.printStackTrace();
-                Log.e("PlayMusicActivityPre",e.getMessage());
-            }
-
+            playMusicActivityModel.downloadPic(iPlayMusicActivity.getPlayMusicContext(),picUrl,singerName);
         }
+        iPlayMusicActivity.showArtistPic(singerName);
     }
 
     @Override

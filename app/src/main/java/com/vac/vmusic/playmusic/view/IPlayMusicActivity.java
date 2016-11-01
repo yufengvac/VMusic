@@ -12,4 +12,5 @@ public interface IPlayMusicActivity {
     void back();
     void initMusicInfo(TingSong tingSong);
     Context getPlayMusicContext();
+    void showArtistPic(String singerName);
 }

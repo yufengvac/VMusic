@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+    android:background="@drawable/default_my_music_bg">
     <ImageView
+        android:id="@+id/play_music_activity_bg1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/default_music"
+        android:background="@drawable/default_music"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"/>
+
+    <ImageView
+        android:id="@+id/play_music_activity_bg2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/default_music"
         android:scaleType="centerCrop"
         android:contentDescription="@string/app_name"/>
 
@@ -86,8 +96,8 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:progressDrawable="@drawable/seekbar_horizontal"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:max="300"
                     android:progress="0"
                     android:maxHeight="2dp"
