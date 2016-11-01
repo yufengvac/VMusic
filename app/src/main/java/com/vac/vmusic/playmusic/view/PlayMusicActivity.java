@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -95,6 +96,8 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
 
         musicBinder.registerOnPlayMusicStateListener(this);
 
+        ViewPager viewPager = (ViewPager) findViewById(R.id.play_music_activity_view_pager);
+        playMusicActivityPresenter.loadViewPager(getSupportFragmentManager(),viewPager);
     }
 
     @Override
@@ -136,7 +139,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     public void showArtistPic(String singerName) {
         hasLoadedSingerName = singerName;
         final String[] pics = FileUtil.getArtistByName(singerName);
-        final String rootPath = Constants.ROOT_PATH+Constants.CHILR_ARTIST_PIC+File.separator+singerName+File.separator;
+        final String rootPath = Constants.ROOT_PATH+Constants.CHILD_ARTIST_PIC+File.separator+singerName+File.separator;
         if (pics!=null&&pics.length>1){
             bgSubscription = Observable.interval(0,5, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                     .compose(this.<Long>bindToLifecycle()).subscribe(new Action1<Long>() {

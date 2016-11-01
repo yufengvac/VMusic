@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FileUtil {
     public static boolean saveBitmap(String singerName,String picUrl,Bitmap bmp){
         boolean b =false;
-        String  rootPath = Constants.ROOT_PATH+Constants.CHILR_ARTIST_PIC+File.separator;
+        String  rootPath = Constants.ROOT_PATH+Constants.CHILD_ARTIST_PIC+File.separator;
         File appDir = new File(rootPath,singerName);
         if (!appDir.exists()) {
             b = appDir.mkdirs();
@@ -46,7 +46,7 @@ public class FileUtil {
     }
 
     public static String[] getArtistByName(String name){
-        String path = Constants.ROOT_PATH + Constants.CHILR_ARTIST_PIC+File.separator;
+        String path = Constants.ROOT_PATH + Constants.CHILD_ARTIST_PIC+File.separator;
         File appDir = new File(path,name);
         if (appDir.exists()){
             return appDir.list();
@@ -54,9 +54,9 @@ public class FileUtil {
         return null;
     }
 
-    public static boolean isExitAritstPic(String name){
+    public static boolean isExistArtistPic(String name){
         boolean isExit;
-        String path = Constants.ROOT_PATH + Constants.CHILR_ARTIST_PIC+File.separator;
+        String path = Constants.ROOT_PATH + Constants.CHILD_ARTIST_PIC+File.separator;
         File appDir = new File(path,name);
         isExit = appDir.exists();
         if (isExit){
@@ -66,6 +66,22 @@ public class FileUtil {
             }
         }
         return isExit;
+    }
+
+    /***
+     * 歌词文件是否存在
+     * @param songName 歌名
+     * @param singerName 歌手名
+     * @param songId 歌曲id
+     * @return 存在/不存在
+     */
+    public static boolean isExistLyric(String songName,String singerName,long songId){
+        String path = Constants.ROOT_PATH +Constants.CHILD_LYRIC+File.separator;
+        if (!new File(path).exists()){
+            new File(path).mkdirs();
+        }
+        File lyricDir = new File(path,songName+"-"+singerName+"-"+songId);
+        return lyricDir.exists();
     }
 
     /**

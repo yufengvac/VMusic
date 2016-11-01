@@ -39,4 +39,10 @@ dependencies {
 
     compile 'com.trello:rxlifecycle:0.8.0'
     compile 'com.trello:rxlifecycle-components:0.8.0'
+
+    compile ('com.squareup.retrofit2:converter-simplexml:2.0.1'){
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
 }

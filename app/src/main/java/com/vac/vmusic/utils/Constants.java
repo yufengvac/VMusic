@@ -14,5 +14,7 @@ public class Constants {
 
     public final static String CHILD_HTTP_CACHE = "httpCache";
 
-    public final static String CHILR_ARTIST_PIC = "photoGraphic";
+    public final static String CHILD_ARTIST_PIC = "photoGraphic";
+
+    public final static String CHILD_LYRIC = "lyric";
 }

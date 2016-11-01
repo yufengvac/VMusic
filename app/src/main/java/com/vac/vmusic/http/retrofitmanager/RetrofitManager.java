@@ -10,6 +10,7 @@ import com.vac.vmusic.application.App;
 import com.vac.vmusic.beans.httpresult.HttpResult;
 import com.vac.vmusic.beans.httpresult.HttpResultPic;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
+import com.vac.vmusic.beans.lyric.LyricDataXml;
 import com.vac.vmusic.beans.search.TingAlbum;
 import com.vac.vmusic.beans.search.TingArtist;
 import com.vac.vmusic.beans.search.TingSearchMV;
@@ -41,6 +42,7 @@ import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,9 +69,18 @@ public class RetrofitManager {
 
     private RetrofitManager(){}
     public static RetrofitManager getInstance(int hostType){
+        return getInstance(hostType,null);
+    }
+
+    public static RetrofitManager getInstance(int hostType,String dataType){
         RetrofitManager instance = sInstanceManager.get(hostType);
         if (instance==null){
-            instance = new RetrofitManager(hostType);
+            if (dataType==null||!dataType.equals("XML")){
+                instance = new RetrofitManager(hostType);
+            }else {
+                instance = new RetrofitManager(hostType,"xml");
+            }
+
             sInstanceManager.put(hostType,instance);
         }
         return instance;
@@ -78,6 +89,13 @@ public class RetrofitManager {
     private RetrofitManager(int hostType){
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
                 .client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+        mSearchService = retrofit.create(SearchService.class);
+    }
+
+    private RetrofitManager(int hostType,String tag){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
+                .client(getOkHttpClient()).addConverterFactory(SimpleXmlConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         mSearchService = retrofit.create(SearchService.class);
     }
@@ -226,4 +244,18 @@ public class RetrofitManager {
         return mSearchService.searchArtistPic(getCacheControl(),artist).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
+
+    /***
+     * 搜索歌词id
+     * @param songName 歌名
+     * @param singerName 歌手名
+     * @param songId 歌曲id
+     * @param singerId 歌手id
+     * @return Observable
+     */
+    public Observable<LyricDataXml> searchLyricIds(String songName,String singerName,long songId,long singerId){
+        return mSearchService.searchLyricIds(getCacheControl(),songName,singerName,songId,singerId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    }
+
 }

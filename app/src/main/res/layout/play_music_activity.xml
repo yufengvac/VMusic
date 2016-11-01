@@ -64,11 +64,13 @@
                 android:src="@drawable/icon_more"/>
         </LinearLayout>
 
-        <FrameLayout
+        <android.support.v4.view.ViewPager
+            android:id="@+id/play_music_activity_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/play_music_activity_bottom_linear_layout"
-            android:layout_below="@id/play_music_activity_top_linear_layout"/>
+            android:layout_below="@id/play_music_activity_top_linear_layout"
+            android:overScrollMode="never"/>
 
         <LinearLayout
             android:id="@+id/play_music_activity_bottom_linear_layout"

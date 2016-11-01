@@ -1,16 +1,24 @@
 package com.vac.vmusic.playmusic.presenter;
 
 import android.graphics.Bitmap;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.callback.RequestCallback;
+import com.vac.vmusic.homefragment.adapters.CustomFragmentAdapter;
+import com.vac.vmusic.homefragment.adapters.MyFragmentAdapter;
+import com.vac.vmusic.playmusic.fragment.lyric.view.LyricFragment;
+import com.vac.vmusic.playmusic.fragment.relative.view.RelativeFragment;
 import com.vac.vmusic.playmusic.model.PlayMusicActivityModel;
 import com.vac.vmusic.playmusic.view.IPlayMusicActivity;
 import com.vac.vmusic.utils.FileUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +36,7 @@ public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
 
     public void loadArtistPic(String singerName_){
         singerName = singerName_;
-        if (FileUtil.isExitAritstPic(singerName)){
+        if (FileUtil.isExistArtistPic(singerName)){
             Log.i("TAG","存在图片-"+singerName_);
             iPlayMusicActivity.showArtistPic(singerName);
         }else {
@@ -37,6 +45,17 @@ public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
             playMusicActivityModel.searchArtistPics(singerName,this);
         }
 
+    }
+
+    public void loadViewPager(FragmentManager fragmentManager,ViewPager viewPager){
+        List<BaseSwipeBackFragment> baseSwipeBackFragments = new ArrayList<>();
+        LyricFragment lyricFragment = LyricFragment.getLyricFragment();
+        RelativeFragment relativeFragment = RelativeFragment.getRelativedFragment();
+        baseSwipeBackFragments.add(lyricFragment);
+        baseSwipeBackFragments.add(relativeFragment);
+        CustomFragmentAdapter myFragmentAdapter = new CustomFragmentAdapter(fragmentManager);
+        myFragmentAdapter.setData(baseSwipeBackFragments);
+        viewPager.setAdapter(myFragmentAdapter);
     }
 
     @Override
