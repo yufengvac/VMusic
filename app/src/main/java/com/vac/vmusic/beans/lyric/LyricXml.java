@@ -19,8 +19,6 @@ public class LyricXml {
     @Attribute
     public String trc;
 
-    @Text
-    public String lrc;
 
     public String getArtist() {
         return artist;
@@ -54,11 +52,14 @@ public class LyricXml {
         this.trc = trc;
     }
 
-    public String getLrc() {
-        return lrc;
-    }
 
-    public void setLrc(String lrc) {
-        this.lrc = lrc;
+    @Override
+    public String toString() {
+        return "LyricXml{" +
+                "artist='" + artist + '\'' +
+                ", title='" + title + '\'' +
+                ", lrcID='" + lrcID + '\'' +
+                ", trc='" + trc + '\'' +
+                '}';
     }
 }

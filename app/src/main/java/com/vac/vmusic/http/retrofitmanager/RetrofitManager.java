@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -39,9 +40,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,6 +65,7 @@ public class RetrofitManager {
     private static final String CACHE_CONTROL_NETWORK = "max-age=0";
 
     private static SparseArray<RetrofitManager> sInstanceManager = new SparseArray<>();
+    private static HashMap<String,RetrofitManager> managerHashMap = new HashMap<>();
 
     private static volatile OkHttpClient sOkHttpClient;
 
@@ -74,14 +78,22 @@ public class RetrofitManager {
 
     public static RetrofitManager getInstance(int hostType,String dataType){
         RetrofitManager instance = sInstanceManager.get(hostType);
-        if (instance==null){
-            if (dataType==null||!dataType.equals("XML")){
+        if (dataType==null){
+            if (instance==null){
                 instance = new RetrofitManager(hostType);
+                sInstanceManager.put(hostType,instance);
+            }
+        }else {
+
+            RetrofitManager retrofitManager = managerHashMap.get(dataType);
+
+            if (retrofitManager ==null){
+                instance = new RetrofitManager(hostType,dataType);
+                managerHashMap.put(dataType,instance);
             }else {
-                instance = new RetrofitManager(hostType,"xml");
+                instance = retrofitManager;
             }
 
-            sInstanceManager.put(hostType,instance);
         }
         return instance;
     }
@@ -94,10 +106,18 @@ public class RetrofitManager {
     }
 
     private RetrofitManager(int hostType,String tag){
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
-                .client(getOkHttpClient()).addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-        mSearchService = retrofit.create(SearchService.class);
+        if (tag.equals("XML")){
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
+                    .client(getOkHttpClient()).addConverterFactory(SimpleXmlConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+            mSearchService = retrofit.create(SearchService.class);
+        }else if (tag.equals("string")){
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
+                    .client(getOkHttpClient()).addConverterFactory(ScalarsConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+            mSearchService = retrofit.create(SearchService.class);
+        }
+
     }
 
     private OkHttpClient getOkHttpClient(){
@@ -253,9 +273,19 @@ public class RetrofitManager {
      * @param singerId 歌手id
      * @return Observable
      */
-    public Observable<LyricDataXml> searchLyricIds(String songName,String singerName,long songId,long singerId){
-        return mSearchService.searchLyricIds(getCacheControl(),songName,singerName,songId,singerId)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    public Observable<LyricDataXml> searchLyricIds(String songName, String singerName, long songId, long singerId){
+        return mSearchService.searchLyricIds(getCacheControl(),songName,singerName,songId,singerId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * 搜索歌词内容
+     * @param lyricId 歌词Id
+     * @return Observable
+     */
+    public Observable<String> searchLyricContent(long lyricId){
+        return mSearchService.searchLyric(getCacheControl(),lyricId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
     }
 
 }

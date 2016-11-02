@@ -141,7 +141,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         final String[] pics = FileUtil.getArtistByName(singerName);
         final String rootPath = Constants.ROOT_PATH+Constants.CHILD_ARTIST_PIC+File.separator+singerName+File.separator;
         if (pics!=null&&pics.length>1){
-            bgSubscription = Observable.interval(0,5, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+            bgSubscription = Observable.interval(0,15, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                     .compose(this.<Long>bindToLifecycle()).subscribe(new Action1<Long>() {
                 @Override
                 public void call(Long aLong) {

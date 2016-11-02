@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.vac.vmusic.beans.search.TingSong;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -54,6 +56,11 @@ public class FileUtil {
         return null;
     }
 
+    /**
+     * 歌手写真图片是否存在
+     * @param name 歌手名
+     * @return true/false
+     */
     public static boolean isExistArtistPic(String name){
         boolean isExit;
         String path = Constants.ROOT_PATH + Constants.CHILD_ARTIST_PIC+File.separator;
@@ -70,18 +77,33 @@ public class FileUtil {
 
     /***
      * 歌词文件是否存在
-     * @param songName 歌名
-     * @param singerName 歌手名
-     * @param songId 歌曲id
      * @return 存在/不存在
      */
-    public static boolean isExistLyric(String songName,String singerName,long songId){
+    public static boolean isExistLyric(TingSong tingSong){
         String path = Constants.ROOT_PATH +Constants.CHILD_LYRIC+File.separator;
         if (!new File(path).exists()){
             new File(path).mkdirs();
         }
-        File lyricDir = new File(path,songName+"-"+singerName+"-"+songId);
-        return lyricDir.exists();
+        String result = ACacheHelper.getInstance().getLyric(tingSong);
+        return result!=null;
+    }
+
+    /**
+     * 保存歌词
+     * @param tingSong 歌曲
+     * @param content 歌词
+     */
+    public static void saveLyric(TingSong tingSong,String content){
+        ACacheHelper.getInstance().saveLyric(tingSong,content);
+    }
+
+    /**
+     * 获取歌词
+     * @param tingSong 歌曲
+     * @return 歌词
+     */
+    public static String getLyric(TingSong tingSong){
+        return ACacheHelper.getInstance().getLyric(tingSong);
     }
 
     /**

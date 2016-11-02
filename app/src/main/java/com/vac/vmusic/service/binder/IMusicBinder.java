@@ -1,7 +1,9 @@
 package com.vac.vmusic.service.binder;
 
+import com.vac.vmusic.beans.lyric.LyricSentence;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
+import com.vac.vmusic.utils.LyricLoadHelper;
 
 import java.util.List;
 
@@ -12,6 +14,10 @@ import java.util.List;
 public interface IMusicBinder {
     void registerOnPlayMusicStateListener(OnPlayMusicStateListener listener);
     void unRegisterOnPlayMusicStateListener(OnPlayMusicStateListener listener);
+
+    void registerLyricListener(LyricLoadHelper.LyricListener lyricListener);
+    void unRegisterLyricListener(LyricLoadHelper.LyricListener lyricListener);
+
     void playNext();
     void playPre();
     void playPause();
@@ -27,4 +33,7 @@ public interface IMusicBinder {
 
     TingSong getCurrentSong();
     int getCurrentState();
+
+    void setLyricContent(String lyric);
+    List<LyricSentence> getLyricSentenceList();
 }

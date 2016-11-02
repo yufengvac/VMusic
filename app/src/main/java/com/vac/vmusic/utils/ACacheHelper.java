@@ -21,9 +21,7 @@ public class ACacheHelper  {
     private static ACache aCache;
     private static ACacheHelper aCacheHelper = null;
     private ACacheHelper(){
-        aCache = ACache.get(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator+"vmusic","tempCache");
-
+        aCache = ACache.get(Constants.ROOT_PATH,Constants.CHILD_LYRIC);
     }
 
     public static ACacheHelper getInstance(){
@@ -37,16 +35,17 @@ public class ACacheHelper  {
         return aCacheHelper;
     }
 
-    public static void saveLastMusicList(List<TingSong> tingSongs){
-        DataSupport.saveAll(tingSongs);
+    public void saveLyric(TingSong tingSong,String lyricContent){
+        aCache.put(ACacheHelperKey.getLyricKey(tingSong),lyricContent);
     }
-    public static List<TingSong> getLastMusicList(){
-        return DataSupport.findAll(TingSong.class);
+    public String getLyric(TingSong tingSong){
+        return aCache.getAsString(ACacheHelperKey.getLyricKey(tingSong));
     }
-
 
 
     private static class ACacheHelperKey{
-        private static final String LAST_MUSIC_LIST = "last_music_list";
+        static String getLyricKey(TingSong tingSong){
+            return tingSong.getName()+"-"+tingSong.getSingerName()+"-"+tingSong.getSongId()+"-0";
+        }
     }
 }

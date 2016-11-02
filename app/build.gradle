@@ -45,4 +45,6 @@ dependencies {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
+
+    compile 'com.squareup.retrofit2:converter-scalars:2.0.0'
 }

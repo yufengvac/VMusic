@@ -5,8 +5,10 @@ package com.vac.vmusic.utils;
  *
  */
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,7 +109,7 @@ public class LyricLoadHelper {
                     InputStreamReader isr = new InputStreamReader(fr, mEncoding);
                     BufferedReader br = new BufferedReader(isr);
 
-                    String line = null;
+                    String line;
 
                     // 逐行分析歌词文本
                     while ((line = br.readLine()) != null) {
@@ -140,6 +142,66 @@ public class LyricLoadHelper {
                 Log.i(TAG, "歌词文件不存在");
             }
         }
+        // 如果有谁在监听，通知它歌词载入完啦，并把载入的句子集合也传递过去
+        if (mLyricListener != null) {
+            mLyricListener.onLyricLoaded(mLyricSentences,
+                    mIndexOfCurrentSentence);
+        }
+        if (mHasLyric) {
+            Log.i(TAG, "Lyric file existed.Lyric has " + mLyricSentences.size()
+                    + " Sentences");
+        } else {
+            Log.i(TAG, "Lyric file does not existed");
+        }
+        return mHasLyric;
+    }
+
+    /**
+     * 根据歌词内容字符串读取出歌词文本并解析
+     *
+     * @param lyricContent 歌词字符串
+     * @return true表示存在歌词，false表示不存在歌词
+     */
+    public boolean loadLyricFromString(String lyricContent) {
+        mLyricSentences.clear();
+
+        mHasLyric = true;
+        try {
+            InputStream inputStream = new ByteArrayInputStream(lyricContent.getBytes());
+            InputStreamReader isr = new InputStreamReader(inputStream, mEncoding);
+            BufferedReader br = new BufferedReader(isr);
+
+
+            String line;
+
+            // 逐行分析歌词文本
+            while ((line = br.readLine()) != null) {
+                Log.i(TAG, "lyric line:" + line);
+                parseLine(line);
+            }
+
+            // 按时间排序句子集合
+            Collections.sort(mLyricSentences,
+                    new Comparator<LyricSentence>() {
+                        // 内嵌，匿名的compare类
+                        public int compare(LyricSentence object1,
+                                           LyricSentence object2) {
+                            return (int) (object1.getStartTime() - object2
+                                    .getStartTime());
+                        }
+                    });
+
+            for (int i = 0; i < mLyricSentences.size() - 1; i++) {
+                mLyricSentences.get(i).setDuringTime(
+                        mLyricSentences.get(i + 1).getStartTime());
+            }
+            mLyricSentences.get(mLyricSentences.size() - 1)
+                    .setDuringTime(Integer.MAX_VALUE);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // 如果有谁在监听，通知它歌词载入完啦，并把载入的句子集合也传递过去
         if (mLyricListener != null) {
             mLyricListener.onLyricLoaded(mLyricSentences,

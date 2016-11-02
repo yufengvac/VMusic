@@ -28,7 +28,6 @@ public class AlphaUtil {
 //                Log.e("TAG","1="+(int) (255 * scale)+",2="+(int) (255 * (1 - scale)));
 //                    Log.e("TAG","showImageView="+showDrawable.getAlpha()+",hideImageView="+hideDrawable.getAlpha());
             }else if (msg.what==101){
-                Log.i("TAG","动画完成");
 //                onAlphaCompletedListener.onAlphaCompleted();
                 showDrawable.setAlpha(250);
                 hideDrawable.setAlpha(5);

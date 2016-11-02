@@ -5,4 +5,5 @@ package com.vac.vmusic.playmusic.fragment.lyric.view;
  *
  */
 public interface ILyricFragment {
+    void loadLyric(String lyricStr);
 }

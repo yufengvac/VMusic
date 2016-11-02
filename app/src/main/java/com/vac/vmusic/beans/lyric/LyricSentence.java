@@ -43,4 +43,13 @@ public class LyricSentence {
     public void setDuringTime(long duringTime) {
         this.duringTime = duringTime;
     }
+
+    @Override
+    public String toString() {
+        return "LyricSentence{" +
+                "startTime=" + startTime +
+                ", duringTime=" + duringTime +
+                ", contentText='" + contentText + '\'' +
+                '}';
+    }
 }

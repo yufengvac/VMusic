@@ -13,6 +13,7 @@ import com.vac.vmusic.beans.search.TingSongList;
 import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -92,8 +93,26 @@ public interface SearchService {
     Observable<HttpResultPic<ArtistPic<PicUrls>>> searchArtistPic(@Header("Cache-Control") String cacheControl,
                                                                   @Query("artist") String artist);
 
+    /***
+     * 搜索歌词Id,最终结果返回XML
+     * @param cacheControl 缓存控制
+     * @param title 歌名
+     * @param artist 歌手名
+     * @param song_id 歌曲id
+     * @param singer_id 歌手id
+     * @return Observable
+     */
     @GET("lyric/search/old")
     Observable<LyricDataXml> searchLyricIds(@Header("Cache-Control") String cacheControl,
-                                            @Query("title") String title,@Query("artist") String artist,
-                                            @Query("song_id") long song_id,@Query("singer_id") long singer_id);
+                                @Query("title") String title, @Query("artist") String artist,
+                                @Query("song_id") long song_id, @Query("singer_id") long singer_id);
+
+    /**
+     * 搜索歌词内容
+     * @param cacheControl 缓存控制
+     * @param lyricId 歌曲id
+     * @return 歌词字符串
+     */
+    @GET("lyric/content/old")
+    Observable<String> searchLyric(@Header("Cache-Control") String cacheControl,@Query("lrcid") long lyricId);
 }

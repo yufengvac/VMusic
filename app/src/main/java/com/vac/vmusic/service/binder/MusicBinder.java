@@ -3,11 +3,13 @@ package com.vac.vmusic.service.binder;
 import android.os.Binder;
 import android.util.Log;
 
+import com.vac.vmusic.beans.lyric.LyricSentence;
 import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.service.service.IService;
 import com.vac.vmusic.service.service.PlayService;
+import com.vac.vmusic.utils.LyricLoadHelper;
 
 import org.litepal.crud.DataSupport;
 
@@ -27,9 +29,12 @@ public class MusicBinder extends Binder implements IMusicBinder{
     private IService iService;
     private List<OnPlayMusicStateListener> onPlayMusicStateListenerList;
 
+    private List<LyricLoadHelper.LyricListener> onLyricListenerList;
+
     public MusicBinder(IService iService_){
         this.iService = iService_;
         onPlayMusicStateListenerList = iService_.getOnPlayMusicStateListener();
+        onLyricListenerList = iService_.getOnLyricListener();
     }
 
     @Override
@@ -40,6 +45,17 @@ public class MusicBinder extends Binder implements IMusicBinder{
     public void unRegisterOnPlayMusicStateListener(OnPlayMusicStateListener listener){
         onPlayMusicStateListenerList.remove(listener);
     }
+
+    @Override
+    public void registerLyricListener(LyricLoadHelper.LyricListener lyricListener) {
+        onLyricListenerList.add(lyricListener);
+    }
+
+    @Override
+    public void unRegisterLyricListener(LyricLoadHelper.LyricListener lyricListener) {
+        onLyricListenerList.remove(lyricListener);
+    }
+
     @Override
     public void playNext(){
         iService.requestToPlayNext(true);
@@ -151,5 +167,15 @@ public class MusicBinder extends Binder implements IMusicBinder{
     @Override
     public int getCurrentState() {
         return iService.getPlayerState();
+    }
+
+    @Override
+    public void setLyricContent(String lyric) {
+        iService.setLyricContent(lyric);
+    }
+
+    @Override
+    public List<LyricSentence> getLyricSentenceList() {
+        return iService.getLyricSentenceList();
     }
 }

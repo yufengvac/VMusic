@@ -2,8 +2,10 @@ package com.vac.vmusic.service.service;
 
 import android.media.MediaPlayer;
 
+import com.vac.vmusic.beans.lyric.LyricSentence;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
+import com.vac.vmusic.utils.LyricLoadHelper;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
 public interface IService {
 
     List<OnPlayMusicStateListener> getOnPlayMusicStateListener();
+
+    List<LyricLoadHelper.LyricListener> getOnLyricListener();
 
     void requestToPlay();
 
@@ -62,4 +66,8 @@ public interface IService {
     int getPlayingMusicPosition();
 
     TingSong getCurrentSong();
+
+    void setLyricContent(String lyric);
+
+    List<LyricSentence> getLyricSentenceList();
 }

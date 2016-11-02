@@ -14,12 +14,15 @@ import android.widget.Toast;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.application.App;
+import com.vac.vmusic.beans.lyric.LyricSentence;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.playmusic.view.PlayMusicActivity;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.utils.AudioFocusHelper;
+import com.vac.vmusic.utils.LyricLoadHelper;
 import com.vac.vmusic.utils.PreferHelper;
+import com.vac.vmusic.utils.RxBus;
 
 
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ import rx.functions.Action1;
  *
  */
 public class PlayService extends Service implements MediaPlayer.OnPreparedListener,MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnErrorListener,AudioFocusHelper.MusicFocusable,IService{
+        MediaPlayer.OnErrorListener,AudioFocusHelper.MusicFocusable,IService,LyricLoadHelper.LyricListener{
     private static final String TAG = PlayService.class.getSimpleName();
 
     /**播放状态*/
@@ -90,6 +93,9 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     /**监听器的集合*/
     private List<OnPlayMusicStateListener> onPlayMusicStateListenerList = new ArrayList<>();
 
+    /***歌词监听器的集合*/
+    private List<LyricLoadHelper.LyricListener> onLyricLoadHelper = new ArrayList<>();
+
     /**绑定Service对外提供的Binder类*/
     private MusicBinder musicBinder ;
 
@@ -118,14 +124,22 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     /**播放进度*/
     private Subscription processSubscription;
 
+    /**歌词辅助类*/
+    LyricLoadHelper lyricLoadHelper;
 
+    /**当前的歌是否有歌词*/
+    private boolean hasLyric = false;
 
+    /**歌词的集合*/
+    private List<LyricSentence> lyricSentenceList;
     @Override
     public void onCreate() {
         super.onCreate();
         mNotificationManager = (NotificationManager) App.getContext().getSystemService(NOTIFICATION_SERVICE);
         mAudioFocusHelper = new AudioFocusHelper(getApplicationContext(),this);
         musicBinder = new MusicBinder(this);
+        lyricLoadHelper = new LyricLoadHelper();
+        lyricLoadHelper.setLyricListener(this);
     }
 
     @Override
@@ -288,6 +302,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
      */
     @Override
     public void requestToPlayNext(boolean isUserClick){
+
         if(mState!= PlayState.Prepraing&&mPlayingMusicList.size()>0){
 
             switch (mPlayMode) {
@@ -398,6 +413,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
             mPlayer.setOnErrorListener(this);
         }else{
             mPlayer.reset();
+            hasLyric = false;
         }
     }
 
@@ -468,6 +484,9 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                         int progress = (int)(mPlayer.getCurrentPosition()*1.0/currentTingSong.getAuditionList().get(0).getDuration()*300);
                         for (int i=0;i<onPlayMusicStateListenerList.size();i++){
                             onPlayMusicStateListenerList.get(i).onPlayProgressUpdate(progress,mPlayer.getCurrentPosition());
+                        }
+                        if (hasLyric){
+                            lyricLoadHelper.notifyTime(mPlayer.getCurrentPosition());
                         }
                     }
                 });
@@ -571,5 +590,37 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     @Override
     public TingSong getCurrentSong() {
         return currentTingSong;
+    }
+
+    @Override
+    public List<LyricLoadHelper.LyricListener> getOnLyricListener() {
+        return onLyricLoadHelper;
+    }
+
+    @Override
+    public void setLyricContent(String lyric) {
+        if (lyric!=null){
+            lyricLoadHelper.loadLyricFromString(lyric);
+        }else {
+            hasLyric =false;
+        }
+    }
+
+
+    @Override
+    public void onLyricLoaded(List<LyricSentence> lyricSentences, int indexOfCurSentence) {
+        hasLyric = true;
+        lyricSentenceList = lyricSentences;
+        RxBus.get().post("lyricLoaded",true);
+    }
+
+    @Override
+    public void onLyricSentenceChanged(int indexOfCurSentence) {
+        RxBus.get().post("index",indexOfCurSentence);
+    }
+
+    @Override
+    public List<LyricSentence> getLyricSentenceList() {
+        return lyricSentenceList;
     }
 }
