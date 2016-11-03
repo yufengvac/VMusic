@@ -18,20 +18,30 @@ import android.view.WindowManager;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.BinderSingleton;
+import com.vac.vmusic.beans.LocalMusic;
+import com.vac.vmusic.beans.search.TingSong;
+import com.vac.vmusic.downloadmanager.DownLoadListener;
+import com.vac.vmusic.downloadmanager.DownLoadManager;
+import com.vac.vmusic.downloadmanager.DownLoadManagerFactory;
+import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.swipebackbase.SwipeBackLayout;
+import com.vac.vmusic.utils.ContentProviderHelper;
 
 
 /**
  * Created by vac on 16/10/21.
  *
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity implements DownLoadListener {
     public int contentViewId;
 
     private SwipeBackLayout mSwipeBackLayout;
     private int mDefaultFragmentBackground = 0;
     private IBinder musicIbinder;
+
+    public DownLoadManager downLoadManager;
+    private ContentProviderHelper contentProviderHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +51,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         setContentView(contentViewId);
         initView();
 
+        downLoadManager = DownLoadManagerFactory.getInstance(this);
+        contentProviderHelper = new ContentProviderHelper(this);
     }
 
     public abstract void getContentViewId();
@@ -158,5 +170,45 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     int getDefaultFragmentBackground() {
         return mDefaultFragmentBackground;
+    }
+
+    @Override
+    public void onError(SQLDownLoadInfo sqlDownLoadInfo) {
+
+    }
+
+    @Override
+    public void onSuccess(SQLDownLoadInfo sqlDownLoadInfo) {
+        TingSong tingSong = getMusicIbinder().getTingSongById(Long.parseLong(sqlDownLoadInfo.getTaskID()));
+        if (tingSong!=null){
+            contentProviderHelper.addContent(tingSong,sqlDownLoadInfo.getFilePath());
+
+            LocalMusic localMusic = new LocalMusic();
+            localMusic.setTitle(tingSong.getName());
+            localMusic.setAlbumName(tingSong.getAlbumName());
+            localMusic.setAlbumId(tingSong.getAlbumId());
+            localMusic.setSingerName(tingSong.getSingerName());
+            localMusic.setSingerId(tingSong.getSingerId());
+            localMusic.setSize(tingSong.getAuditionList().get(0).getSize());
+            localMusic.setData(sqlDownLoadInfo.getFilePath());
+            localMusic.setDuration(tingSong.getAuditionList().get(0).getDuration());
+            localMusic.save();
+        }
+
+    }
+
+    @Override
+    public void onStop(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
+
+    }
+
+    @Override
+    public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
+
+    }
+
+    @Override
+    public void onStart(SQLDownLoadInfo sqlDownLoadInfo) {
+
     }
 }

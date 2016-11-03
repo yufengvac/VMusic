@@ -98,8 +98,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:progressDrawable="@drawable/seekbar_horizontal"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
                     android:max="300"
                     android:progress="0"
                     android:maxHeight="2dp"
@@ -176,12 +174,14 @@
                     android:src="@drawable/icon_mode_order_music"/>
 
                 <ImageView
+                    android:id="@+id/play_music_activity_download_image_view"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/app_name"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_download_music"/>
+                    android:src="@drawable/icon_download_music"
+                    android:clickable="true"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -193,6 +193,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_songlist_music"/>
             </LinearLayout>

@@ -6,7 +6,11 @@ import android.widget.RelativeLayout;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
+import com.vac.vmusic.beans.AddFragment;
+import com.vac.vmusic.downmusic.view.DownMusicFragment;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.presenter.LocalMusicFragmentPresenter;
+import com.vac.vmusic.homefragment.view.HomeFragment;
+import com.vac.vmusic.utils.RxBus;
 import com.vac.vmusic.views.MyScrollView;
 
 /**
@@ -56,9 +60,12 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
         int id = view.getId();
         switch (id){
             case R.id.local_music_fra_module_1:
-
                 break;
             case R.id.local_music_fra_module_2:
+                AddFragment addFragment = new AddFragment();
+                addFragment.setFromFragment((BaseSwipeBackFragment) getParentFragment());
+                addFragment.setToFragment(DownMusicFragment.getDownMusicFragment(null));
+                RxBus.get().post("addFragment",addFragment);
                 break;
             case R.id.local_music_fra_module_3:
                 break;

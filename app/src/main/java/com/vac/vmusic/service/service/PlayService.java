@@ -623,4 +623,14 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     public List<LyricSentence> getLyricSentenceList() {
         return lyricSentenceList;
     }
+
+    @Override
+    public TingSong getTingSongById(long songId) {
+        for (int i=0;i<mPlayingMusicList.size();i++){
+            if (songId==mPlayingMusicList.get(i).getSongId()){
+                return mPlayingMusicList.get(i);
+            }
+        }
+        return null;
+    }
 }

@@ -178,4 +178,9 @@ public class MusicBinder extends Binder implements IMusicBinder{
     public List<LyricSentence> getLyricSentenceList() {
         return iService.getLyricSentenceList();
     }
+
+    @Override
+    public TingSong getTingSongById(long songId) {
+        return iService.getTingSongById(songId);
+    }
 }

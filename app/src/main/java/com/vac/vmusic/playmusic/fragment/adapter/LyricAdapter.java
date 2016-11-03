@@ -14,10 +14,6 @@ import android.widget.TextView;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.lyric.LyricSentence;
 
-
-/**
- * @author lq 2013-6-1 lq2625304@gmail.com
- * */
 public class LyricAdapter extends BaseAdapter {
     private static final String TAG = LyricAdapter.class.getSimpleName();
 
@@ -46,6 +42,7 @@ public class LyricAdapter extends BaseAdapter {
             Log.i(TAG, "歌词句子数目=" + mLyricSentences.size());
         }
         mIndexOfCurrentSentence = 0;
+        notifyDataSetChanged();
     }
 
     @Override

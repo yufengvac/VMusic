@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,17 +21,26 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseActivity;
+import com.vac.vmusic.beans.LocalMusic;
+import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
+import com.vac.vmusic.downloadmanager.DownLoadListener;
+import com.vac.vmusic.downloadmanager.DownLoadManager;
+import com.vac.vmusic.downloadmanager.DownLoadManagerFactory;
+import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
+import com.vac.vmusic.downloadmanager.dbcontrol.FileHelper;
 import com.vac.vmusic.playmusic.presenter.PlayMusicActivityPresenter;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.service.service.PlayService;
 import com.vac.vmusic.utils.AlphaUtil;
 import com.vac.vmusic.utils.Constants;
+import com.vac.vmusic.utils.ContentProviderHelper;
 import com.vac.vmusic.utils.FileUtil;
 import com.vac.vmusic.utils.TimeUtil;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.internal.Internal;
@@ -44,8 +54,9 @@ import rx.functions.Action1;
  *
  */
 @SuppressLint("NewApi")
-public class PlayMusicActivity extends BaseActivity implements View.OnClickListener,IPlayMusicActivity,OnPlayMusicStateListener{
+public class PlayMusicActivity extends BaseActivity implements View.OnClickListener,IPlayMusicActivity,OnPlayMusicStateListener {
     private ImageView backImageView,preImageView,nextImageView,playOrPauseImageView,modeImageView;
+    private ImageView downloadImageView;
     private TextView songNameTextView;
     private MusicBinder musicBinder;
     private TextView currentTimeTextView,totalTimeTextView;
@@ -58,6 +69,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     private Subscription bgSubscription;
 
     private String hasLoadedSingerName;
+
     @Override
     public void getContentViewId() {
         contentViewId = R.layout.play_music_activity;
@@ -81,6 +93,9 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         totalTimeTextView = (TextView) findViewById(R.id.play_music_activity_total_time_text_view);
         progressSeekbar = (SeekBar) findViewById(R.id.play_music_activity_progress_seek_bar);
 
+        downloadImageView = (ImageView) findViewById(R.id.play_music_activity_download_image_view);
+        downloadImageView.setOnClickListener(this);
+
         imageView1 = (ImageView)findViewById(R.id.play_music_activity_bg1);
         imageView2 = (ImageView)findViewById(R.id.play_music_activity_bg2);
         bg1 = imageView1.getBackground().mutate();
@@ -98,6 +113,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.play_music_activity_view_pager);
         playMusicActivityPresenter.loadViewPager(getSupportFragmentManager(),viewPager);
+
     }
 
     @Override
@@ -110,7 +126,10 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        bgSubscription.unsubscribe();
+        if (bgSubscription!=null){
+            bgSubscription.unsubscribe();
+        }
+
         imageView1.setBackgroundResource(R.drawable.default_music);
         imageView2.setBackgroundResource(R.drawable.default_music);
         bg1.setAlpha(255);
@@ -201,6 +220,21 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
             case R.id.play_music_activity_play_or_pause_image_view:
                 musicBinder.togglePlay();
                 break;
+            case R.id.play_music_activity_download_image_view:
+                TingSong tingSong = musicBinder.getCurrentSong();
+                String taskID = tingSong.getSongId()+"";
+                if (tingSong.getAuditionList()!=null&&tingSong.getAuditionList().size()>0){
+                    TingAudition tingAudition = tingSong.getAuditionList().get(tingSong.getAuditionList().size()-1);
+                    String downUrl = tingAudition.getUrl();
+                    String fileName = tingSong.getName()+ "." +tingAudition.getSuffix();
+                    downLoadManager.addTask(taskID, downUrl,fileName, FileHelper.getFileDefaultPath()+fileName);
+                    downLoadManager.setAllTaskListener(this);
+                    Snackbar.make(view,"正在下载"+fileName,Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(view,"无法下载!",Snackbar.LENGTH_LONG).show();
+                }
+
+                break;
         }
     }
 
@@ -253,4 +287,23 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         progressSeekbar.setProgress(percent);
         currentTimeTextView.setText(TimeUtil.formatTime(currentTime));
     }
+
+
+
+    @Override
+    public void onStart(SQLDownLoadInfo sqlDownLoadInfo) {
+
+    }
+
+    @Override
+    public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
+
+    }
+
+    @Override
+    public void onStop(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
+
+    }
+
 }
+

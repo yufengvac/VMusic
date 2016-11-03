@@ -36,4 +36,6 @@ public interface IMusicBinder {
 
     void setLyricContent(String lyric);
     List<LyricSentence> getLyricSentenceList();
+
+    TingSong getTingSongById(long songId);
 }

@@ -26,6 +26,7 @@ public class LyricFragment extends BaseSwipeBackFragment implements ILyricFragme
     private LyricFragmentPresenter lyricFragmentPresenter;
     private Subscription lyricIndexSubsription;
     private Subscription lyricLoadedSubsription;
+    private LyricAdapter lyricAdapter;
     public static LyricFragment getLyricFragment(){
         LyricFragment lyricFragment = new LyricFragment();
         return lyricFragment;
@@ -46,7 +47,7 @@ public class LyricFragment extends BaseSwipeBackFragment implements ILyricFragme
         lyricFragmentPresenter.checkLocalLyric(initTingSong);
         musicBinder.registerOnPlayMusicStateListener(this);
 
-        final LyricAdapter lyricAdapter = new LyricAdapter(getContext());
+        lyricAdapter = new LyricAdapter(getContext());
         lyricAdapter.setLyric(musicBinder.getLyricSentenceList());
         listView.setAdapter(lyricAdapter);
 
@@ -101,7 +102,7 @@ public class LyricFragment extends BaseSwipeBackFragment implements ILyricFragme
 
     @Override
     public void onNewSongPlayed(TingSong music, int position) {
-
+        lyricAdapter.setLyric(null);
     }
 
     @Override

@@ -17,4 +17,6 @@ public class Constants {
     public final static String CHILD_ARTIST_PIC = "photoGraphic";
 
     public final static String CHILD_LYRIC = "lyric";
+
+    public final static String CHILD_SONG = "song";
 }

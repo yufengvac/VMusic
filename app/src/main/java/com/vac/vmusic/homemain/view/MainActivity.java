@@ -19,6 +19,7 @@ import com.vac.vmusic.base.BaseActivity;
 import com.vac.vmusic.beans.AddFragment;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
+import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
 import com.vac.vmusic.homemain.presenter.MainActivityPresenter;
 import com.vac.vmusic.playmusic.view.PlayMusicActivity;
 import com.vac.vmusic.playmusicqueue.view.MusicQueueActivity;
@@ -200,4 +201,6 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     public void onPlayProgressUpdate(int percent,long currentTime) {
         myProgressbar.setProgress(percent);
     }
+
+
 }
