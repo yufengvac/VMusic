@@ -85,7 +85,8 @@ public class PlayMusicActivityModel {
         });
     }
 
-    public void downloadPic(final Context context,final String picUrl,final String singerName) {
+    public void downloadPic(final Context context,final String picUrl,final String singerName
+            ,final int i,final OnPicDownloadListener onPicDownloadListener) {
         Observable.create(new Observable.OnSubscribe<Bitmap>() {
             @Override
             public void call(Subscriber<? super Bitmap> subscriber) {
@@ -108,6 +109,7 @@ public class PlayMusicActivityModel {
                         if (bitmap != null) {
                             boolean result = FileUtil.saveBitmap(singerName,picUrl,bitmap);
                             if (result)Log.i("PlayMusicActivityPre","存储成功");
+                            onPicDownloadListener.onPicDownload(i);
                         } else {
                             Log.i("PlayMusicActivityPre", "bitmap==null");
                         }
@@ -119,5 +121,8 @@ public class PlayMusicActivityModel {
 
                     }
                 });
+    }
+    public interface OnPicDownloadListener{
+       void onPicDownload(int i);
     }
 }

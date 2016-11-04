@@ -102,8 +102,10 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     /**当前正在播放的音乐*/
     private TingSong currentTingSong;
 
+
     /**当前的播放队列*/
     private List<TingSong> mPlayingMusicList = new ArrayList<>();
+
 
     /**服务中正在播放的音乐的位置*/
     private int mPlayingMusicPosition = -1;
@@ -132,6 +134,9 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
 
     /**歌词的集合*/
     private List<LyricSentence> lyricSentenceList;
+
+    /**是否来自于网络*/
+    private boolean isFromNet = false;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -159,7 +164,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
         Log.d(TAG, "这是请求播放动作时的音乐播放状态-------="+mState);
         if(mState== PlayState.Stopped){//如果播放器处于停止状态
             mPlayingMusicPosition = mRequestMusicPosition;
-            playSong(true);//开始播放音乐
+            playSong();//开始播放音乐
             Log.d(TAG, "播放器处于停止状态,开始播放音乐");
         }else if(mState== PlayState.Paused){//如果播放器处于暂停状态
             if(mPlayingMusicPosition==mRequestMusicPosition){//用户请求的播放歌曲 和 当前播放歌曲相同
@@ -170,20 +175,31 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                 Log.d(TAG, "播放器处于暂停状态,播放歌曲 和 当前播放歌曲相同,继续播放音乐吧，由暂停状态转成播放状态");
             }else if(mRequestPlayMusicId != currentTingSong.getSongId()){//用户请求的播放歌曲 和 当前播放歌曲 不 相同
                 mPlayingMusicPosition = mRequestMusicPosition;//播放用户请求的歌曲
-                playSong(true);//开始播放音乐
+                playSong();//开始播放音乐
                 Log.d(TAG, "播放器处于暂停状态,播放歌曲 和 当前播放歌曲  不  相同,播放用户请求的歌曲");
             }
         }else if(mState== PlayState.Playing){//如果播放器处于播放状态
-            if(mPlayingMusicPosition==mRequestMusicPosition){//用户请求的播放歌曲 和 当前播放歌曲相同
+            if(mRequestPlayMusicId != currentTingSong.getSongId()){//用户请求的播放歌曲 和 当前播放歌曲 不 相同
+                mPlayingMusicPosition = mRequestMusicPosition;//播放用户请求的歌曲
+                playSong();//开始播放音乐
+                Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲不 相同,播放用户请求的歌曲");
+            }else {
                 //暂停播放音乐吧，由播放状态转成暂停状态
                 requestToPause();
                 Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲相同,暂停播放音乐吧，由播放状态转成暂停状态");
                 return;
-            }else if(mRequestPlayMusicId != currentTingSong.getSongId()){//用户请求的播放歌曲 和 当前播放歌曲 不 相同
-                mPlayingMusicPosition = mRequestMusicPosition;//播放用户请求的歌曲
-                playSong(true);//开始播放音乐
-                Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲不 相同,播放用户请求的歌曲");
             }
+
+//            if(mPlayingMusicPosition==mRequestMusicPosition){//用户请求的播放歌曲 和 当前播放歌曲相同
+//                //暂停播放音乐吧，由播放状态转成暂停状态
+//                requestToPause();
+//                Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲相同,暂停播放音乐吧，由播放状态转成暂停状态");
+//                return;
+//            }else if(mRequestPlayMusicId != currentTingSong.getSongId()){//用户请求的播放歌曲 和 当前播放歌曲 不 相同
+//                mPlayingMusicPosition = mRequestMusicPosition;//播放用户请求的歌曲
+//                playSong();//开始播放音乐
+//                Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲不 相同,播放用户请求的歌曲");
+//            }
         }
 
         /**通知回调接口，开始播放*/
@@ -221,16 +237,18 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
      *播放在播放列表mCurrentPlayList中mPlayingMusicPosition位置 的音乐
      */
     @Override
-    public void playSong(boolean isFromNet){
+    public void playSong(){
         currentTingSong = mPlayingMusicList.get(mPlayingMusicPosition);
         mState = PlayState.Stopped;
+        if (processSubscription!=null&&(!processSubscription.isUnsubscribed())){
+            processSubscription.unsubscribe();
+        }
 
         releaseResource(false);
         createMediaPlayerIfNeed();
 
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            if (isFromNet){
                 if (currentTingSong.getAuditionList()!=null&&currentTingSong.getAuditionList().size()>0){
                     mPlayer.setDataSource(currentTingSong.getAuditionList().
                             get(currentTingSong.getAuditionList().size()-1).getUrl());
@@ -240,7 +258,6 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                     +mPlayingMusicList.get(mPlayingMusicPosition).getSingerName()+","+mPlayingMusicPosition);
                     return;
                 }
-            }
             mState = PlayState.Prepraing;
 
 
@@ -549,7 +566,9 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
     @Override
     public void setRequestMusicPosition(int position) {
         mRequestMusicPosition = position;
-        currentTingSong = mPlayingMusicList.get(mRequestMusicPosition);
+        if (mState==PlayState.Stopped){
+            currentTingSong = mPlayingMusicList.get(mRequestMusicPosition);
+        }
     }
 
     @Override
@@ -632,5 +651,10 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
             }
         }
         return null;
+    }
+
+    @Override
+    public void setPlayingMusicList(List<? extends TingSong> playingMusicList) {
+
     }
 }

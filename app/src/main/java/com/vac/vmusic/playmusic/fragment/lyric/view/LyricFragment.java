@@ -80,9 +80,9 @@ public class LyricFragment extends BaseSwipeBackFragment implements ILyricFragme
 
     @Override
     public void onMusicPlayed(TingSong music) {
-        if (initTingSong.getSongId()!=music.getSongId()){
+//        if (initTingSong.getSongId()!=music.getSongId()){
             lyricFragmentPresenter.checkLocalLyric(music);
-        }
+//        }
     }
 
     @Override

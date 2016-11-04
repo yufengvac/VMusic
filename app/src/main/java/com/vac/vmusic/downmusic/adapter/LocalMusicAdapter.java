@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,10 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         }
     }
 
+    public List<LocalMusic> getData(){
+        return mData;
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,6 +56,10 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         holder.name.setText(localMusic.getTitle());
         holder.singer.setText(localMusic.getSingerName());
         holder.album.setText(localMusic.getAlbumName());
+        holder.qualityImageView.setVisibility(View.GONE);
+        holder.mvImageView.setVisibility(View.GONE);
+        holder.alias.setVisibility(View.GONE);
+        holder.addSongListImageView.setVisibility(View.GONE);
     }
 
     @Override
@@ -59,13 +68,20 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView name,singer,album;
+        private TextView name,singer,album,alias;
         private LinearLayout content;
+        private ImageView qualityImageView,mvImageView,addSongListImageView;
         public MyViewHolder(View view){
             super(view);
             name = (TextView) view.findViewById(R.id.item_home_name);
             singer = (TextView) view.findViewById(R.id.item_home_singer);
             album = (TextView) view.findViewById(R.id.item_home_album);
+
+            qualityImageView = (ImageView) view.findViewById(R.id.item_home_quality_imageview);
+            mvImageView = (ImageView) view.findViewById(R.id.item_home_mv_imageview);
+            addSongListImageView = (ImageView) view.findViewById(R.id.item_search_song_add_songlist_imageview);
+            alias = (TextView) view.findViewById(R.id.item_home_alias);
+
             content = (LinearLayout) view.findViewById(R.id.item_search_song_content);
             content.setOnClickListener(new View.OnClickListener() {
                 @Override

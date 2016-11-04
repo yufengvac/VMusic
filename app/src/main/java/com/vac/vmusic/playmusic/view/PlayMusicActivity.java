@@ -2,9 +2,7 @@ package com.vac.vmusic.playmusic.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
@@ -16,34 +14,24 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseActivity;
-import com.vac.vmusic.beans.LocalMusic;
 import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
-import com.vac.vmusic.downloadmanager.DownLoadListener;
-import com.vac.vmusic.downloadmanager.DownLoadManager;
-import com.vac.vmusic.downloadmanager.DownLoadManagerFactory;
-import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
 import com.vac.vmusic.downloadmanager.dbcontrol.FileHelper;
 import com.vac.vmusic.playmusic.presenter.PlayMusicActivityPresenter;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.service.service.PlayService;
 import com.vac.vmusic.utils.AlphaUtil;
 import com.vac.vmusic.utils.Constants;
-import com.vac.vmusic.utils.ContentProviderHelper;
 import com.vac.vmusic.utils.FileUtil;
 import com.vac.vmusic.utils.TimeUtil;
 
 import java.io.File;
-import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.internal.Internal;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,7 +42,7 @@ import rx.functions.Action1;
  *
  */
 @SuppressLint("NewApi")
-public class PlayMusicActivity extends BaseActivity implements View.OnClickListener,IPlayMusicActivity,OnPlayMusicStateListener {
+public class PlayMusicActivity extends BaseActivity implements View.OnClickListener,IPlayMusicActivity,OnPlayMusicStateListener,SeekBar.OnSeekBarChangeListener {
     private ImageView backImageView,preImageView,nextImageView,playOrPauseImageView,modeImageView;
     private ImageView downloadImageView;
     private TextView songNameTextView;
@@ -69,6 +57,11 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     private Subscription bgSubscription;
 
     private String hasLoadedSingerName;
+
+    private boolean isSeeking =false;
+    private int progressChanged ;
+
+    private HashMap<String,Drawable> drawableHashMap = new HashMap<>();
 
     @Override
     public void getContentViewId() {
@@ -92,6 +85,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         currentTimeTextView = (TextView) findViewById(R.id.play_music_activity_current_time_text_view);
         totalTimeTextView = (TextView) findViewById(R.id.play_music_activity_total_time_text_view);
         progressSeekbar = (SeekBar) findViewById(R.id.play_music_activity_progress_seek_bar);
+        progressSeekbar.setOnSeekBarChangeListener(this);
 
         downloadImageView = (ImageView) findViewById(R.id.play_music_activity_download_image_view);
         downloadImageView.setOnClickListener(this);
@@ -128,6 +122,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         super.onStop();
         if (bgSubscription!=null){
             bgSubscription.unsubscribe();
+            bgSubscription = null;
         }
 
         imageView1.setBackgroundResource(R.drawable.default_music);
@@ -150,6 +145,12 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        playMusicActivityPresenter.loadArtistPic(musicBinder.getCurrentSong().getSingerName());
+    }
+
+    @Override
     public Context getPlayMusicContext() {
         return this;
     }
@@ -158,32 +159,47 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     public void showArtistPic(String singerName) {
         hasLoadedSingerName = singerName;
         final String[] pics = FileUtil.getArtistByName(singerName);
+        Log.i("TAG","singerName="+singerName);
         final String rootPath = Constants.ROOT_PATH+Constants.CHILD_ARTIST_PIC+File.separator+singerName+File.separator;
         if (pics!=null&&pics.length>1){
-            bgSubscription = Observable.interval(0,15, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+            final Drawable drawable = Drawable.createFromPath(rootPath+pics[0]);
+            drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            imageView2.setBackground(drawable);
+            if (bgSubscription!=null&&(!bgSubscription.isUnsubscribed())){
+                bgSubscription.unsubscribe();
+                bgSubscription = null;
+            }
+            bgSubscription = Observable.interval(15,15, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                     .compose(this.<Long>bindToLifecycle()).subscribe(new Action1<Long>() {
                 @Override
                 public void call(Long aLong) {
                     int count = Integer.parseInt(aLong+"");
                     if (bg2.getAlpha()<=20){
-                        Drawable drawable = Drawable.createFromPath(rootPath+pics[count%pics.length]);
-                        drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-                        imageView2.setBackground(drawable);
-                        bg2 = drawable;
+                        if (drawableHashMap.get(rootPath+pics[count%pics.length])==null){
+                            Drawable drawable = Drawable.createFromPath(rootPath+pics[count%pics.length]);
+                            drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                            drawableHashMap.put(rootPath+pics[count%pics.length],drawable);
+                        }
+                        bg2 = drawableHashMap.get(rootPath+pics[count%pics.length]);
+                        imageView2.setBackground(bg2);
 
                         bg1.setAlpha(255);
                         bg2.setAlpha(0);
                         AlphaUtil alphaUtil = new AlphaUtil(bg1,bg2);
                         alphaUtil.toExecute();
                     }else {
-                        Drawable drawable = Drawable.createFromPath(rootPath+pics[count%pics.length]);
-                        drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-                        imageView1.setBackground(drawable);
-                        bg1 = drawable;
+                        if (drawableHashMap.get(rootPath+pics[count%pics.length])==null){
+                            Drawable drawable = Drawable.createFromPath(rootPath+pics[count%pics.length]);
+                            drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                            drawableHashMap.put(rootPath+pics[count%pics.length],drawable);
+                        }
+                        bg1 = drawableHashMap.get(rootPath+pics[count%pics.length]);
+                        imageView1.setBackground(bg1);
                         bg1.setAlpha(0);
                         bg2.setAlpha(255);
                         AlphaUtil alphaUtil = new AlphaUtil(bg2,bg1);
                         alphaUtil.toExecute();
+
                     }
                 }
             });
@@ -227,9 +243,13 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
                     TingAudition tingAudition = tingSong.getAuditionList().get(tingSong.getAuditionList().size()-1);
                     String downUrl = tingAudition.getUrl();
                     String fileName = tingSong.getName()+ "." +tingAudition.getSuffix();
-                    downLoadManager.addTask(taskID, downUrl,fileName, FileHelper.getFileDefaultPath()+fileName);
+                    int state = downLoadManager.addTask(taskID, downUrl,fileName, FileHelper.getFileDefaultPath()+fileName);
                     downLoadManager.setAllTaskListener(this);
-                    Snackbar.make(view,"正在下载"+fileName,Snackbar.LENGTH_LONG).show();
+                    if (state==-1){
+                        Snackbar.make(view,"文件已存在!",Snackbar.LENGTH_LONG).show();
+                    }else if (state==1){
+                        Snackbar.make(view,"正在下载!",Snackbar.LENGTH_LONG).show();
+                    }
                 }else {
                     Snackbar.make(view,"无法下载!",Snackbar.LENGTH_LONG).show();
                 }
@@ -242,6 +262,10 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     public void onMusicPlayed(TingSong music) {
         playOrPauseImageView.setImageResource(R.drawable.icon_play_pause);
         if (!hasLoadedSingerName.equals(music.getSingerName())){
+            if (bgSubscription!=null){
+                bgSubscription.unsubscribe();
+                bgSubscription = null;
+            }
             playMusicActivityPresenter.loadArtistPic(music.getSingerName());
         }
 
@@ -284,26 +308,28 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onPlayProgressUpdate(int percent,long currentTime) {
-        progressSeekbar.setProgress(percent);
+        if (!isSeeking){
+            progressSeekbar.setProgress(percent);
+        }
         currentTimeTextView.setText(TimeUtil.formatTime(currentTime));
     }
 
-
-
     @Override
-    public void onStart(SQLDownLoadInfo sqlDownLoadInfo) {
-
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        progressChanged = i;
     }
 
     @Override
-    public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
-
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        isSeeking = true;
     }
 
     @Override
-    public void onStop(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
-
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        double percent = progressChanged*1.0/300;
+        int duration = musicBinder.getCurrentSong().getAuditionList().get(0).getDuration();
+        musicBinder.seekToSpecifiedPosition((int)(duration*percent));
+        isSeeking = false;
     }
-
 }
 

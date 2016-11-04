@@ -184,6 +184,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements DownLo
             contentProviderHelper.addContent(tingSong,sqlDownLoadInfo.getFilePath());
 
             LocalMusic localMusic = new LocalMusic();
+            localMusic.setId(tingSong.getSongId());
             localMusic.setTitle(tingSong.getName());
             localMusic.setAlbumName(tingSong.getAlbumName());
             localMusic.setAlbumId(tingSong.getAlbumId());

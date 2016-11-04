@@ -25,10 +25,11 @@ import java.util.List;
  * Created by vac on 16/10/29.
  *
  */
-public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
+public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>,PlayMusicActivityModel.OnPicDownloadListener{
     private IPlayMusicActivity iPlayMusicActivity;
     private PlayMusicActivityModel playMusicActivityModel;
     private String singerName;
+    private int picCount = -1;
 
     public PlayMusicActivityPresenter(IPlayMusicActivity iPlayMusicActivity_){
         this.iPlayMusicActivity = iPlayMusicActivity_;
@@ -70,16 +71,24 @@ public class PlayMusicActivityPresenter implements RequestCallback<PicUrls>{
 
     @Override
     public void requestSuccess(List<PicUrls> data) {
-        Log.i("PlayMusicActivityPre","size="+data.size());
+        picCount = data.size();
+        Log.i("PlayMusicActivityPre","size="+picCount);
         for (int i=0;i<data.size();i++){
             String picUrl = data.get(i).getPicUrl();
-            playMusicActivityModel.downloadPic(iPlayMusicActivity.getPlayMusicContext(),picUrl,singerName);
+            playMusicActivityModel.downloadPic(iPlayMusicActivity.getPlayMusicContext(),picUrl,singerName,i,this);
         }
-        iPlayMusicActivity.showArtistPic(singerName);
     }
 
     @Override
     public void requestError(String errorMsg) {
 
+    }
+
+    @Override
+    public void onPicDownload(int i) {
+        String[] picUrls = FileUtil.getArtistByName(singerName);
+        if (picUrls!=null&&picUrls.length==picCount){
+            iPlayMusicActivity.showArtistPic(singerName);
+        }
     }
 }

@@ -25,7 +25,7 @@ public interface IMusicBinder {
     void initToPlay(int position,TingSong tingSong);
     void beginToPlay(int position,TingSong tingSong);
     void seekToSpecifiedPosition(int milliSeconds);
-    void setMusicPlayList(List<TingSong> tingSongList, boolean isNeedSave);
+    void setMusicPlayList(List<? extends TingSong> tingSongList, boolean isNeedSave);
     List<TingSong> getMusicPlayList();
     int getCurrentPlayingPosition();
     void changePlayMode();

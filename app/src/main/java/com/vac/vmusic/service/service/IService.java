@@ -23,7 +23,7 @@ public interface IService {
 
     void setServiceAsForeground(String text);
 
-    void playSong(boolean isFromNet);
+    void playSong();
 
     void requestToPause();
 
@@ -72,4 +72,6 @@ public interface IService {
     List<LyricSentence> getLyricSentenceList();
 
     TingSong getTingSongById(long songId);
+
+    void setPlayingMusicList(List<? extends TingSong> playingMusicList);
 }

@@ -1,6 +1,8 @@
 package com.vac.vmusic.homemain.view;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,9 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +41,7 @@ import com.vac.vmusic.views.MyTriangle;
 import java.util.List;
 
 import rx.Observable;
-
+@SuppressWarnings("NewApi")
 public class MainActivity extends BaseActivity implements IMainActivity , OnPlayMusicStateListener ,View.OnClickListener{
 
     private Observable<AddFragment> addFragmentObservable;
@@ -48,6 +53,9 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     private MusicBinder musicBinder;
     private ImageView singerLogo;
     private MainActivityPresenter mainActivityPresenter;
+
+    private Animation operatingAnim;
+    private ObjectAnimator animator;
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -92,6 +100,15 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         mainActivityPresenter = new MainActivityPresenter(this);
         mainActivityPresenter.initContent();
 
+        operatingAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        LinearInterpolator lin = new LinearInterpolator();
+        operatingAnim.setInterpolator(lin);
+
+        animator = ObjectAnimator.ofFloat(singerLogo, "rotation", 0f, 360.0f);
+        animator.setDuration(8000);
+        animator.setRepeatCount(-1);
+        animator.setRepeatMode(ValueAnimator.RESTART);
+        animator.setInterpolator(new LinearInterpolator());
     }
 
     @Override
@@ -114,6 +131,11 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
 
         mainActivityPresenter.initFirstWidgetPlayBottom();
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -171,12 +193,27 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
        initPlayingBottom(music);
         myTriangle.setVisibility(View.GONE);
         myPauseButton.setVisibility(View.VISIBLE);
+
+//        if (operatingAnim!=null){
+//            singerLogo.startAnimation(operatingAnim);
+//        }
+        if (animator.isStarted()){
+            if (animator.isPaused()){
+                animator.resume();
+            }
+        }else {
+            animator.start();
+        }
     }
 
     @Override
     public void onMusicPaused(TingSong music) {
         myTriangle.setVisibility(View.VISIBLE);
         myPauseButton.setVisibility(View.GONE);
+
+        if (animator.isRunning()){
+            animator.pause();
+        }
     }
 
     @Override
@@ -195,6 +232,11 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     public void onNewSongPlayed(TingSong music, int position) {
         initPlayingBottom(music);
         myProgressbar.setProgress(0);
+//        if (operatingAnim!=null&&!operatingAnim.hasStarted()){
+//            singerLogo.startAnimation(operatingAnim);
+//        }
+        animator.start();
+
     }
 
     @Override

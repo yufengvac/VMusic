@@ -9,11 +9,19 @@ import com.vac.vmusic.beans.search.TingSong;
  *
  */
 public class LocalMusic extends TingSong {
+    private long id;
     private String title;
     private String data;
     private int duration;
     private int size;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -85,10 +93,17 @@ public class LocalMusic extends TingSong {
     @Override
     public String toString() {
         return "LocalMusic{" +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", data='" + data + '\'' +
                 ", duration=" + duration +
                 ", size=" + size +
+                ", songId=" + getSongId() +
+                ", singer=" + getSingerName() +
+                ", singerId=" + getSingerId() +
+                ", album=" + getAlbumName() +
+                ", auditionList=" + getAuditionList() +
                 '}';
     }
+
 }

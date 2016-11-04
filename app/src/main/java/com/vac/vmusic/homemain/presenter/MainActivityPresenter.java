@@ -73,8 +73,14 @@ public class MainActivityPresenter implements RequestCallback<TingArtist>{
         int lastPlayingPosition = PreferHelper.getLastPlayingPosition();
         if (lastPlayingPosition!=-1){
             List<TingSong> tingSongs = iMainActivity.getMusicBinderFromMain().getMusicPlayList();
-            iMainActivity.getMusicBinderFromMain().initToPlay(lastPlayingPosition,tingSongs.get(lastPlayingPosition));
-            iMainActivity.initPlayingBottom(tingSongs.get(lastPlayingPosition));
+            if (tingSongs.size()>0){
+                iMainActivity.getMusicBinderFromMain().initToPlay(lastPlayingPosition,tingSongs.get(lastPlayingPosition));
+                iMainActivity.initPlayingBottom(tingSongs.get(lastPlayingPosition));
+            }else {
+                Log.i("TAG","tingSongs.size()=0");
+            }
+        }else {
+            Log.i("TAG","lastPlayingPosition==-1");
         }
     }
 

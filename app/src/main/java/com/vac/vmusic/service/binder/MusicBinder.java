@@ -3,6 +3,7 @@ package com.vac.vmusic.service.binder;
 import android.os.Binder;
 import android.util.Log;
 
+import com.vac.vmusic.beans.LocalMusic;
 import com.vac.vmusic.beans.lyric.LyricSentence;
 import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
@@ -13,6 +14,7 @@ import com.vac.vmusic.utils.LyricLoadHelper;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -77,6 +79,7 @@ public class MusicBinder extends Binder implements IMusicBinder{
     public void initToPlay(int position,TingSong tingSong){
         iService.setRequestMusicPosition(position);
         iService.setRequestPlayMusicId(tingSong.getSongId());
+        Log.i("TAG","requestMusicPosition="+position+",id="+tingSong.getSongId());
     }
     @Override
     public void beginToPlay(int position,TingSong tingSong){
@@ -91,8 +94,26 @@ public class MusicBinder extends Binder implements IMusicBinder{
     }
 
     @Override
-    public void setMusicPlayList(final List<TingSong> tingSongList, boolean isNeedSave) {
+    public void setMusicPlayList(final List<? extends TingSong> tingSongList, boolean isNeedSave) {
         if (tingSongList != null && tingSongList.size() > 0) {
+
+            if (tingSongList.get(0) instanceof LocalMusic){
+                for (int i=0;i<tingSongList.size();i++){
+                    List<TingAudition> tingAuditionList = new ArrayList<>();
+                    TingAudition tingAudition = new TingAudition();
+                    tingAudition.setSize(((LocalMusic)tingSongList.get(i)).getSize());
+                    tingAudition.setDuration(((LocalMusic)tingSongList.get(i)).getDuration());
+                    tingAudition.setSuffix("mp3");
+                    tingAudition.setUrl(((LocalMusic)tingSongList.get(i)).getData());
+                    tingAudition.setTypeDescription("标准品质");
+                    tingAudition.setBitRate(128);
+                    tingAuditionList.add(tingAudition);
+                    tingSongList.get(i).setAuditionList(tingAuditionList);
+                    tingSongList.get(i).setName(((LocalMusic)tingSongList.get(i)).getTitle());
+                    tingSongList.get(i).setSongId(((LocalMusic)tingSongList.get(i)).getId());
+                }
+            }
+
             if (isNeedSave) {
 
                 Observable.create(new Observable.OnSubscribe<Void>() {
@@ -100,17 +121,37 @@ public class MusicBinder extends Binder implements IMusicBinder{
                     public void call(Subscriber<? super Void> subscriber) {
                         DataSupport.deleteAll(TingSong.class);
                         DataSupport.deleteAll(TingAudition.class);
+                        if (tingSongList.get(0) instanceof  LocalMusic){
+                            for (int i = 0; i < tingSongList.size(); i++) {
+                                TingSong tingSong = transferToTingSong((LocalMusic) tingSongList.get(i));
 
-                        for (int i = 0; i < tingSongList.size(); i++) {
-                            TingSong tingSong = tingSongList.get(i);
-                            List<TingAudition> tingAuditions = tingSong.getAuditionList();
-                            if (tingAuditions != null && tingAuditions.size() > 0) {
-                                for (int j = 0; j < tingAuditions.size(); j++) {
-                                    tingAuditions.get(j).save();
+                                List<TingAudition> tingAuditions = tingSong.getAuditionList();
+                                if (tingAuditions != null && tingAuditions.size() > 0) {
+                                    for (int j = 0; j < tingAuditions.size(); j++) {
+                                        tingAuditions.get(j).save();
+                                    }
                                 }
+                                tingSong.save();
                             }
-                            tingSong.save();
+                        }else {
+                            for (int i = 0; i < tingSongList.size(); i++) {
+                                TingSong tingSong = tingSongList.get(i);
+
+                                List<TingAudition> tingAuditions = tingSong.getAuditionList();
+                                if (tingAuditions != null && tingAuditions.size() > 0) {
+                                    for (int j = 0; j < tingAuditions.size(); j++) {
+                                        tingAuditions.get(j).save();
+                                    }
+                                }
+                                tingSong.save();
+                            }
                         }
+                    }
+                }).doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e("TAG","存储发生了错误,"+throwable.getMessage());
+                        throwable.printStackTrace();
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Void>() {
@@ -122,10 +163,38 @@ public class MusicBinder extends Binder implements IMusicBinder{
 
 
             }
+//            if (tingSongList.get(0) instanceof LocalMusic){
+//                iService.setPlayingMusicList(tingSongList,false);
+//            }else{
+//                iService.setPlayingMusicList(tingSongList,true);
+//            }
             iService.getPlayingMusicList().clear();
             iService.getPlayingMusicList().addAll(tingSongList);
+
         }
     }
+
+    private TingSong transferToTingSong(LocalMusic localMusic){
+        TingSong tingSong = new TingSong();
+        tingSong.setSongId(localMusic.getSongId());
+        tingSong.setName(localMusic.getTitle());
+        tingSong.setSingerName(localMusic.getSingerName());
+        tingSong.setSingerId(localMusic.getSingerId());
+        tingSong.setAlbumName(localMusic.getAlbumName());
+        tingSong.setAlbumId(localMusic.getAlbumId());
+        List<TingAudition> tingAuditionList = new ArrayList<>();
+        TingAudition tingAudition = new TingAudition();
+        tingAudition.setSize(localMusic.getSize());
+        tingAudition.setDuration(localMusic.getDuration());
+        tingAudition.setSuffix("mp3");
+        tingAudition.setUrl(localMusic.getData());
+        tingAudition.setTypeDescription("标准品质");
+        tingAudition.setBitRate(128);
+        tingAuditionList.add(tingAudition);
+        tingSong.setAuditionList(tingAuditionList);
+        return tingSong;
+    }
+
     @Override
     public List<TingSong> getMusicPlayList(){
         return iService.getPlayingMusicList();

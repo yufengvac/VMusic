@@ -5,7 +5,7 @@
               android:background="@color/colorWhite"
     android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/search_main_fragment_top_content"
+        android:id="@+id/down_music_fragment_top_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_height"
         android:background="@color/light_black"
@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/home_search_top_back_imageview"
+                android:id="@+id/down_music_top_back_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
