@@ -1,5 +1,7 @@
 package com.vac.vmusic.homefragment.childfragment.localmusicfragment.view;
 
+import android.content.Context;
+
 import com.vac.vmusic.views.MyScrollView;
 
 /**
@@ -8,4 +10,6 @@ import com.vac.vmusic.views.MyScrollView;
  */
 public interface ILocalMusicFragment  {
     MyScrollView getMyScrollView();
+    Context getMyContext();
+    void showNativeMusicCount(int num);
 }

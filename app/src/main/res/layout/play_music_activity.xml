@@ -160,16 +160,18 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/app_name"
+                    android:scaleType="center"
                     android:src="@drawable/icon_favor_music_no"/>
                 <ImageView
                     android:id="@+id/play_music_activity_mode_image_view"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/app_name"
+                    android:scaleType="center"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icon_mode_order_music"/>
 
@@ -177,24 +179,27 @@
                     android:id="@+id/play_music_activity_download_image_view"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/app_name"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/icon_download_music"
+                    android:scaleType="center"
                     android:clickable="true"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/app_name"
                     android:layout_gravity="center_vertical"
+                    android:scaleType="center"
                     android:src="@drawable/icon_share_music"/>
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="center"
                     android:src="@drawable/icon_songlist_music"/>
             </LinearLayout>
         </LinearLayout>

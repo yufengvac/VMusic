@@ -194,16 +194,13 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         myTriangle.setVisibility(View.GONE);
         myPauseButton.setVisibility(View.VISIBLE);
 
-//        if (operatingAnim!=null){
-//            singerLogo.startAnimation(operatingAnim);
+//        if (animator.isStarted()){
+//            if (animator.isPaused()){
+//                animator.resume();
+//            }
+//        }else {
+//            animator.start();
 //        }
-        if (animator.isStarted()){
-            if (animator.isPaused()){
-                animator.resume();
-            }
-        }else {
-            animator.start();
-        }
     }
 
     @Override
@@ -211,9 +208,9 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         myTriangle.setVisibility(View.VISIBLE);
         myPauseButton.setVisibility(View.GONE);
 
-        if (animator.isRunning()){
-            animator.pause();
-        }
+//        if (animator.isRunning()){
+//            animator.pause();
+//        }
     }
 
     @Override
@@ -232,10 +229,7 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     public void onNewSongPlayed(TingSong music, int position) {
         initPlayingBottom(music);
         myProgressbar.setProgress(0);
-//        if (operatingAnim!=null&&!operatingAnim.hasStarted()){
-//            singerLogo.startAnimation(operatingAnim);
-//        }
-        animator.start();
+//        animator.start();
 
     }
 

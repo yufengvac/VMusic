@@ -1,4 +1,4 @@
-package com.vac.vmusic.downmusic.view;
+package com.vac.vmusic.downmusicfragment.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

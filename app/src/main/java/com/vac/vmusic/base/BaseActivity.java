@@ -27,6 +27,7 @@ import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.swipebackbase.SwipeBackLayout;
 import com.vac.vmusic.utils.ContentProviderHelper;
+import com.vac.vmusic.utils.RxBus;
 
 
 /**
@@ -194,6 +195,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements DownLo
             localMusic.setData(sqlDownLoadInfo.getFilePath());
             localMusic.setDuration(tingSong.getAuditionList().get(0).getDuration());
             localMusic.save();
+
+            RxBus.get().post("downloadSong",tingSong.getSongId());
         }
 
     }

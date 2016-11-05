@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
+import com.vac.vmusic.downloadmanager.dbcontrol.FileHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +18,14 @@ import java.io.IOException;
  *
  */
 public class FileUtil {
+
+    /**
+     * 保存歌手写真图片
+     * @param singerName 歌手名
+     * @param picUrl 图片路径
+     * @param bmp bitmap
+     * @return true/false
+     */
     public static boolean saveBitmap(String singerName,String picUrl,Bitmap bmp){
         boolean b =false;
         String  rootPath = Constants.ROOT_PATH+Constants.CHILD_ARTIST_PIC+File.separator;
@@ -86,6 +96,22 @@ public class FileUtil {
         }
         String result = ACacheHelper.getInstance().getLyric(tingSong);
         return result!=null;
+    }
+
+    /**
+     * 歌曲是否已经被下载过
+     * @param tingSong 歌曲
+     * @return true/false
+     */
+    public static boolean isExistSong(TingSong tingSong){
+        if (tingSong.getAuditionList()!=null&&tingSong.getAuditionList().size()>0) {
+            TingAudition tingAudition = tingSong.getAuditionList().get(tingSong.getAuditionList().size() - 1);
+            String fileName = tingSong.getName() + "." + tingAudition.getSuffix();
+            String rootPath = FileHelper.getFileDefaultPath()+fileName;
+            File file = new File(rootPath);
+            return file.exists();
+        }
+        return false;
     }
 
     /**

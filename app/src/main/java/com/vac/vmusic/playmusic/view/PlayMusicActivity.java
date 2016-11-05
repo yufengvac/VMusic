@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,10 +15,8 @@ import android.widget.TextView;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseActivity;
-import com.vac.vmusic.beans.search.TingAudition;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
-import com.vac.vmusic.downloadmanager.dbcontrol.FileHelper;
 import com.vac.vmusic.playmusic.presenter.PlayMusicActivityPresenter;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.service.service.PlayService;
@@ -129,6 +126,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         imageView2.setBackgroundResource(R.drawable.default_music);
         bg1.setAlpha(255);
         bg2.setAlpha(255);
+        playMusicActivityPresenter.unSubScritionForDownload();
     }
 
     @Override
@@ -142,6 +140,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
             playOrPauseImageView.setImageResource(R.drawable.icon_play_pause);
         }
         playMusicActivityPresenter.loadArtistPic(tingSong.getSingerName());
+        playMusicActivityPresenter.checkIsDownloaded(tingSong);
     }
 
     @Override
@@ -238,22 +237,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.play_music_activity_download_image_view:
                 TingSong tingSong = musicBinder.getCurrentSong();
-                String taskID = tingSong.getSongId()+"";
-                if (tingSong.getAuditionList()!=null&&tingSong.getAuditionList().size()>0){
-                    TingAudition tingAudition = tingSong.getAuditionList().get(tingSong.getAuditionList().size()-1);
-                    String downUrl = tingAudition.getUrl();
-                    String fileName = tingSong.getName()+ "." +tingAudition.getSuffix();
-                    int state = downLoadManager.addTask(taskID, downUrl,fileName, FileHelper.getFileDefaultPath()+fileName);
-                    downLoadManager.setAllTaskListener(this);
-                    if (state==-1){
-                        Snackbar.make(view,"文件已存在!",Snackbar.LENGTH_LONG).show();
-                    }else if (state==1){
-                        Snackbar.make(view,"正在下载!",Snackbar.LENGTH_LONG).show();
-                    }
-                }else {
-                    Snackbar.make(view,"无法下载!",Snackbar.LENGTH_LONG).show();
-                }
-
+                playMusicActivityPresenter.downloadSong(tingSong);
                 break;
         }
     }
@@ -303,7 +287,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
             totalTimeTextView.setText(TimeUtil.formatTime(music.getAuditionList().get(0).getDuration()));
         }
         songNameTextView.setText(music.getName());
-
+        playMusicActivityPresenter.checkIsDownloaded(music);
     }
 
     @Override
@@ -330,6 +314,26 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         int duration = musicBinder.getCurrentSong().getAuditionList().get(0).getDuration();
         musicBinder.seekToSpecifiedPosition((int)(duration*percent));
         isSeeking = false;
+    }
+
+    @Override
+    public void songHasDownload() {
+        downloadImageView.setImageResource(R.drawable.icon_download_music_ed);
+    }
+
+    @Override
+    public void songNotDownload() {
+        downloadImageView.setImageResource(R.drawable.icon_download_music);
+    }
+
+    @Override
+    public View getSnakeBarView() {
+        return downloadImageView;
+    }
+
+    @Override
+    public TingSong getCurrentTingSong() {
+        return musicBinder.getCurrentSong();
     }
 }
 

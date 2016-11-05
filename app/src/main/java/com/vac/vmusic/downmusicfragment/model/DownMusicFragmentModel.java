@@ -1,14 +1,13 @@
-package com.vac.vmusic.downmusic.model;
+package com.vac.vmusic.downmusicfragment.model;
 
 import com.vac.vmusic.beans.LocalMusic;
+import com.vac.vmusic.callback.OnLocalMusicLoadListener;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,7 +42,5 @@ public class DownMusicFragmentModel {
         });
 
     }
-    public interface OnLocalMusicLoadListener{
-        void onLocalMusicLoadListener(List<LocalMusic> localMusics);
-    }
+
 }

@@ -1,6 +1,7 @@
 package com.vac.vmusic.playmusic.view;
 
 import android.content.Context;
+import android.view.View;
 
 import com.vac.vmusic.beans.search.TingSong;
 
@@ -13,4 +14,11 @@ public interface IPlayMusicActivity {
     void initMusicInfo(TingSong tingSong);
     Context getPlayMusicContext();
     void showArtistPic(String singerName);
+
+    void songNotDownload();
+    void songHasDownload();
+
+    View getSnakeBarView();
+
+    TingSong getCurrentTingSong();
 }

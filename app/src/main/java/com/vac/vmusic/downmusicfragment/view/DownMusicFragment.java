@@ -1,4 +1,4 @@
-package com.vac.vmusic.downmusic.view;
+package com.vac.vmusic.downmusicfragment.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.callback.OnItemClickListener;
-import com.vac.vmusic.downmusic.presenter.DownMusicFragmentPresenter;
+import com.vac.vmusic.downmusicfragment.presenter.DownMusicFragmentPresenter;
 import com.vac.vmusic.utils.HomeColorManager;
 
 /**

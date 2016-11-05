@@ -184,10 +184,16 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                 playSong();//开始播放音乐
                 Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲不 相同,播放用户请求的歌曲");
             }else {
-                //暂停播放音乐吧，由播放状态转成暂停状态
-                requestToPause();
-                Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲相同,暂停播放音乐吧，由播放状态转成暂停状态");
-                return;
+                if (mState == PlayMode.REPEAT_SINGLE){
+                    Log.i(TAG,"单曲循环");
+                    playSong();
+                }else {
+                    //暂停播放音乐吧，由播放状态转成暂停状态
+                    requestToPause();
+                    Log.d(TAG, "播放器处于播放状态,播放歌曲 和 当前播放歌曲相同,暂停播放音乐吧，由播放状态转成暂停状态");
+                    return;
+                }
+
             }
 
 //            if(mPlayingMusicPosition==mRequestMusicPosition){//用户请求的播放歌曲 和 当前播放歌曲相同
@@ -331,6 +337,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                         mRequestMusicPosition = (mPlayingMusicPosition + 1) % mPlayingMusicList.size();
                     }else{
                         mPlayer.setLooping(true);
+                        Log.i(TAG,"单曲循环,继续播放改曲");
                     }
                     break;
                 case PlayMode.SEQUENTIAL:

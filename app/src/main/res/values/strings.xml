@@ -25,4 +25,8 @@
     <string name="mode_sequential">顺序播放</string>
     <string name="mode_shuffle">随机播放</string>
 
+
+    <string name="shuffe_play">随机播放全部</string>
+    <string name="manager_song">管理</string>
+
 </resources>
