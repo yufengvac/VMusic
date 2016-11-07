@@ -9,11 +9,15 @@ public class ApiConstants {
     /**搜索的BASE URL*/
     public static final String SEARCH_BASE= "http://search.dongting.com/";
 
+    /**其他API接口*/
+    public static final String API_BASE = "http://api.dongting.com/";
 
     public static String getBaseUrl(int hostType){
         switch (hostType){
             case  HostType.HOST_TYPE_SEARCH:
                 return SEARCH_BASE;
+            case HostType.HOST_TYPE_WALLPAPER:
+                return API_BASE;
         }
         return "";
     }

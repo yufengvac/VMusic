@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
@@ -44,6 +45,27 @@ public class ViewUtil {
         activity.getWindow().setAttributes(attrs);
     }
 
+    /**
+     * 获取StatusBar的高度
+     * @param mActivity activity
+     * @return 高度
+     */
+    public static int getStatusBarHeight(Activity mActivity) {
+        Resources resources = mActivity.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+        return resources.getDimensionPixelSize(resourceId);
+    }
+
+    /**
+     * 获取底部navigationBar的高度
+     * @param mActivity activity
+     * @return 高度
+     */
+    public static int getNavigationBarHeight(Activity mActivity) {
+        Resources resources = mActivity.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height","dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
+    }
     /**
      * 生成一个和状态栏大小相同的矩形条
      *

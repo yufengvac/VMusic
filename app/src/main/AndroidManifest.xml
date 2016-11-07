@@ -28,6 +28,8 @@
         <activity android:name=".playmusicqueue.view.MusicQueueActivity"
             android:theme="@style/BaseAppTheme.Dialog"/>
         <service android:name=".service.service.PlayService"/>
+        <activity android:name=".skinfragment.activity.view.SkinActivity"
+            android:theme="@style/BaseAppTheme.Dialog"/>
     </application>
 
 </manifest>

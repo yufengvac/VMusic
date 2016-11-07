@@ -3,9 +3,11 @@ package com.vac.vmusic.playmusicqueue.view;
 import android.app.ActionBar;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +22,7 @@ import com.vac.vmusic.playmusicqueue.adapter.MusicQueueAdapter;
 import com.vac.vmusic.playmusicqueue.presenter.MusicQueueActivityPresenter;
 import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.service.service.PlayService;
+import com.vac.vmusic.utils.ViewUtil;
 
 /**
  * Created by vac on 16/10/25.
@@ -72,7 +75,7 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         View view = getWindow().getDecorView();
-        view.setPadding(0, 0, 0, 0);
+        view.setPadding(0, 0, 0, ViewUtil.getNavigationBarHeight(this));
         WindowManager.LayoutParams lp = (WindowManager.LayoutParams) view.getLayoutParams();
         lp.gravity = Gravity.BOTTOM;
         lp.x = 0;

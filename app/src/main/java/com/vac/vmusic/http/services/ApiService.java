@@ -12,6 +12,8 @@ import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
 import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
+import com.vac.vmusic.beans.skin.HttpSkin;
+import com.vac.vmusic.beans.skin.Skin;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,7 +25,7 @@ import rx.Observable;
  * Created by vac on 16/10/15.
  * SearchService
  */
-public interface SearchService {
+public interface ApiService {
 
     /****
      * 搜索单曲
@@ -115,4 +117,13 @@ public interface SearchService {
      */
     @GET("lyric/content/old")
     Observable<String> searchLyric(@Header("Cache-Control") String cacheControl,@Query("lrcid") long lyricId);
+
+
+    /**
+     * 获取壁纸皮肤
+     * @param cacheControl 缓存控制
+     * @return Observable
+     */
+    @GET("misc/wallpaper/wallpapers")
+    Observable<HttpSkin<Skin>> getWallpager(@Header("Cache-Control") String cacheControl);
 }

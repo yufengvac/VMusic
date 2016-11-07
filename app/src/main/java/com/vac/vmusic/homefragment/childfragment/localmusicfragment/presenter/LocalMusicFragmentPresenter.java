@@ -5,6 +5,8 @@ import com.vac.vmusic.callback.OnLocalMusicLoadListener;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.model.LocalMusicFragmentModel;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.view.ILocalMusicFragment;
 import com.vac.vmusic.utils.RxBus;
+import com.vac.vmusic.views.BounceScrollView;
+import com.vac.vmusic.views.DampView;
 import com.vac.vmusic.views.MyScrollView;
 
 import java.util.List;
@@ -22,8 +24,8 @@ public class LocalMusicFragmentPresenter implements OnLocalMusicLoadListener{
     }
 
     public void watchMyScrollView(){
-        MyScrollView myScrollView = iLocalMusicFragment.getMyScrollView();
-        myScrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
+        BounceScrollView myScrollView = iLocalMusicFragment.getMyScrollView();
+        myScrollView.setOnScrollListener(new BounceScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
                 RxBus.get().post("scrollY",scrollY);

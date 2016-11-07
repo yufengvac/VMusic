@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="壁纸精选"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="更多"
+            android:textColor="@color/colorBlack" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/change_skin_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible" />
+
+        <RadioGroup
+            android:id="@+id/change_skin_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+
+           <!-- <RadioButton
+                android:id="@+id/change_skin_rb1"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:checked="true"
+                android:background="@drawable/selector_indicator_skin"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/change_skin_rb2"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:background="@drawable/selector_indicator_skin"
+                android:button="@null"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <RadioButton
+                android:id="@+id/change_skin_rb3"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:background="@drawable/selector_indicator_skin"
+                android:button="@null" />-->
+        </RadioGroup>
+        <!--<com.vac.musicplayer.myview.HorizonListView
+            android:id="@+id/change_skin_horizonListview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+        </com.vac.musicplayer.myview.HorizonListView>-->
+
+        <ProgressBar
+            android:id="@+id/change_skin_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+        <!--<com.vac.musicplayer.myview.ColorPickerView
+            android:id="@+id/change_skin_colorpicker"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />-->
+    </LinearLayout>
+</LinearLayout>
