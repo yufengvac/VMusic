@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
+import com.vac.vmusic.skinfragment.fragments.presenter.SkinFragmentPresenter;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.utils.RxBus;
 
@@ -19,9 +20,10 @@ import java.util.concurrent.ExecutionException;
  * Created by vac on 16/11/7.
  *
  */
-public class SkinFragment extends BaseSwipeBackFragment implements View.OnClickListener{
+public class SkinFragment extends BaseSwipeBackFragment implements View.OnClickListener,ISkinFragment{
     private ImageView imageView1,imageView2,imageView3;
     private  String url1,url2,url3;
+    private SkinFragmentPresenter skinFragmentPresenter;
     public static SkinFragment getSkinFragment(Bundle bundle){
         SkinFragment skinFragment = new SkinFragment();
         if (bundle!=null){
@@ -62,46 +64,23 @@ public class SkinFragment extends BaseSwipeBackFragment implements View.OnClickL
            }
 
         }
+
+        skinFragmentPresenter = new SkinFragmentPresenter(this);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        HomeColorManager homeColorManager = new HomeColorManager();
-
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    Bitmap bitmap = Glide.with(getActivity()).load(url1).asBitmap().centerCrop().into(30,30).get();
-                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                        @Override
-                        public void onGenerated(Palette palette) {
-                            Palette.Swatch vibrantSwatch =  palette.getVibrantSwatch();
-                            int rgb = vibrantSwatch.getRgb();
-                            Log.i("SkinFragment","充满活力的色调是:"+rgb+",亮色调:"+palette.getLightVibrantSwatch().getRgb()
-                                    +",暗色调:"+palette.getDarkVibrantSwatch().getRgb()+"----"
-                                    +",柔和 色调:"+palette.getMutedSwatch().getRgb()+",柔和的 亮色调:"+palette.getLightMutedSwatch().getRgb()
-                                    +",柔和的 暗色调:"+palette.getDarkMutedSwatch().getRgb());
-                            RxBus.get().post("color",rgb);
-                        }
-                    });
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }catch (ExecutionException e){
-                    e.printStackTrace();
-                }
-
-            }
-        }.start();
 
         switch (id){
             case R.id.skin_imageview_1:
-
+                skinFragmentPresenter.updateHomeColor(getActivity(),url1);
                 break;
             case R.id.skin_imageview_2:
+                skinFragmentPresenter.updateHomeColor(getActivity(),url2);
                 break;
             case R.id.skin_imageview_3:
+                skinFragmentPresenter.updateHomeColor(getActivity(),url3);
                 break;
         }
     }

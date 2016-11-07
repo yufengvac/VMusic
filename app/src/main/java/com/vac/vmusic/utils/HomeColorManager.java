@@ -15,19 +15,34 @@ public class HomeColorManager {
     private HomeColor homeColor;
     private float scale;
 
-    private int currentAlpha,currentRed,currentGreen,currentBlue;
+    private int currentAlpha=0,currentRed=0,currentGreen=0,currentBlue=0;
     public HomeColorManager(){
-        homeColor = new HomeColor();
-        homeColor.setAlpha(0xff);
-        homeColor.setRed(0xff);
-        homeColor.setGreen(0x55);
-        homeColor.setBlue(0x0);
+        if (homeColor==null){
+            homeColor = new HomeColor();
+            homeColor.setAlpha(0xff);
+            int color = PreferHelper.getLastColor();
+            homeColor.setRed((color & 0xff0000) >> 16);
+            homeColor.setGreen((color&0x00ff00) >> 8);
+            homeColor.setBlue(color & 0x0000ff);
+        }
 
-        currentAlpha = homeColor.getAlpha();
-        currentRed = homeColor.getRed();
-        currentGreen = homeColor.getGreen();
-        currentBlue = homeColor.getBlue();
+        if (currentAlpha==0&&currentRed==0&&currentGreen==0&&currentBlue==0){
+            setCurrentColor(PreferHelper.getLastColor());
+        }
     }
+
+    public void setCurrentColor(int color){
+        currentAlpha = 0xff;
+        currentRed = (color & 0xff0000) >> 16;
+        currentGreen = (color&0x00ff00) >> 8;
+        currentBlue = (color & 0x0000ff);
+        PreferHelper.saveLastColor(currentRed,currentGreen,currentBlue);
+        homeColor.setAlpha(currentAlpha);
+        homeColor.setRed(currentRed);
+        homeColor.setGreen(currentGreen);
+        homeColor.setBlue(currentBlue);
+    }
+
     public int transferColorByScroll(int scrollY){
         if (scrollY<=BASEHEIGHT&&scrollY>0){
             scale = scrollY*1f/BASEHEIGHT;
@@ -60,6 +75,10 @@ public class HomeColorManager {
 
     public int getCurrentColor(){
         return Color.argb(currentAlpha,currentRed,currentGreen,currentBlue);
+    }
+
+    public int getCurrentLightColor(){
+        return Color.argb(0xaa,currentRed,currentGreen,currentBlue);
     }
 
     public float getScale(){

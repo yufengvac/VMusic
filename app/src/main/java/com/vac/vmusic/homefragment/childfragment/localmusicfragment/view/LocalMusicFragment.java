@@ -5,16 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.AddFragment;
+import com.vac.vmusic.beans.skin.Skin;
+import com.vac.vmusic.beans.skin.SkinPalette;
 import com.vac.vmusic.downmusicfragment.view.DownMusicFragment;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.presenter.LocalMusicFragmentPresenter;
 import com.vac.vmusic.nativemusicfragment.view.NativeMusicFragment;
 import com.vac.vmusic.skinfragment.activity.view.SkinActivity;
+import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.utils.RxBus;
 import com.vac.vmusic.views.BounceScrollView;
 import com.vac.vmusic.views.DampView;
@@ -30,6 +34,7 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
 
     private BounceScrollView myScrollView;
     private RelativeLayout module_1,module_2,module_3,module_4;
+    private LinearLayout favor_linear,song_list_linear;
     private TextView nativeMusicCountTextView;
     public static LocalMusicFragment getLocalMusicFragment(Bundle bundle){
         LocalMusicFragment localMusicFragment = new LocalMusicFragment();
@@ -62,6 +67,8 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
         bg.setOnClickListener(this);
         bg1.setOnClickListener(this);
 
+        favor_linear = (LinearLayout) view.findViewById(R.id.local_music_fra_module_favor);
+        song_list_linear = (LinearLayout) view.findViewById(R.id.local_music_fra_crate_songlist);
 
         LocalMusicFragmentPresenter localMusicFragmentPresenter = new LocalMusicFragmentPresenter(this);
         localMusicFragmentPresenter.watchMyScrollView();
@@ -70,10 +77,32 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
 
         myScrollView.setImageView(bg1);
 
-        RxBus.get().register("color",Integer.class).subscribe(new Action1<Integer>() {
+        RxBus.get().register("color",SkinPalette.class).subscribe(new Action1<SkinPalette>() {
             @Override
-            public void call(Integer integer) {
-                module_1.setBackgroundColor(integer);
+            public void call(SkinPalette skinPalette) {
+//                if (skinPalette.getLightVibrantSwatchRgb()!=-1){
+//                    module_2.setBackgroundColor(skinPalette.getVibrantSwatchRgb());
+//                    module_3.setBackgroundColor(skinPalette.getVibrantSwatchRgb());
+//                }else if (skinPalette.getMutedSwatchRgb()!=-1){
+//                    module_2.setBackgroundColor(skinPalette.getMutedSwatchRgb());
+//                    module_3.setBackgroundColor(skinPalette.getMutedSwatchRgb());
+//                }
+//                if (skinPalette.getDarkVibrantSwatchRgb()!=-1){
+//                    module_1.setBackgroundColor(skinPalette.getDarkVibrantSwatchRgb());
+//                    module_4.setBackgroundColor(skinPalette.getDarkVibrantSwatchRgb());
+//                }else {
+//                    module_1.setBackgroundColor(skinPalette.getDarkMutedSwatchRgb());
+//                    module_4.setBackgroundColor(skinPalette.getDarkMutedSwatchRgb());
+//                }
+
+                module_1.setBackgroundColor(new HomeColorManager().getCurrentColor());
+                module_4.setBackgroundColor(new HomeColorManager().getCurrentColor());
+
+                module_2.setBackgroundColor(new HomeColorManager().getCurrentLightColor());
+                module_3.setBackgroundColor(new HomeColorManager().getCurrentLightColor());
+
+                favor_linear.setBackgroundColor(new HomeColorManager().getCurrentColor());
+                song_list_linear.setBackgroundColor(new HomeColorManager().getCurrentColor());
             }
         });
     }
