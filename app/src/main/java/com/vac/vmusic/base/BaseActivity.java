@@ -132,7 +132,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements DownLo
         //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         //设置状态栏颜色
-        window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        window.setStatusBarColor(getResources().getColor(R.color.colorAccent));
 
 
         ViewGroup mContentView = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);

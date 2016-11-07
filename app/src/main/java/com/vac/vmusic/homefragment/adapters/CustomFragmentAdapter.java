@@ -22,6 +22,7 @@ public class CustomFragmentAdapter extends FragmentPagerAdapter {
         if (swipeBackFragments!=null){
             mData.clear();
             mData.addAll(swipeBackFragments);
+            notifyDataSetChanged();
         }
     }
 

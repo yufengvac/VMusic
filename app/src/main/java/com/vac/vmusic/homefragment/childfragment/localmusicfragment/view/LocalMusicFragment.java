@@ -1,8 +1,10 @@
 package com.vac.vmusic.homefragment.childfragment.localmusicfragment.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,8 +14,13 @@ import com.vac.vmusic.beans.AddFragment;
 import com.vac.vmusic.downmusicfragment.view.DownMusicFragment;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.presenter.LocalMusicFragmentPresenter;
 import com.vac.vmusic.nativemusicfragment.view.NativeMusicFragment;
+import com.vac.vmusic.skinfragment.activity.view.SkinActivity;
 import com.vac.vmusic.utils.RxBus;
+import com.vac.vmusic.views.BounceScrollView;
+import com.vac.vmusic.views.DampView;
 import com.vac.vmusic.views.MyScrollView;
+
+import rx.functions.Action1;
 
 /**
  * Created by vac on 16/10/22.
@@ -21,7 +28,7 @@ import com.vac.vmusic.views.MyScrollView;
  */
 public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalMusicFragment,View.OnClickListener{
 
-    private MyScrollView myScrollView;
+    private BounceScrollView myScrollView;
     private RelativeLayout module_1,module_2,module_3,module_4;
     private TextView nativeMusicCountTextView;
     public static LocalMusicFragment getLocalMusicFragment(Bundle bundle){
@@ -39,7 +46,7 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
 
     @Override
     public void initView(View view) {
-        myScrollView = (MyScrollView) view.findViewById(R.id.local_music_fra_scrollView);
+        myScrollView = (BounceScrollView) view.findViewById(R.id.local_music_fra_scrollView);
 
         module_1 = (RelativeLayout) view.findViewById(R.id.local_music_fra_module_1);
         module_2 = (RelativeLayout) view.findViewById(R.id.local_music_fra_module_2);
@@ -50,13 +57,29 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
 
         nativeMusicCountTextView = (TextView) view.findViewById(R.id.local_music_fra_totalnumber);
 
+        ImageView bg = (ImageView) view.findViewById(R.id.local_music_bg);
+        ImageView bg1 = (ImageView) view.findViewById(R.id.local_music_bg1);
+        bg.setOnClickListener(this);
+        bg1.setOnClickListener(this);
+
+
         LocalMusicFragmentPresenter localMusicFragmentPresenter = new LocalMusicFragmentPresenter(this);
         localMusicFragmentPresenter.watchMyScrollView();
         localMusicFragmentPresenter.getNativeMusicCount();
+
+
+        myScrollView.setImageView(bg1);
+
+        RxBus.get().register("color",Integer.class).subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer integer) {
+                module_1.setBackgroundColor(integer);
+            }
+        });
     }
 
     @Override
-    public MyScrollView getMyScrollView() {
+    public BounceScrollView getMyScrollView() {
         return myScrollView;
     }
 
@@ -90,6 +113,10 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
             case R.id.local_music_fra_module_3:
                 break;
             case R.id.local_music_fra_module_4:
+                break;
+            case R.id.local_music_bg:
+            case R.id.local_music_bg1:
+                startActivity(new Intent(getActivity(), SkinActivity.class));
                 break;
         }
     }

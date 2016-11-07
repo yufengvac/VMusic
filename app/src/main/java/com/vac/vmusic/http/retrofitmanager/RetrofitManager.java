@@ -1,6 +1,5 @@
 package com.vac.vmusic.http.retrofitmanager;
 
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
@@ -18,8 +17,10 @@ import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
 import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
+import com.vac.vmusic.beans.skin.HttpSkin;
+import com.vac.vmusic.beans.skin.Skin;
 import com.vac.vmusic.http.apiconstant.ApiConstants;
-import com.vac.vmusic.http.services.SearchService;
+import com.vac.vmusic.http.services.ApiService;
 import com.vac.vmusic.utils.Constants;
 import com.vac.vmusic.utils.NetUtil;
 
@@ -40,7 +41,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -69,7 +69,7 @@ public class RetrofitManager {
 
     private static volatile OkHttpClient sOkHttpClient;
 
-    private SearchService mSearchService;
+    private ApiService mApiService;
 
     private RetrofitManager(){}
     public static RetrofitManager getInstance(int hostType){
@@ -102,7 +102,7 @@ public class RetrofitManager {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
                 .client(getOkHttpClient()).addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-        mSearchService = retrofit.create(SearchService.class);
+        mApiService = retrofit.create(ApiService.class);
     }
 
     private RetrofitManager(int hostType,String tag){
@@ -110,12 +110,12 @@ public class RetrofitManager {
             Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
                     .client(getOkHttpClient()).addConverterFactory(SimpleXmlConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-            mSearchService = retrofit.create(SearchService.class);
+            mApiService = retrofit.create(ApiService.class);
         }else if (tag.equals("string")){
             Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.getBaseUrl(hostType))
                     .client(getOkHttpClient()).addConverterFactory(ScalarsConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-            mSearchService = retrofit.create(SearchService.class);
+            mApiService = retrofit.create(ApiService.class);
         }
 
     }
@@ -211,7 +211,7 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<HttpResult<TingSong>> searchSong(int size, int page, String q){
-       return mSearchService.searchSong(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
+       return mApiService.searchSong(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -224,7 +224,7 @@ public class RetrofitManager {
      *
      */
     public Observable<HttpResult<TingAlbum>> searchAlbum(int size, int page, String q){
-        return mSearchService.searchAlbum(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
+        return mApiService.searchAlbum(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -236,12 +236,12 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<HttpResultPlus<TingSongList>> searchSongList(int size, int page, String q){
-        return mSearchService.searchSongList(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
+        return mApiService.searchSongList(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
     public Observable<HttpResultPlus<TingSearchMV>> searchMV(int size, int page, String q){
-        return mSearchService.searchMV(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
+        return mApiService.searchMV(getCacheControl(),size,page,q).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -251,7 +251,7 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<HttpResultPlus<TingArtist>> searchArtist(String q){
-        return mSearchService.searchArtist(getCacheControl(),1,q).subscribeOn(Schedulers.io())
+        return mApiService.searchArtist(getCacheControl(),1,q).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -261,7 +261,7 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<HttpResultPic<ArtistPic<PicUrls>>> searchArtistPics(String artist){
-        return mSearchService.searchArtistPic(getCacheControl(),artist).subscribeOn(Schedulers.io())
+        return mApiService.searchArtistPic(getCacheControl(),artist).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -274,7 +274,7 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<LyricDataXml> searchLyricIds(String songName, String singerName, long songId, long singerId){
-        return mSearchService.searchLyricIds(getCacheControl(),songName,singerName,songId,singerId).subscribeOn(Schedulers.io())
+        return mApiService.searchLyricIds(getCacheControl(),songName,singerName,songId,singerId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).unsubscribeOn(Schedulers.io());
     }
 
@@ -284,7 +284,16 @@ public class RetrofitManager {
      * @return Observable
      */
     public Observable<String> searchLyricContent(long lyricId){
-        return mSearchService.searchLyric(getCacheControl(),lyricId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        return mApiService.searchLyric(getCacheControl(),lyricId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * 获取首页的壁纸皮肤
+     * @return Observable
+     */
+    public Observable<HttpSkin<Skin>> getWallPager(){
+        return mApiService.getWallpager(getCacheControl()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
