@@ -110,7 +110,12 @@ public class MusicBinder extends Binder implements IMusicBinder{
                     tingAuditionList.add(tingAudition);
                     tingSongList.get(i).setAuditionList(tingAuditionList);
                     tingSongList.get(i).setName(((LocalMusic)tingSongList.get(i)).getTitle());
-                    tingSongList.get(i).setSongId(((LocalMusic)tingSongList.get(i)).getId());
+                    if (((LocalMusic)tingSongList.get(i)).getId()>0){
+                        tingSongList.get(i).setSongId(((LocalMusic)tingSongList.get(i)).getId());
+                    }else {
+                        tingSongList.get(i).setSongId((tingSongList.get(i)).getSongId());
+                    }
+
                 }
             }
 

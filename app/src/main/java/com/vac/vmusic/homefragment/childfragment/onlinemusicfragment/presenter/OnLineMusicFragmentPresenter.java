@@ -5,6 +5,7 @@ import android.util.Log;
 import com.vac.vmusic.beans.discover.DiscoverColumn;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
 import com.vac.vmusic.callback.RequestCallback;
+import com.vac.vmusic.homefragment.childfragment.localmusicfragment.adapter.HotSongListAdapter;
 import com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.model.OnLineMusicFragmentModel;
 import com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.view.IOnLineMusicFragment;
 import com.vac.vmusic.utils.RxBus;
@@ -37,6 +38,17 @@ public class OnLineMusicFragmentPresenter implements RequestCallback<DiscoverCol
         onLineMusicFragmentModel.getDiscoverData(this);
     }
 
+    public void setHotSongListGridView(List<DiscoverColumnData> hotSongListData){
+        HotSongListAdapter hotSongListAdapter = new HotSongListAdapter(iOnLineMusicFragment.getMyContext());
+        iOnLineMusicFragment.getHotSongListGridView().setAdapter(hotSongListAdapter);
+        hotSongListAdapter.setData(hotSongListData);
+    }
+    public void setPhoneGridView(List<DiscoverColumnData> hotSongListData){
+        HotSongListAdapter hotSongListAdapter = new HotSongListAdapter(iOnLineMusicFragment.getMyContext());
+        iOnLineMusicFragment.getPhoneGridView().setAdapter(hotSongListAdapter);
+        hotSongListAdapter.setData(hotSongListData);
+    }
+
     @Override
     public void beforeRequest() {
 
@@ -58,7 +70,14 @@ public class OnLineMusicFragmentPresenter implements RequestCallback<DiscoverCol
         List<DiscoverColumnData> channelDataList = data.get(1).getData();
         iOnLineMusicFragment.showChannel(channelDataList);
 
+
+        setHotSongListGridView(data.get(3).getData());
+
+        setPhoneGridView(data.get(4).getData());
+        iOnLineMusicFragment.showRecommend(data.get(5).getData());
         iOnLineMusicFragment.showEveryOneListener(data.get(2).getData());
+
+
     }
 
     @Override

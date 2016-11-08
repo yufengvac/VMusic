@@ -85,11 +85,11 @@ public class HomeColorManager {
     }
 
     public int getCurrentColor(){
-        return Color.argb(currentAlpha,currentRed,currentGreen,currentBlue);
+        return Color.argb(0xff,homeColor.getRed(),homeColor.getGreen(),homeColor.getBlue());
     }
 
     public int getCurrentLightColor(){
-        return Color.argb(0xaa,currentRed,currentGreen,currentBlue);
+        return Color.argb(0xaa,homeColor.getRed(),homeColor.getGreen(),homeColor.getBlue());
     }
 
     public float getScale(){

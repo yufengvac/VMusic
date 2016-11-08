@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/app_name"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:visibility="visible"/>
 
             <!--排行榜 歌单 电台 歌手-->
@@ -436,11 +436,17 @@
                         android:text="更多"/>
                 </LinearLayout>
 
-                <GridView
+                <com.vac.vmusic.views.MyGridView
                     android:id="@+id/online_music_fragment_hot_song_list_grid_view"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:numColumns="3"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:verticalSpacing="@dimen/activity_padding"
+                    android:numColumns="3"
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -490,10 +496,15 @@
                         android:text="更多"/>
                 </LinearLayout>
 
-                <GridView
+                <com.vac.vmusic.views.MyGridView
                     android:id="@+id/online_music_fragment_phone_song_list_grid_view"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:verticalSpacing="@dimen/activity_padding"
                     android:numColumns="3"/>
 
                 <View
@@ -555,6 +566,7 @@
                         android:id="@+id/online_music_fragment_recommend_logo1"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/default_music"/>
 
                     <RelativeLayout
@@ -573,6 +585,7 @@
                             android:textSize="@dimen/base_text_size"/>
 
                         <TextView
+                            android:id="@+id/online_music_fragment_recommend_desc1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/online_music_fragment_recommend_title1"
@@ -599,6 +612,7 @@
                         android:id="@+id/online_music_fragment_recommend_logo2"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/default_music"/>
 
                     <RelativeLayout
@@ -617,6 +631,7 @@
                             android:textSize="@dimen/base_text_size"/>
 
                         <TextView
+                            android:id="@+id/online_music_fragment_recommend_desc2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/online_music_fragment_recommend_title2"
@@ -643,6 +658,7 @@
                         android:id="@+id/online_music_fragment_recommend_logo3"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/default_music"/>
 
                     <RelativeLayout
@@ -661,6 +677,7 @@
                             android:textSize="@dimen/base_text_size"/>
 
                         <TextView
+                            android:id="@+id/online_music_fragment_recommend_desc3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/online_music_fragment_recommend_title3"

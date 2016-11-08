@@ -1,9 +1,11 @@
 package com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.view;
 
+import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +39,12 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
     qualityImageView1,qualityImageView2,qualityImageView3;
     private TextView everyoneNameTextView1,everyoneNameTextView2,everyoneNameTextView3,
     everyoneSingerTextView1,everyoneSingerTextView2,everyoneSingerTextView3;
+
+    private GridView hotSongListGridView,phoneGridView;
+
+    private ImageView recommendImageView1,recommendImageView2,recommendImageView3;
+    private TextView recommendTitleTextView1,recommendTitleTextView2,recommendTitleTextView3;
+    private TextView recommendDescTextView1,recommendDescTextView2,recommendDescTextView3;
 
     public static OnLineMusicFragment getOnLineMusicFragment(Bundle bundle){
         OnLineMusicFragment onLineMusicFragment = new OnLineMusicFragment();
@@ -80,6 +88,19 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
         everyoneSingerTextView2 = (TextView) view.findViewById(R.id.online_music_fragment_everyone_listen_singer2);
         everyoneSingerTextView3 = (TextView) view.findViewById(R.id.online_music_fragment_everyone_listen_singer3);
 
+        recommendImageView1 = (ImageView) view.findViewById(R.id.online_music_fragment_recommend_logo1);
+        recommendImageView2 = (ImageView) view.findViewById(R.id.online_music_fragment_recommend_logo2);
+        recommendImageView3 = (ImageView) view.findViewById(R.id.online_music_fragment_recommend_logo3);
+        recommendTitleTextView1 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_title1);
+        recommendTitleTextView2 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_title2);
+        recommendTitleTextView3 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_title3);
+        recommendDescTextView1 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_desc1);
+        recommendDescTextView2 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_desc2);
+        recommendDescTextView3 = (TextView) view.findViewById(R.id.online_music_fragment_recommend_desc3);
+
+        hotSongListGridView  = (GridView) view.findViewById(R.id.online_music_fragment_hot_song_list_grid_view);
+        phoneGridView = (GridView) view.findViewById(R.id.online_music_fragment_phone_song_list_grid_view);
+
         colorObservable = RxBus.get().register("pageOffsetColor",Integer.class);
         OnLineMusicFragmentPresenter onLineMusicFragmentPresenter = new OnLineMusicFragmentPresenter(this);
         onLineMusicFragmentPresenter.watchTopViewColorByScroll();
@@ -90,6 +111,7 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
     public void showBanner(String url, String linkUrl) {
         Glide.with(getActivity()).load(url).centerCrop().into(bannerImageView);
     }
+
 
     @Override
     public void showChannel(List<DiscoverColumnData> channelList) {
@@ -118,7 +140,56 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
             everyoneSingerTextView1.setText(tingSongList.get(0).getSingerName());
             everyoneSingerTextView2.setText(tingSongList.get(1).getSingerName());
             everyoneSingerTextView3.setText(tingSongList.get(2).getSingerName());
+            if (tingSongList.get(0).getLlList()!=null&&tingSongList.get(0).getLlList().size()>0){
+                qualityImageView1.setImageResource(R.drawable.icon_sq);
+            }else if (tingSongList.get(0).getAuditionList()!=null&&tingSongList.get(0).getAuditionList().size()==3){
+                qualityImageView1.setImageResource(R.drawable.icon_hq);
+            }else {
+                qualityImageView1.setVisibility(View.GONE);
+            }
+            if (tingSongList.get(1).getLlList()!=null&&tingSongList.get(1).getLlList().size()>0){
+                qualityImageView2.setImageResource(R.drawable.icon_sq);
+            }else if (tingSongList.get(1).getAuditionList()!=null&&tingSongList.get(1).getAuditionList().size()==3){
+                qualityImageView2.setImageResource(R.drawable.icon_hq);
+            }else {
+                qualityImageView2.setVisibility(View.GONE);
+            }
+            if (tingSongList.get(3).getLlList()!=null&&tingSongList.get(3).getLlList().size()>0){
+                qualityImageView3.setImageResource(R.drawable.icon_sq);
+            }else if (tingSongList.get(3).getAuditionList()!=null&&tingSongList.get(3).getAuditionList().size()==3){
+                qualityImageView3.setImageResource(R.drawable.icon_hq);
+            }else {
+                qualityImageView3.setVisibility(View.GONE);
+            }
         }
+    }
+
+    @Override
+    public void showRecommend(List<DiscoverColumnData> recommendList) {
+        Glide.with(getActivity()).load(recommendList.get(0).getPicUrl()).centerCrop().into(recommendImageView1);
+        Glide.with(getActivity()).load(recommendList.get(1).getPicUrl()).centerCrop().into(recommendImageView2);
+        Glide.with(getActivity()).load(recommendList.get(2).getPicUrl()).centerCrop().into(recommendImageView3);
+        recommendTitleTextView1.setText(recommendList.get(0).getName());
+        recommendTitleTextView2.setText(recommendList.get(1).getName());
+        recommendTitleTextView3.setText(recommendList.get(2).getName());
+        recommendDescTextView1.setText(recommendList.get(0).getDesc());
+        recommendDescTextView2.setText(recommendList.get(1).getDesc());
+        recommendDescTextView3.setText(recommendList.get(2).getDesc());
+    }
+
+    @Override
+    public GridView getHotSongListGridView() {
+        return hotSongListGridView;
+    }
+
+    @Override
+    public GridView getPhoneGridView() {
+        return phoneGridView;
+    }
+
+    @Override
+    public Context getMyContext() {
+        return getActivity();
     }
 
     @Override
