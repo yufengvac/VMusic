@@ -23,6 +23,7 @@ import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseActivity;
 import com.vac.vmusic.beans.AddFragment;
 import com.vac.vmusic.beans.search.TingSong;
+import com.vac.vmusic.beans.skin.SkinPalette;
 import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.downloadmanager.SQLDownLoadInfo;
 import com.vac.vmusic.homemain.presenter.MainActivityPresenter;
@@ -41,6 +42,8 @@ import com.vac.vmusic.views.MyTriangle;
 import java.util.List;
 
 import rx.Observable;
+import rx.functions.Action1;
+
 @SuppressWarnings("NewApi")
 public class MainActivity extends BaseActivity implements IMainActivity , OnPlayMusicStateListener ,View.OnClickListener{
 
@@ -90,11 +93,7 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         myTriangle = (MyTriangle)findViewById(R.id.main_play_mytriangle);
         myPauseButton = (MyPauseButton) findViewById(R.id.main_play_pause_mypausebtn);
         myMenuButton = (MyMenuButton) findViewById(R.id.main_menu_mymenubtn);
-        HomeColorManager homeColorManager = new HomeColorManager();
-        myTriangle.setColor(homeColorManager.getCurrentColor());
-        myPauseButton.setColor(homeColorManager.getCurrentColor());
-        myMenuButton.setColor(homeColorManager.getCurrentColor());
-        myProgressbar.setProgressColor(homeColorManager.getCurrentColor());
+        initColor();
 
         addFragmentObservable = RxBus.get().register("addFragment", AddFragment.class);
         mainActivityPresenter = new MainActivityPresenter(this);
@@ -109,12 +108,27 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         animator.setRepeatCount(-1);
         animator.setRepeatMode(ValueAnimator.RESTART);
         animator.setInterpolator(new LinearInterpolator());
+
+        RxBus.get().register("color", SkinPalette.class).subscribe(new Action1<SkinPalette>() {
+            @Override
+            public void call(SkinPalette skinPalette) {
+                initColor();
+            }
+        });
     }
 
     @Override
     public void initService() {
         startService(new Intent(this, PlayService.class));
         bindService(new Intent(this, PlayService.class),mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void initColor() {
+        myTriangle.setColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+        myPauseButton.setColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+        myMenuButton.setColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+        myProgressbar.setProgressColor(HomeColorManager.getHomeColorManager().getCurrentColor());
     }
 
     @Override

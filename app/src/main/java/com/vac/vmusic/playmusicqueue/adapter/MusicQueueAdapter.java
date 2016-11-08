@@ -35,7 +35,7 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
     public MusicQueueAdapter(Context context,OnItemClickListener onItemClickListener_){
         this.mContext = context;
         this.onItemClickListener = onItemClickListener_;
-        color = new HomeColorManager().getCurrentColor();
+        color = HomeColorManager.getHomeColorManager().getCurrentColor();
     }
 
     public void setData(List<TingSong> tingSongs){

@@ -12,23 +12,34 @@ import com.vac.vmusic.beans.HomeColor;
 public class HomeColorManager {
 
     private static final int BASEHEIGHT = 300;
-    private HomeColor homeColor;
+    private  static HomeColor homeColor;
     private float scale;
 
-    private int currentAlpha=0,currentRed=0,currentGreen=0,currentBlue=0;
-    public HomeColorManager(){
+    private static int currentAlpha=0,currentRed=0,currentGreen=0,currentBlue=0;
+    private static HomeColorManager homeColorManager;
+    private HomeColorManager(){
         if (homeColor==null){
             homeColor = new HomeColor();
-            homeColor.setAlpha(0xff);
-            int color = PreferHelper.getLastColor();
-            homeColor.setRed((color & 0xff0000) >> 16);
-            homeColor.setGreen((color&0x00ff00) >> 8);
-            homeColor.setBlue(color & 0x0000ff);
+//            homeColor.setAlpha(0xff);
+//            int color = PreferHelper.getLastColor();
+//            homeColor.setRed((color & 0xff0000) >> 16);
+//            homeColor.setGreen((color&0x00ff00) >> 8);
+//            homeColor.setBlue(color & 0x0000ff);
         }
 
         if (currentAlpha==0&&currentRed==0&&currentGreen==0&&currentBlue==0){
             setCurrentColor(PreferHelper.getLastColor());
         }
+    }
+    public static HomeColorManager getHomeColorManager(){
+        if (homeColorManager==null){
+            synchronized (HomeColorManager.class){
+                if (homeColorManager==null){
+                    homeColorManager = new HomeColorManager();
+                }
+            }
+        }
+        return homeColorManager;
     }
 
     public void setCurrentColor(int color){

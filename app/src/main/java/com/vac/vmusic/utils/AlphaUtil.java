@@ -29,8 +29,8 @@ public class AlphaUtil {
 //                    Log.e("TAG","showImageView="+showDrawable.getAlpha()+",hideImageView="+hideDrawable.getAlpha());
             }else if (msg.what==101){
 //                onAlphaCompletedListener.onAlphaCompleted();
-                showDrawable.setAlpha(250);
-                hideDrawable.setAlpha(5);
+//                showDrawable.setAlpha(255);
+//                hideDrawable.setAlpha(0);
             }
         }
     };

@@ -38,7 +38,7 @@ public class NativeMusicFragment extends BaseSwipeBackFragment implements INativ
         nativeMusicPresenter = new NativeMusicPresenter(this);
         nativeMusicPresenter.loadData();
         LinearLayout topContent =(LinearLayout) view.findViewById(R.id.native_music_fragment_top_content);
-        topContent.setBackgroundColor(new HomeColorManager().getCurrentColor());
+        topContent.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
     }
 
     @Override

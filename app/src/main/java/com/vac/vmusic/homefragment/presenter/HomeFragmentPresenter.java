@@ -32,7 +32,7 @@ public class HomeFragmentPresenter {
         this.iHomeFragment = iHomeFragment_;
         String[] pageTitle = new String[]{"我的","乐库"};
         myFragmentAdapter = new MyFragmentAdapter(iHomeFragment_.getMyFm(),pageTitle);
-        homeColorManager = new HomeColorManager();
+        homeColorManager = HomeColorManager.getHomeColorManager();
     }
 
     public void addFragmentToViewPager(){

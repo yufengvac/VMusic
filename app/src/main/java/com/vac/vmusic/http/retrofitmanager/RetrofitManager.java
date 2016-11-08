@@ -6,6 +6,9 @@ import android.util.SparseArray;
 
 
 import com.vac.vmusic.application.App;
+import com.vac.vmusic.beans.discover.DiscoverColumn;
+import com.vac.vmusic.beans.discover.DiscoverColumnData;
+import com.vac.vmusic.beans.discover.HttpData;
 import com.vac.vmusic.beans.httpresult.HttpResult;
 import com.vac.vmusic.beans.httpresult.HttpResultPic;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
@@ -294,6 +297,15 @@ public class RetrofitManager {
      */
     public Observable<HttpSkin<Skin>> getWallPager(){
         return mApiService.getWallpager(getCacheControl()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * 获取发现页面的所有的数据
+     * @return Observable
+     */
+    public Observable<HttpData<DiscoverColumn<DiscoverColumnData>>> getDiscoverData(){
+        return mApiService.getDiscoverData(getCacheControl(),"v8.1.1.2015081020").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 

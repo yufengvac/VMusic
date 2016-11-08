@@ -1,6 +1,9 @@
 package com.vac.vmusic.http.services;
 
 
+import com.vac.vmusic.beans.discover.DiscoverColumn;
+import com.vac.vmusic.beans.discover.DiscoverColumnData;
+import com.vac.vmusic.beans.discover.HttpData;
 import com.vac.vmusic.beans.httpresult.HttpResult;
 import com.vac.vmusic.beans.httpresult.HttpResultPic;
 import com.vac.vmusic.beans.httpresult.HttpResultPlus;
@@ -126,4 +129,15 @@ public interface ApiService {
      */
     @GET("misc/wallpaper/wallpapers")
     Observable<HttpSkin<Skin>> getWallpager(@Header("Cache-Control") String cacheControl);
-}
+
+
+    /**
+     * 发现页面的所有的数据
+     * @param cacheControl 缓存控制
+     * @param v 版本
+     * @return Observable
+     */
+    @GET("frontpage/frontpage")
+    Observable<HttpData<DiscoverColumn<DiscoverColumnData>>> getDiscoverData(@Header("Cache-Control") String cacheControl
+    ,@Query("v") String v);
+ }

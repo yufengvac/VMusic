@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.vac.vmusic.beans.skin.SkinPalette;
 import com.vac.vmusic.utils.HomeColorManager;
+import com.vac.vmusic.utils.PreferHelper;
 import com.vac.vmusic.utils.RxBus;
 
 import java.util.concurrent.ExecutionException;
@@ -95,7 +96,7 @@ public class SkinFragmentModel {
 
                     @Override
                     public void onNext(SkinPalette skinPalette) {
-                        HomeColorManager homeColorManager = new HomeColorManager();
+                        HomeColorManager homeColorManager = HomeColorManager.getHomeColorManager();
                         if (skinPalette.getDarkVibrantSwatchRgb()!=Color.WHITE){
                             homeColorManager.setCurrentColor(skinPalette.getDarkVibrantSwatchRgb());
                         }else if (skinPalette.getLightVibrantSwatchRgb()!=Color.WHITE){
@@ -109,7 +110,8 @@ public class SkinFragmentModel {
                         }else if (skinPalette.getMutedSwatchRgb()!=Color.WHITE){
                             homeColorManager.setCurrentColor(skinPalette.getMutedSwatchRgb());
                         }
-
+                        skinPalette.setUrl(url);
+                        PreferHelper.saveLastSkinUrl(url);
                         RxBus.get().post("color",skinPalette);
                     }
                 });

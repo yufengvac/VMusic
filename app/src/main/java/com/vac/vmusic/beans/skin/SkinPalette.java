@@ -12,6 +12,8 @@ public class SkinPalette {
     private int lightMutedSwatchRgb;
     private int darkMutedSwatchRgb;
 
+    private String url;
+
     public int getVibrantSwatchRgb() {
         return vibrantSwatchRgb;
     }
@@ -58,5 +60,13 @@ public class SkinPalette {
 
     public void setDarkMutedSwatchRgb(int darkMutedSwatchRgb) {
         this.darkMutedSwatchRgb = darkMutedSwatchRgb;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

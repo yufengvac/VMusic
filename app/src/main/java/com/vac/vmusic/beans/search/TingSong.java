@@ -18,7 +18,7 @@ import java.util.List;
  */
 @JsonIgnoreProperties(value = {"mvPickCount","mvBulletCount","outFlag","outList","commentCount","riskRank",
 "outLinks","rightKey","loginStatus","musicPackage","albumPackage","promotionPackage","operType","level",
-"isExclusive","picUrl","listenCount","singers","isPlaying"})
+"isExclusive","listenCount","singers","isPlaying"})
 public class TingSong extends DataSupport implements Parcelable{
 
     private long songId;
@@ -39,6 +39,8 @@ public class TingSong extends DataSupport implements Parcelable{
     private long originalId;
     private int type;
     private String tags;
+
+    private String picUrl;
 
     private int releaseYear;
     private int producer;
@@ -125,6 +127,13 @@ public class TingSong extends DataSupport implements Parcelable{
         this.lang = lang;
     }
 
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
 
     public long getSongId() {
         return songId;
@@ -295,6 +304,7 @@ public class TingSong extends DataSupport implements Parcelable{
         type = arg0.readInt();
         tags = arg0.readString();
         status = arg0.readInt();
+        picUrl = arg0.readString();
         Parcelable[] tingAudition = arg0.readParcelableArray(TingAudition.class.getClassLoader());
         for (int i = 0; i < tingAudition.length; i++) {
             auditionList.add((TingAudition)tingAudition[i]);
@@ -334,6 +344,7 @@ public class TingSong extends DataSupport implements Parcelable{
         arg0.writeInt(type);
         arg0.writeString(tags);
         arg0.writeInt(status);
+        arg0.writeString(picUrl);
 //		arg0.writeList(auditionList);
 //		arg0.writeList(mvList);
 //		arg0.writeList(outList);
@@ -400,6 +411,7 @@ public class TingSong extends DataSupport implements Parcelable{
                 ", status=" + status +
                 ", auditionList=" + auditionList +
                 ", mvList=" + mvList +
+                ", picUrl=" + picUrl +
                 '}';
     }
 }

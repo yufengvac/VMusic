@@ -46,7 +46,7 @@ public class SearchMainFragment extends BaseSwipeBackFragment implements ISearch
     @Override
     public void initView(View view) {
         LinearLayout topContentView = (LinearLayout) view.findViewById(R.id.search_main_fragment_top_content);
-        topContentView.setBackgroundColor(new HomeColorManager().getCurrentColor());
+        topContentView.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
         ImageView backImageView = (ImageView) view.findViewById(R.id.home_search_top_back_imageview);
         backImageView.setOnClickListener(this);

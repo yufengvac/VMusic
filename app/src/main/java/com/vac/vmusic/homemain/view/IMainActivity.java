@@ -22,4 +22,6 @@ public interface IMainActivity {
     void initMusicList(List<TingSong> tingSongs);
     MusicBinder getMusicBinderFromMain();
     void initPlayingBottom(TingSong tingSong);
+
+    void initColor();
 }

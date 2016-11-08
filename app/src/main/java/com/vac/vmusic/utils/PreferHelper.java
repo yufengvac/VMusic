@@ -41,4 +41,14 @@ public class PreferHelper {
         return Color.argb(0xff,sharedPreferences.getInt("red",0x00),
                 sharedPreferences.getInt("green",0x00),sharedPreferences.getInt("blue",0x00));
     }
+
+    public static void saveLastSkinUrl(String url){
+        sharedPreferences = context.getSharedPreferences(MUSIC_PRE.BASE_COLOR,MODE);
+        sharedPreferences.edit().putString("skinUrl",url).apply();
+    }
+
+    public static String getLastSkinUrl(){
+        sharedPreferences = context.getSharedPreferences(MUSIC_PRE.BASE_COLOR,MODE);
+        return sharedPreferences.getString("skinUrl","");
+    }
 }

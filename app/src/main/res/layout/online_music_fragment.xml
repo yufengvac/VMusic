@@ -1,11 +1,841 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhite"
+              android:orientation="vertical">
+
     <View
         android:id="@+id/online_music_fragment_top_view"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/online_music_fragment_banner_image_view"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name"
+                android:layout_height="150dp"
+                android:visibility="visible"/>
+
+            <!--排行榜 歌单 电台 歌手-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/activity_padding"
+                android:paddingTop="@dimen/activity_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_channel_logo1"
+                        android:layout_width="@dimen/discover_icon_size"
+                        android:layout_height="@dimen/discover_icon_size"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                        android:id="@+id/online_music_fragment_channel_title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:text=""/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_channel_logo2"
+                        android:layout_width="@dimen/discover_icon_size"
+                        android:layout_height="@dimen/discover_icon_size"
+                        android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                        android:id="@+id/online_music_fragment_channel_title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:text=""/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_channel_logo3"
+                        android:layout_width="@dimen/discover_icon_size"
+                        android:layout_height="@dimen/discover_icon_size"
+                        android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                        android:id="@+id/online_music_fragment_channel_title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:text=""/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_channel_logo4"
+                        android:layout_width="@dimen/discover_icon_size"
+                        android:layout_height="@dimen/discover_icon_size"
+                        android:contentDescription="@string/app_name"/>
+
+                    <TextView
+                        android:id="@+id/online_music_fragment_channel_title4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:text=""/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey"/>
+
+            <!--大家在听-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="大家在听"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text="每小时更新"
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/base_text_size"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/online_music_fragment_everyone_listen_logo1"
+                            android:layout_width="@dimen/top_height"
+                            android:layout_height="@dimen/top_height"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/default_music"/>
+
+                        <RelativeLayout
+                            android:id="@+id/online_music_fragment_content_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo1">
+
+                            <TextView
+                                android:id="@+id/online_music_fragment_everyone_listen_name1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/activity_padding"
+                                android:text=""
+                                android:textSize="@dimen/base_text_size"/>
+
+                            <ImageView
+                                android:id="@+id/online_music_fragment_everyone_listen_quality1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:contentDescription="@string/app_name"
+                                android:layout_toRightOf="@id/online_music_fragment_everyone_listen_name1"
+                                />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_everyone_listen_singer1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_content_1"
+                            android:layout_margin="@dimen/activity_padding"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo1"
+                            android:text=""/>
+                    </RelativeLayout>
+
+                    <com.vac.vmusic.views.MyPlayButton
+                        android:id="@+id/online_music_fragment_everyone_listen_play_btn1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="2"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/base_text_size"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/online_music_fragment_everyone_listen_logo2"
+                            android:layout_width="@dimen/top_height"
+                            android:layout_height="@dimen/top_height"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/default_my_music_bg"/>
+
+                        <RelativeLayout
+                            android:id="@+id/online_music_fragment_content_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo2">
+
+                            <TextView
+                                android:id="@+id/online_music_fragment_everyone_listen_name2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/activity_padding"
+                                android:text=""
+                                android:textSize="@dimen/base_text_size"/>
+
+                            <ImageView
+                                android:id="@+id/online_music_fragment_everyone_listen_quality2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:contentDescription="@string/app_name"
+                                android:layout_toRightOf="@id/online_music_fragment_everyone_listen_name2"/>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_everyone_listen_singer2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_content_2"
+                            android:layout_margin="@dimen/activity_padding"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo2"
+                            android:text=""/>
+                    </RelativeLayout>
+
+                    <com.vac.vmusic.views.MyPlayButton
+                        android:id="@+id/online_music_fragment_everyone_listen_play_btn2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="3"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/base_text_size"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/online_music_fragment_everyone_listen_logo3"
+                            android:layout_width="@dimen/top_height"
+                            android:layout_height="@dimen/top_height"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/default_1"/>
+
+                        <RelativeLayout
+                            android:id="@+id/online_music_fragment_content_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo3">
+
+                            <TextView
+                                android:id="@+id/online_music_fragment_everyone_listen_name3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="@dimen/activity_padding"
+                                android:text=""
+                                android:textSize="@dimen/base_text_size"/>
+
+                            <ImageView
+                                android:id="@+id/online_music_fragment_everyone_listen_quality3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:contentDescription="@string/app_name"
+                                android:layout_toRightOf="@id/online_music_fragment_everyone_listen_name3"/>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_everyone_listen_singer3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_content_3"
+                            android:layout_margin="@dimen/activity_padding"
+                            android:layout_toRightOf="@id/online_music_fragment_everyone_listen_logo3"
+                            android:text=""/>
+                    </RelativeLayout>
+
+                    <com.vac.vmusic.views.MyPlayButton
+                        android:id="@+id/online_music_fragment_everyone_listen_play_btn3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+
+            <!--热门歌单-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="热门歌单"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <GridView
+                    android:id="@+id/online_music_fragment_hot_song_list_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:numColumns="3"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+            <!--手机唱片店-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="手机唱片店"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <GridView
+                    android:id="@+id/online_music_fragment_phone_song_list_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:numColumns="3"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_padding"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+            <!--推荐专区-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="推荐专区"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_recommend_logo1"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/default_music"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/online_music_fragment_recommend_logo1"
+                        android:padding="@dimen/activity_padding">
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_recommend_title1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="经典港片电影原声"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_recommend_title1"
+                            android:paddingTop="@dimen/activity_horizontal_margin"
+                            android:text="回味那年香港经典电影"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/img_setting_right_arrow"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_recommend_logo2"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/default_music"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/online_music_fragment_recommend_logo2"
+                        android:padding="@dimen/activity_padding">
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_recommend_title2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="经典港片电影原声"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_recommend_title2"
+                            android:paddingTop="@dimen/activity_horizontal_margin"
+                            android:text="回味那年香港经典电影"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/img_setting_right_arrow"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <ImageView
+                        android:id="@+id/online_music_fragment_recommend_logo3"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/default_music"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/online_music_fragment_recommend_logo3"
+                        android:padding="@dimen/activity_padding">
+
+                        <TextView
+                            android:id="@+id/online_music_fragment_recommend_title3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="经典港片电影原声"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/online_music_fragment_recommend_title3"
+                            android:paddingTop="@dimen/activity_horizontal_margin"
+                            android:text="回味那年香港经典电影"/>
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/img_setting_right_arrow"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+            <!--新歌新碟-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="新歌新碟"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <GridView
+                    android:id="@+id/online_music_fragment_new_song_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+
+            <!--最热Mv-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="最热MV"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+                <GridView
+                    android:id="@+id/online_music_fragment_hot_mv_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+
+
+            <!--独家专区-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="独家专区"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/base_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_padding"
+                            android:layout_marginStart="@dimen/activity_padding"
+                            android:text=""
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="@dimen/base_text_size_small"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"/>
+                </LinearLayout>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorGrey"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

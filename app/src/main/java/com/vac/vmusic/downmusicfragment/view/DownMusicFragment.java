@@ -37,7 +37,7 @@ public class DownMusicFragment extends BaseSwipeBackFragment implements IDownMus
         recyclerView = (RecyclerView) view.findViewById(R.id.down_music_fragment_recycle_view);
 
         LinearLayout topContent = (LinearLayout) view.findViewById(R.id.down_music_fragment_top_content);
-        topContent.setBackgroundColor(new HomeColorManager().getCurrentColor());
+        topContent.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
         ImageView backImageView = (ImageView) view.findViewById(R.id.down_music_top_back_imageview);
         backImageView.setOnClickListener(this);
 

@@ -163,7 +163,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
         if (pics!=null&&pics.length>1){
             final Drawable drawable = Drawable.createFromPath(rootPath+pics[0]);
             drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-            imageView2.setBackground(drawable);
+            imageView2.setImageDrawable(drawable);
             if (bgSubscription!=null&&(!bgSubscription.isUnsubscribed())){
                 bgSubscription.unsubscribe();
                 bgSubscription = null;
@@ -180,7 +180,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
                             drawableHashMap.put(rootPath+pics[count%pics.length],drawable);
                         }
                         bg2 = drawableHashMap.get(rootPath+pics[count%pics.length]);
-                        imageView2.setBackground(bg2);
+                        imageView2.setImageDrawable(bg2);
 
                         bg1.setAlpha(255);
                         bg2.setAlpha(0);
@@ -193,7 +193,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
                             drawableHashMap.put(rootPath+pics[count%pics.length],drawable);
                         }
                         bg1 = drawableHashMap.get(rootPath+pics[count%pics.length]);
-                        imageView1.setBackground(bg1);
+                        imageView1.setImageDrawable(bg1);
                         bg1.setAlpha(0);
                         bg2.setAlpha(255);
                         AlphaUtil alphaUtil = new AlphaUtil(bg2,bg1);

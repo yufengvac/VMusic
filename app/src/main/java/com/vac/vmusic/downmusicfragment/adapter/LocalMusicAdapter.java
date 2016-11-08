@@ -40,7 +40,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     public LocalMusicAdapter(Context context, OnItemClickListener onItemClickListener){
         this.mContext = context;
         this.clickListener = onItemClickListener;
-        homeColorManager = new HomeColorManager();
+        homeColorManager = HomeColorManager.getHomeColorManager();
     }
     public void setData(List<LocalMusic> localMusics){
         if (localMusics!=null&&localMusics.size()>0){

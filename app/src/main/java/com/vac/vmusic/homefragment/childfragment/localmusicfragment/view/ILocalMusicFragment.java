@@ -14,4 +14,6 @@ public interface ILocalMusicFragment  {
     BounceScrollView getMyScrollView();
     Context getMyContext();
     void showNativeMusicCount(int num);
+    void initColor(boolean isInit);
+    void changeSkin(String url);
 }
