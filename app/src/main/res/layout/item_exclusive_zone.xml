@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/item_exclusive_zone_logo"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/default_music"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/item_exclusive_zone_logo"
+        android:padding="@dimen/activity_padding">
+
+        <TextView
+            android:id="@+id/item_exclusive_zone_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="经典港片电影原声"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/base_text_size"/>
+
+        <TextView
+            android:id="@+id/item_exclusive_zon_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_exclusive_zone_title"
+            android:paddingTop="@dimen/activity_padding"
+            android:text="回味那年香港经典电影"
+            android:maxLines="2"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/img_setting_right_arrow"/>
+</RelativeLayout>

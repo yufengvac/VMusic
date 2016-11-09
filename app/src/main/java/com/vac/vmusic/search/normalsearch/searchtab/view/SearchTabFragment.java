@@ -1,5 +1,6 @@
 package com.vac.vmusic.search.normalsearch.searchtab.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.mvdetail.view.MvDetailActivity;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchAlbumAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchMVAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongAdapter;
@@ -101,7 +103,16 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
         }else if (type.equals(HomeFragmentType.ALBUM)){
             homeAdapter = new SearchAlbumAdapter(getActivity());
         }else if (type.equals(HomeFragmentType.MV)){
-            homeAdapter = new SearchMVAdapter(getActivity());
+            homeAdapter = new SearchMVAdapter(getActivity(), new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    if (view instanceof LinearLayout){
+                        Intent intent = new Intent(getActivity(),MvDetailActivity.class);
+                        intent.putExtra("url",((SearchMVAdapter)homeAdapter).getData().get(position).getMvList().get(0).getUrl());
+                        getActivity().startActivity(intent);
+                    }
+                }
+            });
         }else if (type.equals(HomeFragmentType.SONGLIST)){
             homeAdapter = new SearchSongListAdapter(getActivity());
         }

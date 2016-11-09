@@ -4,7 +4,9 @@
               android:layout_height="wrap_content"
               android:padding="5dp"
               android:background="@color/colorGrey"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+              android:clickable="true"
+    android:id="@+id/item_search_mv_content">
 
     <ImageView
         android:id="@+id/item_search_mv_logo"

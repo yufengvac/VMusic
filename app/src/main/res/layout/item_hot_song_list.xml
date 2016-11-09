@@ -5,8 +5,8 @@
     android:orientation="vertical">
 <ImageView
     android:id="@+id/item_hot_song_list_logo"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="105dp"
+    android:layout_height="105dp"
     android:contentDescription="@string/app_name"/>
     <TextView
         android:id="@+id/item_hot_song_list_desc"

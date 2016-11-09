@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vac.vmusic.R;
+import com.vac.vmusic.beans.search.TingMV;
 import com.vac.vmusic.beans.search.TingSearchMV;
+import com.vac.vmusic.callback.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +32,11 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
     private List<TingSearchMV> mData = new ArrayList<>();
     private SimpleDateFormat sdf ;
     private int mLastPosition = -1;
-    public SearchMVAdapter(Context context){
+    private OnItemClickListener onItemClickListener;
+    public SearchMVAdapter(Context context,OnItemClickListener listener){
         this.mContext = context;
         sdf = new SimpleDateFormat("mm:ss", Locale.CHINA);
+        this.onItemClickListener = listener;
     }
 
     public void setData(List<TingSearchMV> tingMV,boolean isRefresh){
@@ -47,6 +52,9 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
             }
 
         }
+    }
+    public List<TingSearchMV> getData(){
+        return mData;
     }
 
     @Override
@@ -84,12 +92,21 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private ImageView logo;
         private TextView title,singer,duration;
+        private LinearLayout content;
         public MyViewHolder(View view){
             super(view);
             logo = (ImageView) view.findViewById(R.id.item_search_mv_logo);
             title = (TextView)view.findViewById(R.id.item_search_mv_title);
             singer = (TextView) view.findViewById(R.id.item_search_mv_singer);
             duration = (TextView) view.findViewById(R.id.item_search_mv_duration);
+            content = (LinearLayout) view.findViewById(R.id.item_search_mv_content);
+            content.setClickable(true);
+            content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(view,getLayoutPosition());
+                }
+            });
         }
     }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.vac.vmusic.beans.discover.DiscoverColumn;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
 import com.vac.vmusic.callback.RequestCallback;
+import com.vac.vmusic.homefragment.childfragment.localmusicfragment.adapter.ExclusiveListAdapter;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.adapter.HotSongListAdapter;
 import com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.model.OnLineMusicFragmentModel;
 import com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.view.IOnLineMusicFragment;
@@ -49,6 +50,24 @@ public class OnLineMusicFragmentPresenter implements RequestCallback<DiscoverCol
         hotSongListAdapter.setData(hotSongListData);
     }
 
+    public void setNewSongGridView(List<DiscoverColumnData> newSongListData){
+        HotSongListAdapter hotSongListAdapter = new HotSongListAdapter(iOnLineMusicFragment.getMyContext());
+        iOnLineMusicFragment.getNewSongGridView().setAdapter(hotSongListAdapter);
+        hotSongListAdapter.setData(newSongListData);
+    }
+
+    public void setHotMvGridView(List<DiscoverColumnData> newSongListData){
+        HotSongListAdapter hotSongListAdapter = new HotSongListAdapter(iOnLineMusicFragment.getMyContext());
+        iOnLineMusicFragment.getHotMvGridView().setAdapter(hotSongListAdapter);
+        hotSongListAdapter.setData(newSongListData);
+    }
+
+    public void setExclusiveZoneListView(List<DiscoverColumnData> exclusiveZoneListData){
+        ExclusiveListAdapter exclusiveListAdapter = new ExclusiveListAdapter(iOnLineMusicFragment.getMyContext());
+        iOnLineMusicFragment.getExclusiveZoneListView().setAdapter(exclusiveListAdapter);
+        exclusiveListAdapter.setData(exclusiveZoneListData);
+    }
+
     @Override
     public void beforeRequest() {
 
@@ -75,6 +94,10 @@ public class OnLineMusicFragmentPresenter implements RequestCallback<DiscoverCol
 
         setPhoneGridView(data.get(4).getData());
         iOnLineMusicFragment.showRecommend(data.get(5).getData());
+        setNewSongGridView(data.get(6).getData());
+        setHotMvGridView(data.get(7).getData());
+
+        setExclusiveZoneListView(data.get(8).getData());
         iOnLineMusicFragment.showEveryOneListener(data.get(2).getData());
 
 

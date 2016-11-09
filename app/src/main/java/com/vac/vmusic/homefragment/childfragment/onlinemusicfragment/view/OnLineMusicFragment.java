@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
@@ -40,11 +42,13 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
     private TextView everyoneNameTextView1,everyoneNameTextView2,everyoneNameTextView3,
     everyoneSingerTextView1,everyoneSingerTextView2,everyoneSingerTextView3;
 
-    private GridView hotSongListGridView,phoneGridView;
+    private GridView hotSongListGridView,phoneGridView,newSongGridView,hotMvGridView;
 
     private ImageView recommendImageView1,recommendImageView2,recommendImageView3;
     private TextView recommendTitleTextView1,recommendTitleTextView2,recommendTitleTextView3;
     private TextView recommendDescTextView1,recommendDescTextView2,recommendDescTextView3;
+
+    private ListView exclusiveZoneListView;
 
     public static OnLineMusicFragment getOnLineMusicFragment(Bundle bundle){
         OnLineMusicFragment onLineMusicFragment = new OnLineMusicFragment();
@@ -101,6 +105,11 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
         hotSongListGridView  = (GridView) view.findViewById(R.id.online_music_fragment_hot_song_list_grid_view);
         phoneGridView = (GridView) view.findViewById(R.id.online_music_fragment_phone_song_list_grid_view);
 
+        newSongGridView = (GridView) view.findViewById(R.id.online_music_fragment_new_song_grid_view);
+        hotMvGridView = (GridView) view.findViewById(R.id.online_music_fragment_hot_mv_grid_view);
+
+        exclusiveZoneListView = (ListView)view.findViewById(R.id.online_music_fragment_exclusive_zone_list_view);
+
         colorObservable = RxBus.get().register("pageOffsetColor",Integer.class);
         OnLineMusicFragmentPresenter onLineMusicFragmentPresenter = new OnLineMusicFragmentPresenter(this);
         onLineMusicFragmentPresenter.watchTopViewColorByScroll();
@@ -131,9 +140,9 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
     public void showEveryOneListener(List<DiscoverColumnData> listenerList) {
         List<TingSong> tingSongList = listenerList.get(0).getSongs();
         if (tingSongList.size()>=3){
-            Glide.with(getActivity()).load(tingSongList.get(0).getPicUrl()).into(everyoneListenImageView1);
-            Glide.with(getActivity()).load(tingSongList.get(1).getPicUrl()).into(everyoneListenImageView2);
-            Glide.with(getActivity()).load(tingSongList.get(2).getPicUrl()).into(everyoneListenImageView3);
+            Glide.with(getActivity()).load(tingSongList.get(0).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(everyoneListenImageView1);
+            Glide.with(getActivity()).load(tingSongList.get(1).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(everyoneListenImageView2);
+            Glide.with(getActivity()).load(tingSongList.get(2).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(everyoneListenImageView3);
             everyoneNameTextView1.setText(tingSongList.get(0).getName());
             everyoneNameTextView2.setText(tingSongList.get(1).getName());
             everyoneNameTextView3.setText(tingSongList.get(2).getName());
@@ -166,9 +175,9 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
 
     @Override
     public void showRecommend(List<DiscoverColumnData> recommendList) {
-        Glide.with(getActivity()).load(recommendList.get(0).getPicUrl()).centerCrop().into(recommendImageView1);
-        Glide.with(getActivity()).load(recommendList.get(1).getPicUrl()).centerCrop().into(recommendImageView2);
-        Glide.with(getActivity()).load(recommendList.get(2).getPicUrl()).centerCrop().into(recommendImageView3);
+        Glide.with(getActivity()).load(recommendList.get(0).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(recommendImageView1);
+        Glide.with(getActivity()).load(recommendList.get(1).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(recommendImageView2);
+        Glide.with(getActivity()).load(recommendList.get(2).getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(recommendImageView3);
         recommendTitleTextView1.setText(recommendList.get(0).getName());
         recommendTitleTextView2.setText(recommendList.get(1).getName());
         recommendTitleTextView3.setText(recommendList.get(2).getName());
@@ -185,6 +194,21 @@ public class OnLineMusicFragment extends BaseSwipeBackFragment implements IOnLin
     @Override
     public GridView getPhoneGridView() {
         return phoneGridView;
+    }
+
+    @Override
+    public GridView getNewSongGridView() {
+        return newSongGridView;
+    }
+
+    @Override
+    public GridView getHotMvGridView() {
+        return hotMvGridView;
+    }
+
+    @Override
+    public ListView getExclusiveZoneListView() {
+        return exclusiveZoneListView;
     }
 
     @Override

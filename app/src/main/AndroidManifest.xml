@@ -30,6 +30,8 @@
         <service android:name=".service.service.PlayService"/>
         <activity android:name=".skinfragment.activity.view.SkinActivity"
             android:theme="@style/BaseAppTheme.Dialog"/>
+        <activity android:name=".mvdetail.view.MvDetailActivity"
+                  android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"/>
     </application>
 
 </manifest>

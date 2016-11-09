@@ -3,6 +3,7 @@ package com.vac.vmusic.homefragment.childfragment.onlinemusicfragment.view;
 import android.content.Context;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.vac.vmusic.beans.discover.DiscoverColumn;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
@@ -28,6 +29,12 @@ public interface IOnLineMusicFragment {
     GridView getHotSongListGridView();
 
     GridView getPhoneGridView();
+
+    GridView getNewSongGridView();
+
+    GridView getHotMvGridView();
+
+    ListView getExclusiveZoneListView();
 
     Context getMyContext();
 

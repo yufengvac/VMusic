@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 /**
- * @description 嵌套在ScrollView中的ListView
+ * 嵌套在ScrollView中的ListView
  * @author vac
  *
  */
@@ -17,7 +17,7 @@ public class ListViewForScrollView extends ListView {
         super(context, attrs);
     }
     public ListViewForScrollView(Context context, AttributeSet attrs,
-        int defStyle) {
+                                 int defStyle) {
         super(context, attrs, defStyle);
     }
     @Override

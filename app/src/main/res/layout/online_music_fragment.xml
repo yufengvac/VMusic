@@ -739,15 +739,20 @@
                         android:text="更多"/>
                 </LinearLayout>
 
-                <GridView
+                <com.vac.vmusic.views.MyGridView
                     android:id="@+id/online_music_fragment_new_song_grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:numColumns="3"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@color/colorGrey"/>
             </LinearLayout>
 
@@ -792,15 +797,20 @@
                         android:text="更多"/>
                 </LinearLayout>
 
-                <GridView
+                <com.vac.vmusic.views.MyGridView
                     android:id="@+id/online_music_fragment_hot_mv_grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:numColumns="3"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@color/colorGrey"/>
             </LinearLayout>
 
@@ -845,11 +855,21 @@
                         android:text="更多"/>
                 </LinearLayout>
 
-
+                <com.vac.vmusic.views.ListViewForScrollView
+                    android:id="@+id/online_music_fragment_exclusive_zone_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="5dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:background="@color/colorGrey"/>
             </LinearLayout>
         </LinearLayout>

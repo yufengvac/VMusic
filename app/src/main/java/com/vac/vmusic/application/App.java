@@ -5,6 +5,8 @@ import android.content.Context;
 
 import org.litepal.LitePalApplication;
 
+import io.vov.vitamio.Vitamio;
+
 
 /**
  * Created by vac on 16/10/15.
@@ -17,6 +19,7 @@ public class App extends Application {
         super.onCreate();
         sApplicationContext = this;
         LitePalApplication.initialize(this);
+        Vitamio.isInitialized(this);
     }
 
     public static Context getContext(){

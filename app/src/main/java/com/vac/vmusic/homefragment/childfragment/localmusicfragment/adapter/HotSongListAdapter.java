@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
 
@@ -62,7 +63,7 @@ public class HotSongListAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
         DiscoverColumnData discoverColumnData = mData.get(position);
-        Glide.with(mContext).load(discoverColumnData.getPicUrl()).centerCrop().into(holder.imageView);
+        Glide.with(mContext).load(discoverColumnData.getPicUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(holder.imageView);
         holder.textView.setText(discoverColumnData.getName());
         return convertView;
     }

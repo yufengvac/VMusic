@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:id="@+id/mv_detail_activity_bg">
+
+    <io.vov.vitamio.widget.CenterLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        >
+
+        <io.vov.vitamio.widget.VideoView
+            android:id="@+id/mv_detail_activity_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            />
+    </io.vov.vitamio.widget.CenterLayout>
+</LinearLayout>

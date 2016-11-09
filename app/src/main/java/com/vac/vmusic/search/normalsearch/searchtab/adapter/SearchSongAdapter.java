@@ -72,9 +72,9 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        if (getItemViewType(position)==TYPE_FOOTER){
-//            showFooter();
-        }else {
+//        if (getItemViewType(position)==TYPE_FOOTER){
+////            showFooter();
+//        }else {
             TingSong tingSong = mData.get(position);
             holder.name.setText(tingSong.getName());
             holder.singer.setText(tingSong.getSingerName());
@@ -108,21 +108,8 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
                 holder.mvView.setVisibility(View.GONE);
             }
 
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    clickListener.onItemClick(holder.itemView,position);
-//                }
-//            });
-//
-//            holder.addSongImageView.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View view) {
-//                    clickListener.onItemClick(holder.itemView,position);
-//                }
-//            });
             setAnimation(holder.itemView, position);
-        }
+//        }
 
     }
     protected void setAnimation(View viewToAnimate, int position) {
@@ -134,13 +121,7 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (mShowFooter && getItemCount() - 1 == position) {
-            return TYPE_FOOTER;
-        }
-        return 0;
-    }
+   
     public void showFooter() {
         // KLog.e("Adapter显示尾部: " + getItemCount());
         notifyItemInserted(getItemCount());
@@ -169,9 +150,9 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
         private LinearLayout content;
         public MyViewHolder(View view){
             super(view);
-            if (getItemViewType()==TYPE_FOOTER){
-                ViewUtil.showRefreshLayout(view,"正在加载..");
-            }else {
+//            if (getItemViewType()==TYPE_FOOTER){
+//                ViewUtil.showRefreshLayout(view,"正在加载..");
+//            }else {
                 name = (TextView) view.findViewById(R.id.item_home_name);
                 singer = (TextView) view.findViewById(R.id.item_home_singer);
                 album = (TextView) view.findViewById(R.id.item_home_album);
@@ -193,7 +174,7 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
                         clickListener.onItemClick(addSongImageView,getAdapterPosition());
                     }
                 });
-            }
+//            }
         }
     }
 }

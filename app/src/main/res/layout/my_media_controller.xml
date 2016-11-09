@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:background="@color/light_black"
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_padding">
+
+    <ImageButton
+        android:id="@+id/mediacontroller_play_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/icon_mv_play"
+        android:contentDescription="@string/app_name"/>
+    <TextView
+        android:id="@+id/mediacontroller_time_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:20"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/base_text_size_small"
+        android:textColor="@color/colorWhite"/>
+    <SeekBar
+        android:id="@+id/mediacontroller_seekbar"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:progressDrawable="@drawable/seekbar_horizontal"
+        android:max="300"
+        android:progress="0"
+        android:maxHeight="2dp"
+        android:layout_height="wrap_content"
+        android:minHeight="2dp"
+        android:thumb="@drawable/icon_seekbar_point"/>
+    <TextView
+        android:id="@+id/mediacontroller_time_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:20"
+        android:textSize="@dimen/base_text_size_small"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorWhite"/>
+</LinearLayout>
