@@ -10,7 +10,7 @@ import java.io.File;
  */
 public class Constants {
 
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false;
 
     public final static String ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator
     +"vmusic"+File.separator;

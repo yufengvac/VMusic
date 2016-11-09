@@ -7,13 +7,13 @@
 
     <io.vov.vitamio.widget.CenterLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         >
 
         <io.vov.vitamio.widget.VideoView
             android:id="@+id/mv_detail_activity_video_view"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="wrap_content"
             />
     </io.vov.vitamio.widget.CenterLayout>
 </LinearLayout>

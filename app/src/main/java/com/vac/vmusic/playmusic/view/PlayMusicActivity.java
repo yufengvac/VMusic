@@ -245,7 +245,7 @@ public class PlayMusicActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onMusicPlayed(TingSong music) {
         playOrPauseImageView.setImageResource(R.drawable.icon_play_pause);
-        if (!hasLoadedSingerName.equals(music.getSingerName())){
+        if (hasLoadedSingerName==null||!hasLoadedSingerName.equals(music.getSingerName())){
             if (bgSubscription!=null){
                 bgSubscription.unsubscribe();
                 bgSubscription = null;

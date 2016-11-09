@@ -13,6 +13,7 @@ import com.vac.vmusic.views.MyMediaController;
 import com.vac.vmusic.views.VideoPlayController;
 
 import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.utils.Log;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
@@ -46,6 +47,8 @@ public class MvDetailActivity extends BaseActivity implements View.OnTouchListen
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                Log.i("MvDetailActivity","宽度="+mp.getVideoWidth());
+                Log.i("MvDetailActivity","高度="+mp.getVideoHeight());
                 mp.setPlaybackSpeed(1.0f);
             }
         });
