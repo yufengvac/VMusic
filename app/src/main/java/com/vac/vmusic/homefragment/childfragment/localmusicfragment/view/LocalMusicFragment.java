@@ -140,8 +140,8 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
         favor_song_list_linear.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
         if (isInit&&!PreferHelper.getLastSkinUrl().isEmpty()){
-            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).centerCrop().into(imageView1);
-            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).centerCrop().into(imageView2);
+            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().centerCrop().into(imageView1);
+            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().centerCrop().into(imageView2);
             bg1 = imageView1.getBackground().mutate();
             bg2 = imageView2.getBackground().mutate();
             bg1.setAlpha(255);

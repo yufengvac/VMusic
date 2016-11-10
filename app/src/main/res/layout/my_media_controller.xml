@@ -3,15 +3,15 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
     android:background="@color/light_black"
-    android:orientation="horizontal"
-    android:padding="@dimen/activity_padding">
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/mediacontroller_play_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/icon_mv_play"
+        android:src="@drawable/icon_mv_play"
+        android:backgroundTint="@android:color/transparent"
         android:contentDescription="@string/app_name"/>
     <TextView
         android:id="@+id/mediacontroller_time_current"
@@ -41,4 +41,12 @@
         android:textSize="@dimen/base_text_size_small"
         android:layout_gravity="center_vertical"
         android:textColor="@color/colorWhite"/>
+    <ImageButton
+        android:id="@+id/mediacontroller_play_full_screen"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_mv_fullscreen"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"/>
 </LinearLayout>

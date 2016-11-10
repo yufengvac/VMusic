@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme">
 
-        <activity android:name=".splashscreen.SplashScreenActivity">
+        <activity android:name=".splashscreen.SplashScreenActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,11 +23,13 @@
         </activity>
 
         <activity android:name=".homemain.view.MainActivity"
-            />
+            android:screenOrientation="portrait"/>
         <activity android:name=".playmusic.view.PlayMusicActivity"
-            android:theme="@style/BaseAppTheme.bottom"/>
+            android:theme="@style/BaseAppTheme.bottom"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".playmusicqueue.view.MusicQueueActivity"
-            android:theme="@style/BaseAppTheme.Dialog"/>
+            android:theme="@style/BaseAppTheme.Dialog"
+                  android:screenOrientation="portrait"/>
         <service android:name=".service.service.PlayService"/>
         <activity android:name=".skinfragment.activity.view.SkinActivity"
             android:theme="@style/BaseAppTheme.Dialog"/>

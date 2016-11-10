@@ -13,6 +13,7 @@ import com.vac.vmusic.R;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.utils.HomeColorManager;
+import com.vac.vmusic.views.PlayingIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +75,13 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
         if (tingSong.isPlaying()){
             holder.songNameView.setTextColor(color);
             holder.singerView.setTextColor(color);
+            holder.playingIndicator.startAnimation();
+            holder.playingIndicator.setVisibility(View.VISIBLE);
         }else {
             holder.songNameView.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             holder.singerView.setTextColor(mContext.getResources().getColor(R.color.colorDarkGrey));
+            holder.playingIndicator.pauseAnimation();
+            holder.playingIndicator.setVisibility(View.GONE);
         }
 
         if (tingSong.isFavored()){
@@ -95,12 +100,16 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
         private TextView songNameView;
         private TextView singerView;
         private ImageView favorImageView,removeImageView;
+        private PlayingIndicator playingIndicator;
         public MyViewHolder(View view){
             super(view);
             songNameView =(TextView) view.findViewById(R.id.item_music_queue_song_name_view);
             singerView = (TextView) view.findViewById(R.id.item_music_queue_song_singer_view);
             favorImageView = (ImageView) view.findViewById(R.id.item_music_queue_favor_image_view);
             removeImageView = (ImageView)view.findViewById(R.id.item_music_queue_remove_image_view);
+
+            playingIndicator = (PlayingIndicator) view.findViewById(R.id.item_music_queue_indicator);
+            playingIndicator.setIndictorColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
             content = (LinearLayout) view.findViewById(R.id.item_music_queue_content);
             content.setOnClickListener(new View.OnClickListener() {

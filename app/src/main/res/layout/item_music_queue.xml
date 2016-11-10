@@ -32,6 +32,14 @@
         android:textSize="@dimen/base_text_size_small"
         android:textColor="@color/colorDarkGrey"
         android:text="-姬十三"/>
+        <com.vac.vmusic.views.PlayingIndicator
+            android:id="@+id/item_music_queue_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/activity_padding"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

@@ -14,6 +14,12 @@ import io.vov.vitamio.widget.MediaController;
  */
 public class MyMediaController extends MediaController{
     private Context mContext;
+    private OnLandscapeListener landscapeListener;
+    public MyMediaController(Context context,OnLandscapeListener landscapeListener_){
+        super(context);
+        mContext = context;
+        this.landscapeListener = landscapeListener_;
+    }
     public MyMediaController(Context context){
         super(context);
         mContext = context;
@@ -21,7 +27,12 @@ public class MyMediaController extends MediaController{
 
     @Override
     protected View makeControllerView() {
-
+        setOnLandscapeListener(landscapeListener);
         return LayoutInflater.from(mContext).inflate(R.layout.my_media_controller,null);
+    }
+
+    @Override
+    public void setOnLandscapeListener(OnLandscapeListener landscapeListener) {
+        super.mLandscapeListener = landscapeListener;
     }
 }

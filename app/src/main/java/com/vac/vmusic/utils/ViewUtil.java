@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -108,6 +109,36 @@ public class ViewUtil {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
+
+    /**
+     * 返回屏幕方向
+     * @param context context
+     * @return true就是横屏 false就是竖屏
+     */
+    public static boolean isScreenChange(Context context) {
+
+        Configuration mConfiguration = context.getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            return true;
+        } else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * dp转px
+     * @param context context
+     * @param dpValue dp值
+     * @return px
+     */
+    public static int dpToPx(Context context,float dpValue) {
+        float scale=context.getResources().getDisplayMetrics().density;//获得当前屏幕密度
+        return (int)(dpValue*scale+0.5f);
+    }
+
 
     public static void setFullScreen(Activity activity, boolean full) {
         if (full) {

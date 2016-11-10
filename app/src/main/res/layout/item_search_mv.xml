@@ -1,48 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/item_search_mv_content"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:padding="5dp"
               android:background="@color/colorGrey"
-    android:orientation="horizontal"
               android:clickable="true"
-    android:id="@+id/item_search_mv_content">
+              android:orientation="horizontal"
+              android:padding="5dp">
 
-    <ImageView
-        android:id="@+id/item_search_mv_logo"
-        android:layout_width="170dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_vertical"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/app_name"/>
+    <RelativeLayout
+        android:layout_width="160dp"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/item_search_mv_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:id="@+id/item_search_mv_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_mv_super_hd"
+            android:contentDescription="@string/app_name"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/item_search_mv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="想象之中"
-            android:singleLine="true"
             android:ellipsize="end"
-            android:textSize="@dimen/base_text_size"
-            android:textColor="@color/colorBlack"/>
+            android:singleLine="true"
+            android:text="想象之中"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/base_text_size"/>
+
         <TextView
             android:id="@+id/item_search_mv_singer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="许嵩"
-            android:textSize="@dimen/base_text_size_small"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:text="许嵩"
+            android:textSize="@dimen/base_text_size_small"/>
+
         <TextView
             android:id="@+id/item_search_mv_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/base_text_size_small"
-            android:text="04:22"/>
+            android:text="04:22"
+            android:textSize="@dimen/base_text_size_small"/>
     </LinearLayout>
 </LinearLayout>

@@ -73,8 +73,8 @@ import io.vov.vitamio.utils.StringUtils;
  * Functions like show() and hide() have no effect when MediaController is
  * created in an xml layout.
  */
-public class MediaController extends FrameLayout {
-  private static final int sDefaultTimeout = 3000;
+public abstract class MediaController extends FrameLayout {
+  private static final int sDefaultTimeout = 4000;
   private static final int FADE_OUT = 1;
   private static final int SHOW_PROGRESS = 2;
   private MediaPlayerControl mPlayer;
@@ -97,6 +97,7 @@ public class MediaController extends FrameLayout {
   private AudioManager mAM;
   private OnShownListener mShownListener;
   private OnHiddenListener mHiddenListener;
+  public OnLandscapeListener mLandscapeListener;
   @SuppressLint("HandlerLeak")
   private Handler mHandler = new Handler() {
     @Override
@@ -121,6 +122,15 @@ public class MediaController extends FrameLayout {
     public void onClick(View v) {
       doPauseResume();
       show(sDefaultTimeout);
+    }
+  };
+
+  private OnClickListener mFullScreenListener = new OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      if (mLandscapeListener!=null){
+        mLandscapeListener.onLandscape();
+      }
     }
   };
   private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
@@ -186,6 +196,7 @@ public class MediaController extends FrameLayout {
 
   @Override
   public void onFinishInflate() {
+    super.onFinishInflate();
     if (mRoot != null)
       initControllerView(mRoot);
   }
@@ -260,6 +271,9 @@ public class MediaController extends FrameLayout {
     mFileName = (TextView) v.findViewById(getResources().getIdentifier("mediacontroller_file_name", "id", mContext.getPackageName()));
     if (mFileName != null)
       mFileName.setText(mTitle);
+
+    ImageButton fullScreenBtn = (ImageButton)v.findViewById(getResources().getIdentifier("mediacontroller_play_full_screen","id",mContext.getPackageName()));
+    fullScreenBtn.setOnClickListener(mFullScreenListener);
   }
 
   public void setMediaPlayer(MediaPlayerControl player) {
@@ -498,6 +512,13 @@ public class MediaController extends FrameLayout {
     boolean isPlaying();
 
     int getBufferPercentage();
+
   }
+
+  public interface OnLandscapeListener{
+    void onLandscape();
+  }
+
+  public abstract void setOnLandscapeListener(OnLandscapeListener landscapeListener);
 
 }

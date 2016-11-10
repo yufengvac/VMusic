@@ -67,9 +67,20 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
         TingSearchMV tingSearchMV = mData.get(position);
         holder.title.setText(tingSearchMV.getVideoName());
         holder.singer.setText(tingSearchMV.getSingerName());
-        if (tingSearchMV.getMvList()!=null&&tingSearchMV.getMvList().size()>0){
+        List<TingMV> tingMVList = tingSearchMV.getMvList();
+        if (tingMVList!=null&&tingMVList.size()>0){
             holder.duration.setText(sdf.format(new Date(tingSearchMV.getMvList().get(0).getDurationMilliSecond())));
+            if (tingMVList.get(0).getType()==2){//1080p
+                holder.quality.setVisibility(View.VISIBLE);
+                holder.quality.setImageResource(R.drawable.icon_mv_super_hd);
+            }else if (tingMVList.get(0).getType()==1){//720p
+                holder.quality.setVisibility(View.VISIBLE);
+                holder.quality.setImageResource(R.drawable.icon_mv_hd);
+            }else {
+                holder.quality.setVisibility(View.GONE);
+            }
         }
+
         Glide.with(mContext).load(tingSearchMV.getPicUrl()).into(holder.logo);
         setAnimation(holder.itemView,position);
     }
@@ -90,7 +101,7 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private ImageView logo;
+        private ImageView logo,quality;
         private TextView title,singer,duration;
         private LinearLayout content;
         public MyViewHolder(View view){
@@ -99,6 +110,7 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
             title = (TextView)view.findViewById(R.id.item_search_mv_title);
             singer = (TextView) view.findViewById(R.id.item_search_mv_singer);
             duration = (TextView) view.findViewById(R.id.item_search_mv_duration);
+            quality = (ImageView) view.findViewById(R.id.item_search_mv_quality);
             content = (LinearLayout) view.findViewById(R.id.item_search_mv_content);
             content.setClickable(true);
             content.setOnClickListener(new View.OnClickListener() {
