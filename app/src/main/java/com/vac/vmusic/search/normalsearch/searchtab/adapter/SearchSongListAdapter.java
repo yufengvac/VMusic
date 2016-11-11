@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.search.TingSongList;
+import com.vac.vmusic.utils.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,11 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
 
     private Context mContext;
     private List<TingSongList> mData = new ArrayList<>();
+
+    public static final int TYPE_FOOTER = 3;
+    public static final int TYPE_NORMAL = 4;
+    protected boolean mShowFooter;
+    private View footerView;
     public SearchSongListAdapter(Context context){
         this.mContext = context;
     }
@@ -44,29 +50,57 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
         }
     }
     @Override
+    public int getItemViewType(int position) {
+        if (mShowFooter&&position==getItemCount()-1) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_NORMAL;
+    }
+    public void showFooter() {
+        // KLog.e("Adapter显示尾部: " + getItemCount());
+        mShowFooter = true;
+        notifyItemInserted(getItemCount());
+
+    }
+
+    public void hideFooter() {
+        // KLog.e("Adapter隐藏尾部:" + (getItemCount() - 1));
+        mShowFooter = false;
+        notifyItemRemoved(getItemCount());
+    }
+    @Override
     public int getItemCount() {
-        return mData.size();
+        return mShowFooter?mData.size()+1:mData.size();
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TingSongList tingSongList = mData.get(position);
-        holder.author.setText(tingSongList.getAuthor());
-        holder.name.setText(tingSongList.getTitle());
-        int length = 0;
-        if (tingSongList.getSong_list()!=null){
-            length = tingSongList.getSong_list().split(",").length;
+        if (getItemViewType(position) != TYPE_FOOTER) {
+            TingSongList tingSongList = mData.get(position);
+            holder.author.setText(tingSongList.getAuthor());
+            holder.name.setText(tingSongList.getTitle());
+            int length = 0;
+            if (tingSongList.getSong_list() != null) {
+                length = tingSongList.getSong_list().split(",").length;
+            }
+            String numStr = length + "首";
+            holder.num.setText(numStr);
+            Glide.with(mContext).load(tingSongList.getPic_url()).into(holder.logo);
+            setAnimation(holder.itemView, position);
         }
-        String numStr = length+"首";
-        holder.num.setText(numStr);
-        Glide.with(mContext).load(tingSongList.getPic_url()).into(holder.logo);
-        setAnimation(holder.itemView,position);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_songlist,parent,false);
-        return new MyViewHolder(view);
+        if (viewType==TYPE_FOOTER){
+            if (footerView==null){
+                footerView = LayoutInflater.from(mContext).inflate(R.layout.refresh_layout_footer,parent,false);
+            }
+            return new MyViewHolder(footerView);
+        }else {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_songlist, parent, false);
+            return new MyViewHolder(view);
+        }
     }
 
     protected void setAnimation(View viewToAnimate, int position) {
@@ -83,10 +117,14 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
         private TextView name,author,num;
             public MyViewHolder(View view) {
                 super(view);
-                logo = (ImageView) view.findViewById(R.id.item_search_songlist_logo);
-                name = (TextView) view.findViewById(R.id.item_search_songlist_name);
-                author = (TextView) view.findViewById(R.id.item_search_songlist_author);
-                num = (TextView) view.findViewById(R.id.item_search_songlist_num);
+                if (view!=footerView) {
+                    logo = (ImageView) view.findViewById(R.id.item_search_songlist_logo);
+                    name = (TextView) view.findViewById(R.id.item_search_songlist_name);
+                    author = (TextView) view.findViewById(R.id.item_search_songlist_author);
+                    num = (TextView) view.findViewById(R.id.item_search_songlist_num);
+                }else {
+                    ViewUtil.showRefreshLayout(view,"正在加载..");
+                }
             }
         }
 

@@ -56,19 +56,17 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
                 }
             }
 
-           /* @Override
+            @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (mCurrentState == STATE_MORE_LOADED *//*&& RecyclerView.SCROLL_STATE_IDLE == newState*//* && calculateRecyclerViewFirstPosition() == getAdapter()
+                if (mCurrentState == STATE_MORE_LOADED && RecyclerView.SCROLL_STATE_IDLE == newState && calculateRecyclerViewFirstPosition() == getAdapter()
                         .getItemCount() - 1 && mLoadMoreListener != null) {
-                    // 之前的状态为非正在加载状态
-                    KLog.e("加载更多数据");
-                    mLoadMoreListener.loadMore();
+                   mLoadMoreListener.stateChanged();
                     mCurrentState = STATE_MORE_LOADING;
                 }
 
-            }*/
+            }
         });
     }
 
@@ -138,6 +136,7 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
 
     public interface OnLoadMoreListener {
         void loadMore();
+        void stateChanged();
     }
 
     public AutoLoadMoreRecyclerView setAutoLayoutManager(LayoutManager layoutManager) {

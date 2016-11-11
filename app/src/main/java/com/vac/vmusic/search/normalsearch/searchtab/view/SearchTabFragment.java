@@ -24,7 +24,10 @@ import com.vac.vmusic.utils.ViewUtil;
 import com.vac.vmusic.views.AutoLoadMoreRecyclerView;
 import com.vac.vmusic.views.DividerItemDecoration;
 
+import java.util.concurrent.TimeUnit;
+
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 /**
@@ -126,7 +129,28 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
         autoLoadMoreRecyclerView.setOnLoadMoreListener(new AutoLoadMoreRecyclerView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
-                searchTabFragmentPresenter.loadDataMore(type);
+                if (autoLoadMoreRecyclerView.getAdapter() instanceof SearchSongAdapter){
+                    ((SearchSongAdapter)homeAdapter).showFooter();
+                }else if (autoLoadMoreRecyclerView.getAdapter() instanceof SearchAlbumAdapter){
+                    ((SearchAlbumAdapter)homeAdapter).showFooter();
+                }else if (autoLoadMoreRecyclerView.getAdapter() instanceof SearchSongListAdapter){
+                    ((SearchSongListAdapter)homeAdapter).showFooter();
+                }else if (autoLoadMoreRecyclerView.getAdapter() instanceof SearchMVAdapter){
+                    ((SearchMVAdapter)homeAdapter).showFooter();
+                }
+                autoLoadMoreRecyclerView.scrollToPosition(homeAdapter.getItemCount()-1);
+                Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        searchTabFragmentPresenter.loadDataMore(type);
+                    }
+                });
+
+            }
+
+            @Override
+            public void stateChanged() {
+
             }
         });
     }

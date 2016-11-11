@@ -194,6 +194,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements DownLo
             localMusic.setSize(tingSong.getAuditionList().get(0).getSize());
             localMusic.setData(sqlDownLoadInfo.getFilePath());
             localMusic.setDuration(tingSong.getAuditionList().get(0).getDuration());
+            localMusic.setSongId(tingSong.getSongId());
             localMusic.save();
 
             RxBus.get().post("downloadSong",tingSong.getSongId());

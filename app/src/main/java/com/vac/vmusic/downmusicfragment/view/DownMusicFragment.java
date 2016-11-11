@@ -9,15 +9,18 @@ import android.widget.LinearLayout;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
+import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.downmusicfragment.presenter.DownMusicFragmentPresenter;
+import com.vac.vmusic.service.binder.MusicBinder;
 import com.vac.vmusic.utils.HomeColorManager;
 
 /**
  * Created by vac on 16/11/3.
  *
  */
-public class DownMusicFragment extends BaseSwipeBackFragment implements IDownMusicFragment,OnItemClickListener,View.OnClickListener{
+public class DownMusicFragment extends BaseSwipeBackFragment implements IDownMusicFragment,OnItemClickListener,View.OnClickListener,OnPlayMusicStateListener{
     private RecyclerView recyclerView;
     private DownMusicFragmentPresenter downMusicFragmentPresenter;
     public static DownMusicFragment getDownMusicFragment(Bundle bundle){
@@ -67,6 +70,11 @@ public class DownMusicFragment extends BaseSwipeBackFragment implements IDownMus
     }
 
     @Override
+    public MusicBinder getMyMusicBinder() {
+        return getMusicIbinder();
+    }
+
+    @Override
     public OnItemClickListener getListener() {
         return this;
     }
@@ -74,5 +82,37 @@ public class DownMusicFragment extends BaseSwipeBackFragment implements IDownMus
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public void onMusicPlayed(TingSong music) {
+        downMusicFragmentPresenter.getLocalMusicAdapter().setFlagInPosition(false,
+                getMusicIbinder().getCurrentPlayingPosition(),music);
+    }
+
+    @Override
+    public void onMusicPaused(TingSong music) {
+        downMusicFragmentPresenter.getLocalMusicAdapter().setFlagInPosition(true,
+                getMusicIbinder().getCurrentPlayingPosition(),music);
+    }
+
+    @Override
+    public void onMusicStopped() {
+
+    }
+
+    @Override
+    public void onPlayModeChanged(int playMode) {
+
+    }
+
+    @Override
+    public void onNewSongPlayed(TingSong music, int position) {
+        downMusicFragmentPresenter.getLocalMusicAdapter().setFlagInPosition(false,position,music);
+    }
+
+    @Override
+    public void onPlayProgressUpdate(int percent, long currentTime) {
+
     }
 }

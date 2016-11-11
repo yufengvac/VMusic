@@ -12,6 +12,7 @@ import com.vac.vmusic.callback.OnLocalMusicLoadListener;
 import com.vac.vmusic.downmusicfragment.adapter.LocalMusicAdapter;
 import com.vac.vmusic.nativemusicfragment.model.NativeMusicModel;
 import com.vac.vmusic.nativemusicfragment.view.INativeMusicFragment;
+import com.vac.vmusic.service.service.PlayService;
 import com.vac.vmusic.views.DividerItemDecoration;
 
 import java.util.List;
@@ -51,9 +52,15 @@ public class NativeMusicPresenter implements OnLocalMusicLoadListener{
 
         localMusicAdapter.setData(localMusics);
         localMusicAdapter.setHeadView(headView);
+        localMusicAdapter.setFlagInPosition(iNativeMusicFragment.getMyMusicBinder().getCurrentState()!= PlayService.PlayState.Playing,
+                iNativeMusicFragment.getMyMusicBinder().getCurrentPlayingPosition(),iNativeMusicFragment.getMyMusicBinder().getCurrentSong());
     }
 
     public List<LocalMusic> getLocalMusic(){
         return localMusicList;
+    }
+
+    public LocalMusicAdapter getLocalMusicAdapter(){
+        return localMusicAdapter;
     }
 }

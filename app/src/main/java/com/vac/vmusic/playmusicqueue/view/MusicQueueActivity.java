@@ -57,10 +57,11 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
 
         int position = getMusicBinder().getCurrentPlayingPosition();
         if (position>=0){
-            musicQueueAdapter.setFocuse(lastPosition,getMusicBinder().getCurrentPlayingPosition());
+            musicQueueAdapter.setFocuse(lastPosition,getMusicBinder().getCurrentPlayingPosition(),getMusicBinder().getCurrentSong().getSongId());
             lastPosition = getMusicBinder().getCurrentPlayingPosition();
             recyclerView.smoothScrollToPosition(position);
             onPlayModeChanged(getMusicBinder().getPlayMode());
+            musicQueueAdapter.setPlayingState(getMusicBinder().getCurrentState()!= PlayService.PlayState.Playing);
         }
 
     }
@@ -128,12 +129,12 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
 
     @Override
     public void onMusicPlayed(TingSong music) {
-
+        musicQueueAdapter.setPlayingState(false);
     }
 
     @Override
     public void onMusicPaused(TingSong music) {
-
+        musicQueueAdapter.setPlayingState(true);
     }
 
     @Override
@@ -172,7 +173,7 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
 
     @Override
     public void onNewSongPlayed(TingSong music, int position) {
-        musicQueueAdapter.setFocuse(lastPosition,position);
+        musicQueueAdapter.setFocuse(lastPosition,position,music.getSongId());
         lastPosition = position;
     }
 

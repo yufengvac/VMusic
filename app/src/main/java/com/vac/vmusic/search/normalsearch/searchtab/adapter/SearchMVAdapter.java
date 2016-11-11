@@ -16,6 +16,7 @@ import com.vac.vmusic.R;
 import com.vac.vmusic.beans.search.TingMV;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.utils.ViewUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +34,12 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
     private SimpleDateFormat sdf ;
     private int mLastPosition = -1;
     private OnItemClickListener onItemClickListener;
+
+    public static final int TYPE_FOOTER = 3;
+    public static final int TYPE_NORMAL = 4;
+    protected boolean mShowFooter;
+    private View footerView;
+
     public SearchMVAdapter(Context context,OnItemClickListener listener){
         this.mContext = context;
         sdf = new SimpleDateFormat("mm:ss", Locale.CHINA);
@@ -59,30 +66,50 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mShowFooter?mData.size()+1:mData.size();
+    }
+    @Override
+    public int getItemViewType(int position) {
+        if (mShowFooter&&position==getItemCount()-1) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_NORMAL;
+    }
+    public void showFooter() {
+        // KLog.e("Adapter显示尾部: " + getItemCount());
+        mShowFooter = true;
+        notifyItemInserted(getItemCount());
+
     }
 
+    public void hideFooter() {
+        // KLog.e("Adapter隐藏尾部:" + (getItemCount() - 1));
+        mShowFooter = false;
+        notifyItemRemoved(getItemCount());
+    }
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TingSearchMV tingSearchMV = mData.get(position);
-        holder.title.setText(tingSearchMV.getVideoName());
-        holder.singer.setText(tingSearchMV.getSingerName());
-        List<TingMV> tingMVList = tingSearchMV.getMvList();
-        if (tingMVList!=null&&tingMVList.size()>0){
-            holder.duration.setText(sdf.format(new Date(tingSearchMV.getMvList().get(0).getDurationMilliSecond())));
-            if (tingMVList.get(0).getType()==2){//1080p
-                holder.quality.setVisibility(View.VISIBLE);
-                holder.quality.setImageResource(R.drawable.icon_mv_super_hd);
-            }else if (tingMVList.get(0).getType()==1){//720p
-                holder.quality.setVisibility(View.VISIBLE);
-                holder.quality.setImageResource(R.drawable.icon_mv_hd);
-            }else {
-                holder.quality.setVisibility(View.GONE);
+        if (getItemViewType(position) != TYPE_FOOTER) {
+            TingSearchMV tingSearchMV = mData.get(position);
+            holder.title.setText(tingSearchMV.getVideoName());
+            holder.singer.setText(tingSearchMV.getSingerName());
+            List<TingMV> tingMVList = tingSearchMV.getMvList();
+            if (tingMVList != null && tingMVList.size() > 0) {
+                holder.duration.setText(sdf.format(new Date(tingSearchMV.getMvList().get(0).getDurationMilliSecond())));
+                if (tingMVList.get(0).getType() == 2) {//1080p
+                    holder.quality.setVisibility(View.VISIBLE);
+                    holder.quality.setImageResource(R.drawable.icon_mv_super_hd);
+                } else if (tingMVList.get(0).getType() == 1) {//720p
+                    holder.quality.setVisibility(View.VISIBLE);
+                    holder.quality.setImageResource(R.drawable.icon_mv_hd);
+                } else {
+                    holder.quality.setVisibility(View.GONE);
+                }
             }
-        }
 
-        Glide.with(mContext).load(tingSearchMV.getPicUrl()).into(holder.logo);
-        setAnimation(holder.itemView,position);
+            Glide.with(mContext).load(tingSearchMV.getPicUrl()).into(holder.logo);
+            setAnimation(holder.itemView, position);
+        }
     }
     protected void setAnimation(View viewToAnimate, int position) {
         if (position > mLastPosition) {
@@ -95,8 +122,15 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_mv,parent,false);
-        return new MyViewHolder(view);
+        if (viewType==TYPE_FOOTER){
+            if (footerView==null){
+                footerView = LayoutInflater.from(mContext).inflate(R.layout.refresh_layout_footer,parent,false);
+            }
+            return new MyViewHolder(footerView);
+        }else {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_search_mv, parent, false);
+            return new MyViewHolder(view);
+        }
     }
 
 
@@ -106,19 +140,23 @@ public class SearchMVAdapter extends RecyclerView.Adapter<SearchMVAdapter.MyView
         private LinearLayout content;
         public MyViewHolder(View view){
             super(view);
-            logo = (ImageView) view.findViewById(R.id.item_search_mv_logo);
-            title = (TextView)view.findViewById(R.id.item_search_mv_title);
-            singer = (TextView) view.findViewById(R.id.item_search_mv_singer);
-            duration = (TextView) view.findViewById(R.id.item_search_mv_duration);
-            quality = (ImageView) view.findViewById(R.id.item_search_mv_quality);
-            content = (LinearLayout) view.findViewById(R.id.item_search_mv_content);
-            content.setClickable(true);
-            content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(view,getLayoutPosition());
-                }
-            });
+            if (view!=footerView) {
+                logo = (ImageView) view.findViewById(R.id.item_search_mv_logo);
+                title = (TextView) view.findViewById(R.id.item_search_mv_title);
+                singer = (TextView) view.findViewById(R.id.item_search_mv_singer);
+                duration = (TextView) view.findViewById(R.id.item_search_mv_duration);
+                quality = (ImageView) view.findViewById(R.id.item_search_mv_quality);
+                content = (LinearLayout) view.findViewById(R.id.item_search_mv_content);
+                content.setClickable(true);
+                content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemClickListener.onItemClick(view, getLayoutPosition());
+                    }
+                });
+            }else {
+                ViewUtil.showRefreshLayout(view,"正在加载..");
+            }
         }
     }
 }

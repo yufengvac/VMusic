@@ -12,6 +12,7 @@ import com.vac.vmusic.callback.OnLocalMusicLoadListener;
 import com.vac.vmusic.downmusicfragment.adapter.LocalMusicAdapter;
 import com.vac.vmusic.downmusicfragment.model.DownMusicFragmentModel;
 import com.vac.vmusic.downmusicfragment.view.IDownMusicFragment;
+import com.vac.vmusic.service.service.PlayService;
 import com.vac.vmusic.views.DividerItemDecoration;
 
 import java.util.List;
@@ -48,8 +49,12 @@ public class DownMusicFragmentPresenter implements OnLocalMusicLoadListener {
         View headView = LayoutInflater.from(iDownMusicFragment.getMyContext()).inflate(R.layout.head_play_music,iDownMusicFragment.getRecyclerView(),false);
         localMusicAdapter.setData(localMusics);
         localMusicAdapter.setHeadView(headView);
+        localMusicAdapter.setFlagInPosition(iDownMusicFragment.getMyMusicBinder().getCurrentState()!= PlayService.PlayState.Playing,
+                iDownMusicFragment.getMyMusicBinder().getCurrentPlayingPosition(),iDownMusicFragment.getMyMusicBinder().getCurrentSong());
+    }
 
-
+    public LocalMusicAdapter getLocalMusicAdapter(){
+        return localMusicAdapter;
     }
 
     public List<LocalMusic> getLocalMusic(){

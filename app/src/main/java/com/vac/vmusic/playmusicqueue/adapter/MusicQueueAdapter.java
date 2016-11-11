@@ -28,6 +28,10 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
     private Context mContext;
     private int color;
 
+    private long songId;
+    private boolean isPauseAnimation = false;
+    private int currentPosition;
+
     public List<TingSong> getData(){
         return mData;
     }
@@ -46,13 +50,20 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
             notifyDataSetChanged();
         }
     }
-    public void setFocuse(int lastPosition,int position){
+    public void setFocuse(int lastPosition,int position,long songId_){
        if (lastPosition>=0){
            mData.get(lastPosition).setPlaying(false);
            notifyItemChanged(lastPosition);
        }
         mData.get(position).setPlaying(true);
+        currentPosition = position;
+        songId = songId_;
         notifyItemChanged(position);
+    }
+
+    public void setPlayingState(boolean isPause){
+        isPauseAnimation = isPause;
+        notifyItemChanged(currentPosition);
     }
 
     public void favorSong(int position){
@@ -75,17 +86,27 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
         if (tingSong.isPlaying()){
             holder.songNameView.setTextColor(color);
             holder.singerView.setTextColor(color);
-            holder.playingIndicator.startAnimation();
-            holder.playingIndicator.setVisibility(View.VISIBLE);
+
         }else {
             holder.songNameView.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
             holder.singerView.setTextColor(mContext.getResources().getColor(R.color.colorDarkGrey));
-            holder.playingIndicator.pauseAnimation();
-            holder.playingIndicator.setVisibility(View.GONE);
+
         }
 
         if (tingSong.isFavored()){
             holder.favorImageView.setImageResource(R.drawable.icon_favor_yes);
+        }
+
+        if (tingSong.getSongId()==songId){
+            if (isPauseAnimation){
+                holder.playingIndicator.pauseAnimation();
+            }else {
+                holder.playingIndicator.startAnimation();
+            }
+            holder.playingIndicator.setVisibility(View.VISIBLE);
+        }else {
+            holder.playingIndicator.pauseAnimation();
+            holder.playingIndicator.setVisibility(View.GONE);
         }
     }
 
@@ -109,7 +130,7 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
             removeImageView = (ImageView)view.findViewById(R.id.item_music_queue_remove_image_view);
 
             playingIndicator = (PlayingIndicator) view.findViewById(R.id.item_music_queue_indicator);
-            playingIndicator.setIndictorColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+            playingIndicator.setIndicatorColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
             content = (LinearLayout) view.findViewById(R.id.item_music_queue_content);
             content.setOnClickListener(new View.OnClickListener() {

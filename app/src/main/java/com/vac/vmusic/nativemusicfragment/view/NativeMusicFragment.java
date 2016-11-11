@@ -9,15 +9,19 @@ import android.widget.LinearLayout;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
+import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.callback.OnPlayMusicStateListener;
 import com.vac.vmusic.nativemusicfragment.presenter.NativeMusicPresenter;
+import com.vac.vmusic.service.binder.MusicBinder;
+import com.vac.vmusic.service.service.PlayService;
 import com.vac.vmusic.utils.HomeColorManager;
 
 /**
  * Created by vac on 16/11/5.
  *
  */
-public class NativeMusicFragment extends BaseSwipeBackFragment implements INativeMusicFragment,OnItemClickListener,View.OnClickListener{
+public class NativeMusicFragment extends BaseSwipeBackFragment implements INativeMusicFragment,OnItemClickListener,View.OnClickListener,OnPlayMusicStateListener{
     private RecyclerView recyclerView;
     private NativeMusicPresenter nativeMusicPresenter;
     public static NativeMusicFragment getNativeMusicFragment(Bundle bundle){
@@ -43,6 +47,13 @@ public class NativeMusicFragment extends BaseSwipeBackFragment implements INativ
 
         ImageView backImageView = (ImageView) view.findViewById(R.id.native_music_top_back_imageview);
         backImageView.setOnClickListener(this);
+        getMusicIbinder().registerOnPlayMusicStateListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getMusicIbinder().unRegisterOnPlayMusicStateListener(this);
     }
 
     @Override
@@ -61,6 +72,11 @@ public class NativeMusicFragment extends BaseSwipeBackFragment implements INativ
     }
 
     @Override
+    public MusicBinder getMyMusicBinder() {
+        return getMusicIbinder();
+    }
+
+    @Override
     public void onItemClick(View view, int position) {
         getMusicIbinder().setMusicPlayList(nativeMusicPresenter.getLocalMusic(),true);
         getMusicIbinder().beginToPlay(position,nativeMusicPresenter.getLocalMusic().get(position));
@@ -74,5 +90,37 @@ public class NativeMusicFragment extends BaseSwipeBackFragment implements INativ
                 getActivity().onBackPressed();
                 break;
         }
+    }
+
+    @Override
+    public void onMusicPlayed(TingSong music) {
+        nativeMusicPresenter.getLocalMusicAdapter().setFlagInPosition(false,
+                getMyMusicBinder().getCurrentPlayingPosition(),music);
+    }
+
+    @Override
+    public void onMusicPaused(TingSong music) {
+        nativeMusicPresenter.getLocalMusicAdapter().setFlagInPosition(true,
+                getMyMusicBinder().getCurrentPlayingPosition(),music);
+    }
+
+    @Override
+    public void onMusicStopped() {
+
+    }
+
+    @Override
+    public void onPlayModeChanged(int playMode) {
+
+    }
+
+    @Override
+    public void onNewSongPlayed(TingSong music, int position) {
+        nativeMusicPresenter.getLocalMusicAdapter().setFlagInPosition(false,position,music);
+    }
+
+    @Override
+    public void onPlayProgressUpdate(int percent, long currentTime) {
+
     }
 }

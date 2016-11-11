@@ -75,6 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/base_text_size_small"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/colorDarkGrey"
             android:text="千古"/>
     </LinearLayout>
 
@@ -84,8 +87,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textSize="@dimen/base_text_size_small"
+        android:singleLine="true"
         android:text="别称"/>
     </LinearLayout>
+    <com.vac.vmusic.views.PlayingIndicator
+        android:id="@+id/item_search_song_playing_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:layout_margin="@dimen/activity_padding"/>
     <ImageView
         android:id="@+id/item_search_song_add_songlist_imageview"
         android:layout_width="wrap_content"

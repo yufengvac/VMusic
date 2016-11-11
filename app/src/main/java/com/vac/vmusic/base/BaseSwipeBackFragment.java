@@ -14,6 +14,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.trello.rxlifecycle.components.RxFragment;
 import com.vac.vmusic.beans.BinderSingleton;
 import com.vac.vmusic.service.binder.MusicBinder;
 

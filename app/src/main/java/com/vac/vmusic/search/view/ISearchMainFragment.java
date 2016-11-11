@@ -10,6 +10,7 @@ public interface ISearchMainFragment {
     String getKeyWord();
     void setHotSearch();
     void setNormalSearch();
+    void setNormalSearch(String content);
     EditText getEditText();
 
     void showClearIcon();

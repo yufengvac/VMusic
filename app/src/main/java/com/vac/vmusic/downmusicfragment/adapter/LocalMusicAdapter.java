@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.LocalMusic;
+import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.views.MyManagerButton;
 import com.vac.vmusic.views.MyPlayButton;
+import com.vac.vmusic.views.PlayingIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,10 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
 
     private View mHeadView;
 
+    private boolean isPause = false;
+    private int currentPosition = -1;
+    private TingSong currentTingSong;
+
     private HomeColorManager homeColorManager;
     public LocalMusicAdapter(Context context, OnItemClickListener onItemClickListener){
         this.mContext = context;
@@ -48,6 +54,13 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
             mData.addAll(localMusics);
             notifyDataSetChanged();
         }
+    }
+
+    public void setFlagInPosition(boolean isPause_, int position, TingSong tingSong){
+        isPause = isPause_;
+        currentPosition = position;
+        currentTingSong =tingSong;
+        notifyDataSetChanged();
     }
 
     public void setHeadView(View view){
@@ -97,6 +110,17 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
             holder.mvImageView.setVisibility(View.GONE);
             holder.alias.setVisibility(View.GONE);
             holder.addSongListImageView.setVisibility(View.GONE);
+            if (position ==currentPosition&&currentTingSong.getSongId()==localMusic.getSongId()){
+                if (isPause){
+                    holder.playingIndicator.pauseAnimation();
+                }else {
+                    holder.playingIndicator.startAnimation();
+                }
+                holder.playingIndicator.setVisibility(View.VISIBLE);
+            }else {
+                holder.playingIndicator.pauseAnimation();
+                holder.playingIndicator.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -118,6 +142,8 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         private MyPlayButton myPlayButton;
         private MyManagerButton myManagerButton;
         private TextView myPlayText,myManageText;
+
+        private PlayingIndicator playingIndicator;
         public MyViewHolder(View view){
             super(view);
             if (view==mHeadView){
@@ -139,6 +165,9 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
                 mvImageView = (ImageView) view.findViewById(R.id.item_home_mv_imageview);
                 addSongListImageView = (ImageView) view.findViewById(R.id.item_search_song_add_songlist_imageview);
                 alias = (TextView) view.findViewById(R.id.item_home_alias);
+
+                playingIndicator = (PlayingIndicator) view.findViewById(R.id.item_search_song_playing_indicator);
+                playingIndicator.setIndicatorColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
                 content = (LinearLayout) view.findViewById(R.id.item_search_song_content);
                 content.setOnClickListener(new View.OnClickListener() {

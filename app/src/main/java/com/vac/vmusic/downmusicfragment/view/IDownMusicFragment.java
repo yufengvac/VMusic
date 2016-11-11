@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.service.binder.MusicBinder;
 
 /**
  * Created by vac on 16/11/3.
@@ -16,4 +17,8 @@ public interface IDownMusicFragment {
     OnItemClickListener getListener();
 
     RecyclerView getRecyclerView();
+
+    MusicBinder getMyMusicBinder();
+
+
 }

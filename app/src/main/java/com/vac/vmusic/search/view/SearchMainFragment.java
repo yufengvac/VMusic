@@ -21,6 +21,9 @@ import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.utils.RxBus;
 import com.vac.vmusic.utils.ViewUtil;
 
+import rx.Subscription;
+import rx.functions.Action1;
+
 /**
  * Created by vac on 16/10/22.
  *
@@ -31,6 +34,7 @@ public class SearchMainFragment extends BaseSwipeBackFragment implements ISearch
     private FragmentManager fragmentManager;
     private ImageView clearImageView;
 
+    private Subscription searchSub;
     public static SearchMainFragment getSearchMainFragment(Bundle bundle){
         SearchMainFragment searchMainFragment = new SearchMainFragment();
         if (bundle!=null){
@@ -65,6 +69,20 @@ public class SearchMainFragment extends BaseSwipeBackFragment implements ISearch
         SearchMainFragmentPresenter searchMainFragmentPresenter = new SearchMainFragmentPresenter(this);
         searchMainFragmentPresenter.addTextWatch();
 
+        searchSub = RxBus.get().register("search",String.class).subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                setNormalSearch(s);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (searchSub!=null){
+            searchSub.unsubscribe();
+        }
     }
 
     @Override
@@ -124,6 +142,15 @@ public class SearchMainFragment extends BaseSwipeBackFragment implements ISearch
         ViewUtil.toggleInput(getActivity());
         Bundle bundle = new Bundle();
         bundle.putString("keyword",getKeyWord());
+        fragmentManager.beginTransaction().replace(R.id.search_main_fragment_content, SearchHomeFragment.getSearchHomeFragment(bundle))
+                .commit();
+    }
+
+    @Override
+    public void setNormalSearch(String content) {
+        Bundle bundle = new Bundle();
+        searchEditText.setText(content);
+        bundle.putString("keyword",content);
         fragmentManager.beginTransaction().replace(R.id.search_main_fragment_content, SearchHomeFragment.getSearchHomeFragment(bundle))
                 .commit();
     }

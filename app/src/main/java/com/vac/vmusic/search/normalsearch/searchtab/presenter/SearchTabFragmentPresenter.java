@@ -1,10 +1,13 @@
 package com.vac.vmusic.search.normalsearch.searchtab.presenter;
 
 
+import android.content.ContentValues;
+
 import com.vac.vmusic.beans.search.TingAlbum;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.beans.search.TingSongList;
+import com.vac.vmusic.beans.search.historysearch.HistorySearch;
 import com.vac.vmusic.callback.RequestCallback;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchAlbumAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchMVAdapter;
@@ -13,6 +16,8 @@ import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongListAdapte
 import com.vac.vmusic.search.normalsearch.searchtab.model.SearchTabFragmentModel;
 import com.vac.vmusic.search.normalsearch.searchtab.view.ISearchTabFragment;
 import com.vac.vmusic.search.normalsearch.searchtab.view.SearchTabFragment;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +78,16 @@ public class SearchTabFragmentPresenter implements RequestCallback<TingSong> {
         }else if (SearchTabFragment.HomeFragmentType.MV.equals(type)){
             searchTabFragmentModel.searchMV(LIMIT,pageMap.get(type),iSearchTabFragment.getKeyWord(),searchMVCallback);
         }
+
+        HistorySearch historySearch = new HistorySearch();
+        historySearch.setTimeStamp(System.currentTimeMillis());
+        historySearch.setContent(iSearchTabFragment.getKeyWord());
+        List<HistorySearch>  queryHistorySearchList = DataSupport.where("content = ?",iSearchTabFragment.getKeyWord()).find(HistorySearch.class);
+        if (queryHistorySearchList==null||queryHistorySearchList.size()==0){
+            historySearch.setCount(1);
+            historySearch.save();
+        }
+
     }
 
     public void loadDataMore(String type){
@@ -106,6 +121,7 @@ public class SearchTabFragmentPresenter implements RequestCallback<TingSong> {
 
         @Override
         public void requestSuccess(List<TingAlbum> data) {
+            ((SearchAlbumAdapter)iSearchTabFragment.getHomeAdapter()).hideFooter();
             ((SearchAlbumAdapter)iSearchTabFragment.getHomeAdapter()).setData(data,mIsRefreshMap.get(curType));
             iSearchTabFragment.getRecyclerView().notifyMoreLoaded();
             if (data==null||data.size()==0){
@@ -140,6 +156,7 @@ public class SearchTabFragmentPresenter implements RequestCallback<TingSong> {
 
         @Override
         public void requestSuccess(List<TingSongList> data) {
+            ((SearchSongListAdapter)iSearchTabFragment.getHomeAdapter()).hideFooter();
             ((SearchSongListAdapter)iSearchTabFragment.getHomeAdapter()).setData(data,mIsRefreshMap.get(curType));
             iSearchTabFragment.getRecyclerView().notifyMoreLoaded();
             if (data==null||data.size()==0){
@@ -174,6 +191,7 @@ public class SearchTabFragmentPresenter implements RequestCallback<TingSong> {
 
         @Override
         public void requestSuccess(List<TingSearchMV> data) {
+            ((SearchMVAdapter)iSearchTabFragment.getHomeAdapter()).hideFooter();
             ((SearchMVAdapter)iSearchTabFragment.getHomeAdapter()).setData(data,mIsRefreshMap.get(curType));
             iSearchTabFragment.getRecyclerView().notifyMoreLoaded();
             if (data==null||data.size()==0){
@@ -208,6 +226,7 @@ public class SearchTabFragmentPresenter implements RequestCallback<TingSong> {
 
     @Override
     public void requestSuccess(List<TingSong> data) {
+        ((SearchSongAdapter)iSearchTabFragment.getHomeAdapter()).hideFooter();
         ((SearchSongAdapter)iSearchTabFragment.getHomeAdapter()).setData(data,mIsRefreshMap.get(curType));
         iSearchTabFragment.getRecyclerView().notifyMoreLoaded();
         if (data==null||data.size()==0){
