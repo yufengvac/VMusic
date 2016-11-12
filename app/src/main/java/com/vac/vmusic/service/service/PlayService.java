@@ -232,7 +232,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(currentTingSong.getName());
         builder.setContentText(currentTingSong.getSingerName());
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.drawable.launcher);
         builder.setTicker(text);
         builder.setContentIntent(pIntent);
         mNotification = builder.build();
@@ -337,7 +337,7 @@ public class PlayService extends Service implements MediaPlayer.OnPreparedListen
                         mRequestMusicPosition = (mPlayingMusicPosition + 1) % mPlayingMusicList.size();
                     }else{
                         mPlayer.setLooping(true);
-                        Log.i(TAG,"单曲循环,继续播放改曲");
+                        Log.i(TAG,"单曲循环,继续播放该曲");
                     }
                     break;
                 case PlayMode.SEQUENTIAL:

@@ -24,4 +24,6 @@ public interface IMainActivity {
     void initPlayingBottom(TingSong tingSong);
 
     void initColor();
+
+    void noInitMusic();
 }

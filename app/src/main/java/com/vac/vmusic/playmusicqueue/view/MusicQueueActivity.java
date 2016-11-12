@@ -76,7 +76,7 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         View view = getWindow().getDecorView();
-        view.setPadding(0, 0, 0, ViewUtil.getNavigationBarHeight(this));
+        view.setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = (WindowManager.LayoutParams) view.getLayoutParams();
         lp.gravity = Gravity.BOTTOM;
         lp.x = 0;

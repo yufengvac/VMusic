@@ -1,6 +1,7 @@
 package com.vac.vmusic.http.services;
 
 
+import com.vac.vmusic.beans.detail.HttpAlbumDetail;
 import com.vac.vmusic.beans.discover.DiscoverColumn;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
 import com.vac.vmusic.beans.discover.HttpData;
@@ -19,8 +20,10 @@ import com.vac.vmusic.beans.skin.HttpSkin;
 import com.vac.vmusic.beans.skin.Skin;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -140,4 +143,13 @@ public interface ApiService {
     @GET("frontpage/frontpage")
     Observable<HttpData<DiscoverColumn<DiscoverColumnData>>> getDiscoverData(@Header("Cache-Control") String cacheControl
     ,@Query("v") String v);
+
+    /**
+     * 获取专辑详情页
+     * @param cacheControl 缓存控制
+     * @param albumId 专辑id
+     * @return Observable
+     */
+    @GET("song/album/{albumId}")
+    Observable<HttpAlbumDetail> getAlbumDetail(@Header("Cache-Control") String cacheControl, @Path("albumId") long albumId);
  }

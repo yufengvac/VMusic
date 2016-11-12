@@ -6,8 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@color/light_black</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
 
@@ -18,7 +20,7 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@color/colorWhite</item>
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:navigationBarColor">@color/colorBlack</item>
     </style>
 </resources>

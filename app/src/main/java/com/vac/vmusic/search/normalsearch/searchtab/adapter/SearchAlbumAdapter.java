@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.search.TingAlbum;
+import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.utils.ViewUtil;
 
 import java.util.ArrayList;
@@ -26,8 +28,10 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<SearchAlbumAdapter.
 
     private Context mContext;
     private List<TingAlbum> mData = new ArrayList<>();
-    public SearchAlbumAdapter(Context context){
+    private OnItemClickListener onItemClickListener;
+    public SearchAlbumAdapter(Context context,OnItemClickListener listener){
         this.mContext = context;
+        this.onItemClickListener = listener;
     }
 
     private int mLastPosition = -1;
@@ -50,6 +54,10 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<SearchAlbumAdapter.
             }
 
         }
+    }
+
+    public List<TingAlbum> getData(){
+        return mData;
     }
 
     @Override
@@ -114,6 +122,7 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<SearchAlbumAdapter.
     protected class MyViewHolder extends RecyclerView.ViewHolder{
         private ImageView logo;
         private TextView name,singer,date;
+        private LinearLayout content;
         public MyViewHolder(View view){
             super(view);
             if (view!=footerView){
@@ -121,6 +130,13 @@ public class SearchAlbumAdapter extends RecyclerView.Adapter<SearchAlbumAdapter.
                 name = (TextView) view.findViewById(R.id.item_search_album_name);
                 singer = (TextView) view.findViewById(R.id.item_search_album_singer);
                 date = (TextView) view.findViewById(R.id.item_search_album_release_date);
+                content = (LinearLayout) view.findViewById(R.id.item_search_album_content);
+                content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemClickListener.onItemClick(view,getLayoutPosition());
+                    }
+                });
             }else {
                 ViewUtil.showRefreshLayout(view,"正在加载..");
             }

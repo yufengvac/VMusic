@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
+import com.vac.vmusic.beans.AddFragment;
 import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.mvdetail.view.MvDetailActivity;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchAlbumAdapter;
@@ -20,6 +21,8 @@ import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.adapter.SearchSongListAdapter;
 import com.vac.vmusic.search.normalsearch.searchtab.presenter.SearchTabFragmentPresenter;
 import com.vac.vmusic.service.binder.MusicBinder;
+import com.vac.vmusic.songlistdetail.view.SongListDetailFragment;
+import com.vac.vmusic.utils.RxBus;
 import com.vac.vmusic.utils.ViewUtil;
 import com.vac.vmusic.views.AutoLoadMoreRecyclerView;
 import com.vac.vmusic.views.DividerItemDecoration;
@@ -104,7 +107,17 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
 
             });
         }else if (type.equals(HomeFragmentType.ALBUM)){
-            homeAdapter = new SearchAlbumAdapter(getActivity());
+            homeAdapter = new SearchAlbumAdapter(getActivity(),new OnItemClickListener(){
+                @Override
+                public void onItemClick(View view, int position) {
+                    AddFragment addFragment = new AddFragment();
+                    addFragment.setFromFragment(SearchTabFragment.this);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("albumId",((SearchAlbumAdapter)homeAdapter).getData().get(position).getAlbumId());
+                    addFragment.setToFragment(SongListDetailFragment.getSongListDetailFragment(bundle));
+                    RxBus.get().post("addFragment",addFragment);
+                }
+            });
         }else if (type.equals(HomeFragmentType.MV)){
             homeAdapter = new SearchMVAdapter(getActivity(), new OnItemClickListener() {
                 @Override

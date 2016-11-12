@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="65dp"
     android:layout_gravity="bottom"
     android:background="@color/colorWhite"
     android:clickable="true"
@@ -18,19 +18,20 @@
         />
 
     <LinearLayout
+        android:id="@+id/widget_play_music_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:clickable="true"
-        android:onClick="toPlayMusicActivity">
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/main_singer_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/top_bar_height"
+            android:layout_height="@dimen/top_bar_height"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:contentDescription="@string/app_name"
+            android:src="@drawable/default_bg"
             android:scaleType="centerCrop"/>
 
         <LinearLayout

@@ -4,7 +4,9 @@
               android:layout_height="wrap_content"
               android:padding="5dp"
               android:background="@color/colorGrey"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+              android:clickable="true"
+    android:id="@+id/item_search_album_content">
     <ImageView
         android:id="@+id/item_search_album_logo"
         android:layout_width="100dp"

@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -60,6 +61,8 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     private Animation operatingAnim;
     private ObjectAnimator animator;
 
+    private LinearLayout mainContent;
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -93,6 +96,9 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
         myTriangle = (MyTriangle)findViewById(R.id.main_play_mytriangle);
         myPauseButton = (MyPauseButton) findViewById(R.id.main_play_pause_mypausebtn);
         myMenuButton = (MyMenuButton) findViewById(R.id.main_menu_mymenubtn);
+
+        mainContent = (LinearLayout) findViewById(R.id.widget_play_music_content);
+        mainContent.setOnClickListener(this);
         initColor();
 
         addFragmentObservable = RxBus.get().register("addFragment", AddFragment.class);
@@ -166,13 +172,21 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
 
     @Override
     public void onClick(View view) {
-
+        int id = view.getId();
+        switch (id){
+            case R.id.main_content:
+                startActivity(new Intent(this, PlayMusicActivity.class));
+                overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
+                break;
+        }
     }
 
 
     @Override
     public void showSingerPic(String url) {
-        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).transform(new GlideCircleTransform(this)).into(singerLogo);
+        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.default_bg)
+                .transform(new GlideCircleTransform(this)).into(singerLogo);
     }
 
     @Override
@@ -183,18 +197,27 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     @Override
     public void initPlayingBottom(TingSong tingSong) {
         if (tingSong!=null){
+            mainContent.setClickable(true);
             songNameView.setText(tingSong.getName());
             singerNameView.setText(tingSong.getSingerName());
             mainActivityPresenter.loadArtistPic(tingSong.getSingerName());
+            initColor();
         }
+    }
+
+    @Override
+    public void noInitMusic() {
+        mainContent.setClickable(false);
+        myTriangle.setColor(getColor(R.color.colorGrey));
+        myPauseButton.setColor(getColor(R.color.colorGrey));
+        myMenuButton.setColor(getColor(R.color.colorGrey));
+        myProgressbar.setProgressColor(getColor(R.color.colorGrey));
+        songNameView.setText("聆听音乐,畅想未来");
+        singerNameView.setText("听我想听的歌");
     }
 
     public void playSong(View view){
         musicBinder.togglePlay();
-    }
-    public void toPlayMusicActivity(View view){
-        startActivity(new Intent(this, PlayMusicActivity.class));
-        overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
     }
 
     public void openPlayingSongQueue(View view){

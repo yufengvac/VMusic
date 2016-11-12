@@ -12,14 +12,19 @@ public class TingAlbum {
     private String picUrl;
     private String publishDate;
     private int publishYear;
+
+
+    private String lang;
+    private long[] songs;
+
+
+
     public int getPublishYear() {
         return publishYear;
     }
     public void setPublishYear(int publishYear) {
         this.publishYear = publishYear;
     }
-    private String lang;
-    private long[] songs;
     public long getAlbumId() {
         return albumId;
     }

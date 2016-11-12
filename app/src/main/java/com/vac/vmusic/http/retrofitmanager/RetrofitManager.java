@@ -6,6 +6,7 @@ import android.util.SparseArray;
 
 
 import com.vac.vmusic.application.App;
+import com.vac.vmusic.beans.detail.HttpAlbumDetail;
 import com.vac.vmusic.beans.discover.DiscoverColumn;
 import com.vac.vmusic.beans.discover.DiscoverColumnData;
 import com.vac.vmusic.beans.discover.HttpData;
@@ -309,4 +310,13 @@ public class RetrofitManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
+    /**
+     * 获取专辑详情页的数据
+     * @param albumId 专辑id
+     * @return Observable
+     */
+    public Observable<HttpAlbumDetail> getAlbumDetailData(long albumId){
+        return mApiService.getAlbumDetail(getCacheControl(),albumId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
 }
