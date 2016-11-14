@@ -1,5 +1,7 @@
 package com.vac.vmusic.songlistdetail.view;
 
+import android.support.v4.app.FragmentManager;
+
 import com.vac.vmusic.beans.detail.AlbumDetail;
 
 /**
@@ -8,4 +10,5 @@ import com.vac.vmusic.beans.detail.AlbumDetail;
  */
 public interface ISongListDetailFragment {
     void showInfo(AlbumDetail tingAlbum);
+    FragmentManager getFm();
 }

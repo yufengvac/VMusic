@@ -29,4 +29,14 @@
     <string name="shuffe_play">随机播放全部</string>
     <string name="manager_song">管理</string>
 
+
+    <string name="album_detail_title">专辑信息</string>
+    <string name="album_detail_album_name">专辑名:</string>
+    <string name="album_detail_publish_date">发行日期:</string>
+    <string name="album_detail_type">类型:</string>
+    <string name="album_detail_lang">语言:</string>
+    <string name="album_detail_company">发行公司:</string>
+
+    <string name="album_detail_produce_title">专辑简介</string>
+
 </resources>

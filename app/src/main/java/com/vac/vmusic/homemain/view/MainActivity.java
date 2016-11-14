@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.main_content:
+            case R.id.widget_play_music_content:
                 startActivity(new Intent(this, PlayMusicActivity.class));
                 overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
                 break;

@@ -54,6 +54,28 @@ public class HomeColorManager {
         homeColor.setBlue(currentBlue);
     }
 
+    public int transferColorByScrollWithNoInitColor(int scrollY){
+        if (scrollY<=BASEHEIGHT&&scrollY>30){
+            scale = scrollY*1f/BASEHEIGHT;
+            currentAlpha = (int)(0xff*scale);
+            currentRed = (int)(Math.abs(homeColor.getRed()-0x10)*scale);
+            currentGreen = (int)(Math.abs(homeColor.getGreen()-0x10)*scale);
+            currentBlue = (int)(Math.abs(homeColor.getBlue()-0x10)*scale);
+        }else if (scrollY>BASEHEIGHT){
+            scale = 1;
+            currentAlpha = 0xff;
+            currentRed = Math.abs(homeColor.getRed()-0x10);
+            currentGreen = Math.abs(homeColor.getGreen()-0x10);
+            currentBlue = Math.abs(homeColor.getBlue()-0x10);
+
+        }else if (scrollY<=30){
+            scale = 0;
+            currentAlpha = 0x0;
+            currentRed = currentGreen= currentBlue = 0x0;
+        }
+        return Color.argb(currentAlpha,currentRed,currentGreen,currentBlue);
+    }
+
     public int transferColorByScroll(int scrollY){
         if (scrollY<=BASEHEIGHT&&scrollY>0){
             scale = scrollY*1f/BASEHEIGHT;

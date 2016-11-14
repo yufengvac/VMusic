@@ -1,16 +1,21 @@
 package com.vac.vmusic.beans.detail;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.vac.vmusic.beans.search.TingSong;
 /**
  * Created by vac on 16/11/12.
  *
  */
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Arrays;
 import java.util.List;
 
 @JsonIgnoreProperties(value = {"albumRightKey","status","isExclusive","publisher","companyId","titleSongs"
 ,"styles","genres","tags","singerSFlag"})
-public class AlbumDetail {
+public class AlbumDetail implements Parcelable {
     private long albumId;
     private String name;
     private String description;
@@ -29,6 +34,10 @@ public class AlbumDetail {
     private boolean followFlag;
     private long userId;
     private long singerId;
+
+    private String lang;
+    private long[] songs;
+    private List<TingSong> songList;
 
     public long getSingerId() {
         return singerId;
@@ -77,10 +86,6 @@ public class AlbumDetail {
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
-    private String lang;
-    private long[] songs;
-    private List<TingSong> songList;
 
 
     public int getType() {
@@ -185,4 +190,101 @@ public class AlbumDetail {
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
+    public AlbumDetail(){}
+    public AlbumDetail(Parcel parcel){
+        albumId = parcel.readLong();
+        name = parcel.readString();
+        description = parcel.readString();
+        singerName = parcel.readString();
+        picUrl = parcel.readString();
+        publishDate = parcel.readString();
+        publishYear = parcel.readInt();
+        singerPicUrl = parcel.readString();
+        alias = parcel.readString();
+        type = parcel.readInt();
+        typeName = parcel.readString();
+        coverId = parcel.readLong();
+        companyName = parcel.readString();
+        commentCount = parcel.readInt();
+        favoriteCount = parcel.readInt();
+        userId = parcel.readLong();
+        singerId = parcel.readLong();
+        lang = parcel.readString();
+        Parcelable[] songs = parcel.readParcelableArray(TingSong.class.getClassLoader());
+        for (int i=0;i<songs.length;i++){
+            songList.add((TingSong) songs[i]);
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(albumId);
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(singerName);
+        parcel.writeString(picUrl);
+        parcel.writeString(publishDate);
+        parcel.writeInt(publishYear);
+        parcel.writeString(singerPicUrl);
+        parcel.writeString(alias);
+        parcel.writeInt(type);
+        parcel.writeString(typeName);
+        parcel.writeLong(coverId);
+        parcel.writeString(companyName);
+        parcel.writeInt(favoriteCount);
+        parcel.writeInt(commentCount);
+        parcel.writeLong(userId);
+        parcel.writeLong(singerId);
+        parcel.writeString(lang);
+        Parcelable[] par1 = new Parcelable[songList.size()];
+        for (int x=0;x<par1.length;x++){
+            par1[x] = songList.get(x);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AlbumDetail> CREATOR = new Creator<AlbumDetail>() {
+        @Override
+        public AlbumDetail createFromParcel(Parcel parcel) {
+            return new AlbumDetail(parcel);
+        }
+
+        @Override
+        public AlbumDetail[] newArray(int i) {
+            return new AlbumDetail[i];
+        }
+    };
+
+    @Override
+    public String toString() {
+        return "AlbumDetail{" +
+                "albumId=" + albumId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", singerName='" + singerName + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", publishDate='" + publishDate + '\'' +
+                ", publishYear=" + publishYear +
+                ", singerPicUrl='" + singerPicUrl + '\'' +
+                ", alias='" + alias + '\'' +
+                ", type=" + type +
+                ", typeName='" + typeName + '\'' +
+                ", coverId=" + coverId +
+                ", companyName='" + companyName + '\'' +
+                ", commentCount=" + commentCount +
+                ", favoriteCount=" + favoriteCount +
+                ", followFlag=" + followFlag +
+                ", userId=" + userId +
+                ", singerId=" + singerId +
+                ", lang='" + lang + '\'' +
+                ", songs=" + Arrays.toString(songs) +
+                ", songList=" + songList +
+                '}';
+    }
 }
+
