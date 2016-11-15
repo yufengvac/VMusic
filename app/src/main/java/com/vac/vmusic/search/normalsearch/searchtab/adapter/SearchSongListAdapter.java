@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.search.TingSongList;
+import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.utils.ViewUtil;
 
 import java.util.ArrayList;
@@ -31,8 +33,10 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
     public static final int TYPE_NORMAL = 4;
     protected boolean mShowFooter;
     private View footerView;
-    public SearchSongListAdapter(Context context){
+    private OnItemClickListener listener;
+    public SearchSongListAdapter(Context context, OnItemClickListener onItemClickListener){
         this.mContext = context;
+        this.listener = onItemClickListener;
     }
 
     private int mLastPosition = -1;
@@ -48,6 +52,10 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
                 notifyItemChanged(count,list.size());
             }
         }
+    }
+
+    public List<TingSongList> getData(){
+        return mData;
     }
     @Override
     public int getItemViewType(int position) {
@@ -115,6 +123,7 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
     class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView logo;
         private TextView name,author,num;
+        private LinearLayout content;
             public MyViewHolder(View view) {
                 super(view);
                 if (view!=footerView) {
@@ -122,6 +131,13 @@ public class SearchSongListAdapter extends RecyclerView.Adapter<SearchSongListAd
                     name = (TextView) view.findViewById(R.id.item_search_songlist_name);
                     author = (TextView) view.findViewById(R.id.item_search_songlist_author);
                     num = (TextView) view.findViewById(R.id.item_search_songlist_num);
+                    content = (LinearLayout) view.findViewById(R.id.item_search_songlist_content);
+                    content.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            listener.onItemClick(view,getLayoutPosition());
+                        }
+                    });
                 }else {
                     ViewUtil.showRefreshLayout(view,"正在加载..");
                 }

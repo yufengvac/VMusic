@@ -17,6 +17,7 @@ import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.detail.AlbumDetail;
 import com.vac.vmusic.beans.search.TingAlbum;
+import com.vac.vmusic.beans.songlist.SongListDetail;
 import com.vac.vmusic.callback.RequestCallback;
 import com.vac.vmusic.homefragment.adapters.MyFragmentAdapter;
 import com.vac.vmusic.songlistdetail.childfragment.albumInfofragment.view.AlbumInfoFragment;
@@ -44,12 +45,19 @@ public class SongListDetailFraPresenter implements RequestCallback<AlbumDetail>,
     private AlbumInfoFragment albumInfoFragment;
     private ImageView indicator;
     private Context context;
+    private String type;
     public SongListDetailFraPresenter(ISongListDetailFragment iSongListDetailFragment_){
         this.iSongListDetailFragment = iSongListDetailFragment_;
     }
-    public void loadSongListDetailData(long albumId){
+    public void loadSongListDetailData(long albumId,String type_){
+        type = type_;
         SongListDetailFraModel songListDetailFraModel = new SongListDetailFraModel();
-        songListDetailFraModel.loadDetailDate(albumId,this);
+        if (type.equals("album")){
+            songListDetailFraModel.loadDetailData(albumId,this);
+        }else if (type.equals("songlist")){
+            songListDetailFraModel.loadSongListDetailData(albumId,songListDetailRequestCallback);
+        }
+
     }
 
     public void initTabLayout(TabLayout tabLayout, ViewPager childViewPager){
@@ -130,6 +138,7 @@ public class SongListDetailFraPresenter implements RequestCallback<AlbumDetail>,
         isLoadCompleted  =true;
         Bundle bundle = new Bundle();
         bundle.putParcelable("albumDetail",albumDetail);
+        bundle.putString("type","album");
         albumSongsFragment = AlbumSongsFragment.getAlbumSongsFragment(bundle);
         albumInfoFragment = AlbumInfoFragment.getAlbumInfoFragment(bundle);
         if (!albumSongsFragment.isAdded()){
@@ -145,4 +154,41 @@ public class SongListDetailFraPresenter implements RequestCallback<AlbumDetail>,
     public void requestError(String errorMsg) {
 
     }
+
+    private RequestCallback<SongListDetail> songListDetailRequestCallback = new RequestCallback<SongListDetail>() {
+        @Override
+        public void beforeRequest() {
+
+        }
+
+        @Override
+        public void requestCompleted() {
+
+        }
+
+        @Override
+        public void requestSuccess(List<SongListDetail> data) {
+            SongListDetail songListDetail = data.get(0);
+            iSongListDetailFragment.showSongListInfo(songListDetail);
+
+            isLoadCompleted  =true;
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("songlistDetail",songListDetail);
+            bundle.putString("type","songlist");
+            albumSongsFragment = AlbumSongsFragment.getAlbumSongsFragment(bundle);
+            albumInfoFragment = AlbumInfoFragment.getAlbumInfoFragment(bundle);
+            if (!albumSongsFragment.isAdded()){
+                iSongListDetailFragment.getFm().beginTransaction().add(R.id.song_list_detail_fragment_content,albumSongsFragment).commit();
+            }
+            if (!albumInfoFragment.isAdded()){
+                iSongListDetailFragment.getFm().beginTransaction().add(R.id.song_list_detail_fragment_content,albumInfoFragment).commit();
+                iSongListDetailFragment.getFm().beginTransaction().hide(albumInfoFragment).commit();
+            }
+        }
+
+        @Override
+        public void requestError(String errorMsg) {
+
+        }
+    };
 }

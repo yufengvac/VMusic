@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.detail.AlbumDetail;
+import com.vac.vmusic.beans.songlist.SongListDetail;
 import com.vac.vmusic.songlistdetail.presenter.SongListDetailFraPresenter;
 import com.vac.vmusic.utils.GlideCircleTransform;
 import com.vac.vmusic.utils.HomeColorManager;
@@ -26,6 +27,7 @@ public class SongListDetailFragment extends BaseSwipeBackFragment implements ISo
     private TextView titleTextView,singerNameTextView,publishDateTextView;
     private ImageView logoImageView,singerLogoImageView;
     private LinearLayout topContent;
+
     public static SongListDetailFragment getSongListDetailFragment(Bundle bundle){
         SongListDetailFragment songListDetailFragment = new SongListDetailFragment();
         if (bundle!=null){
@@ -41,6 +43,7 @@ public class SongListDetailFragment extends BaseSwipeBackFragment implements ISo
     @Override
     public void initView(View view) {
         long albumId = getArguments().getLong("albumId");
+        String type = getArguments().getString("type");
         titleTextView = (TextView) view.findViewById(R.id.song_list_detail_fragment_title_text_view);
         ImageView backImageView = (ImageView) view.findViewById(R.id.song_list_detail_fragment_back_image_view);
         backImageView.setOnClickListener(this);
@@ -59,7 +62,7 @@ public class SongListDetailFragment extends BaseSwipeBackFragment implements ISo
 
         topContent = (LinearLayout) view.findViewById(R.id.song_list_detail_fragment_top_content);
 
-        songListDetailFraPresenter.loadSongListDetailData(albumId);
+        songListDetailFraPresenter.loadSongListDetailData(albumId,type);
         MyScrollView myScrollView = (MyScrollView) view.findViewById(R.id.mScroller);
         myScrollView.setOnScrollListener(new MyScrollView.OnScrollListener() {
             @Override
@@ -79,6 +82,17 @@ public class SongListDetailFragment extends BaseSwipeBackFragment implements ISo
         singerNameTextView.setText(albumDetail.getSingerName());
         String publishDateInfo = albumDetail.getPublishDate()+"发行";
         publishDateTextView.setText(publishDateInfo);
+    }
+
+    @Override
+    public void showSongListInfo(SongListDetail songListDetail) {
+        titleTextView.setText(songListDetail.getTitle());
+        Glide.with(getActivity()).load(songListDetail.getOwner().getCover_pic()).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(logoImageView);
+        Glide.with(getActivity()).load(songListDetail.getOwner().getPortrait_pic()).placeholder(R.drawable.default_bg).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new GlideCircleTransform(getActivity())).into(singerLogoImageView);
+        singerNameTextView.setText(songListDetail.getOwner().getNick_name());
+        publishDateTextView.setVisibility(View.INVISIBLE);
     }
 
     @Override

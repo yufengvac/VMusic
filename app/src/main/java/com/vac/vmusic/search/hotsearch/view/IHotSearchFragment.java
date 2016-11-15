@@ -9,4 +9,7 @@ import android.content.Context;
 public interface IHotSearchFragment {
 
     Context getMyContext();
+    void reloadWordView();
+    void showDeleteIcon();
+    void hideDeleteIcon();
 }

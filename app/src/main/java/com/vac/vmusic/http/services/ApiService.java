@@ -18,6 +18,7 @@ import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.beans.skin.HttpSkin;
 import com.vac.vmusic.beans.skin.Skin;
+import com.vac.vmusic.beans.songlist.SongListDetail;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -152,4 +153,13 @@ public interface ApiService {
      */
     @GET("song/album/{albumId}")
     Observable<HttpAlbumDetail> getAlbumDetail(@Header("Cache-Control") String cacheControl, @Path("albumId") long albumId);
+
+    /**
+     * 获取歌单详情
+     * @param cacheControl 缓存控制
+     * @param songlistId  歌单id
+     * @return Observable
+     */
+    @GET("songlists/{songlistId}")
+    Observable<SongListDetail> getSongListDetail(@Header("Cache-Control") String cacheControl,@Path("songlistId") long songlistId);
  }

@@ -2,25 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorGrey"
-    android:padding="@dimen/main_home_padding">
+              android:background="@color/colorGrey"
+              android:orientation="vertical"
+              android:padding="@dimen/main_home_padding">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hot_search"
-        android:visibility="gone"
+        android:textColor="@color/colorBlack"
         android:textSize="@dimen/base_text_size"
-        android:textColor="@color/colorBlack"/>
+        android:visibility="gone"/>
 
-    <com.vac.vmusic.views.BorderTextView
-        android:id="@+id/hot_search_fragment_history_search_border_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/history_search"
-        android:textSize="@dimen/base_text_size"
-        android:textColor="@color/colorBlack"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.vac.vmusic.views.BorderTextView
+            android:id="@+id/hot_search_fragment_history_search_border_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_search"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/base_text_size"/>
+        <ImageView
+            android:id="@+id/hot_search_fragment_history_search_delete_image_view"
+            android:layout_width="@dimen/table_layout_height"
+            android:layout_height="@dimen/table_layout_height"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/activity_padding"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_delete"/>
+    </RelativeLayout>
+
     <com.vac.vmusic.views.WordWrapView
         android:id="@+id/hot_search_fragment_wordwrapView"
         android:layout_width="match_parent"

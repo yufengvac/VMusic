@@ -23,6 +23,7 @@ import com.vac.vmusic.beans.search.artistpic.ArtistPic;
 import com.vac.vmusic.beans.search.artistpic.PicUrls;
 import com.vac.vmusic.beans.skin.HttpSkin;
 import com.vac.vmusic.beans.skin.Skin;
+import com.vac.vmusic.beans.songlist.SongListDetail;
 import com.vac.vmusic.http.apiconstant.ApiConstants;
 import com.vac.vmusic.http.services.ApiService;
 import com.vac.vmusic.utils.Constants;
@@ -317,6 +318,16 @@ public class RetrofitManager {
      */
     public Observable<HttpAlbumDetail> getAlbumDetailData(long albumId){
         return mApiService.getAlbumDetail(getCacheControl(),albumId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /***
+     * 获取歌单详情的数据
+     * @param songlistId 歌单id
+     * @return Observable
+     */
+    public Observable<SongListDetail> getSongListDetail(long songlistId){
+        return mApiService.getSongListDetail(getCacheControl(),songlistId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 }

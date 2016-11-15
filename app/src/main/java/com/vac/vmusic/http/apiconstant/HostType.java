@@ -11,4 +11,7 @@ public class HostType {
 
     /**壁纸*/
     public static final int HOST_TYPE_WALLPAPER = 2;
+
+    /**天天POD接口*/
+    public static final int HOST_TYPE_TTPOD = 3;
 }

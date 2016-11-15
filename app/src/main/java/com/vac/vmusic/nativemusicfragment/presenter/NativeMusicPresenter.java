@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.vac.vmusic.R;
 import com.vac.vmusic.beans.LocalMusic;
+import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnLocalMusicLoadListener;
+import com.vac.vmusic.callback.OnRecyclerViewHeaderClickListener;
 import com.vac.vmusic.downmusicfragment.adapter.LocalMusicAdapter;
 import com.vac.vmusic.nativemusicfragment.model.NativeMusicModel;
 import com.vac.vmusic.nativemusicfragment.view.INativeMusicFragment;
@@ -21,7 +23,7 @@ import java.util.List;
  * Created by vac on 16/11/5.
  *
  */
-public class NativeMusicPresenter implements OnLocalMusicLoadListener{
+public class NativeMusicPresenter implements OnLocalMusicLoadListener,OnRecyclerViewHeaderClickListener{
     private INativeMusicFragment iNativeMusicFragment;
     private NativeMusicModel nativeMusicModel;
     private LocalMusicAdapter localMusicAdapter;
@@ -36,7 +38,7 @@ public class NativeMusicPresenter implements OnLocalMusicLoadListener{
         recyclerView.setLayoutManager(new LinearLayoutManager(iNativeMusicFragment.getMyContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(iNativeMusicFragment.getMyContext(),LinearLayoutManager.VERTICAL));
         localMusicAdapter = new LocalMusicAdapter(iNativeMusicFragment.getMyContext()
-                ,iNativeMusicFragment.getListener());
+                ,iNativeMusicFragment.getListener(),this);
         recyclerView.setAdapter(localMusicAdapter);
         nativeMusicModel.loadData(iNativeMusicFragment.getMyContext(),this);
     }
@@ -62,5 +64,16 @@ public class NativeMusicPresenter implements OnLocalMusicLoadListener{
 
     public LocalMusicAdapter getLocalMusicAdapter(){
         return localMusicAdapter;
+    }
+
+    @Override
+    public void onMusicPlay(List<? extends TingSong> tingSongList, int position, int type) {
+        iNativeMusicFragment.getMyMusicBinder().setMusicPlayList(tingSongList,true);
+        iNativeMusicFragment.getMyMusicBinder().beginToPlay(position,tingSongList.get(position));
+    }
+
+    @Override
+    public void onMusicManager(List<? extends TingSong> tingSongList) {
+
     }
 }

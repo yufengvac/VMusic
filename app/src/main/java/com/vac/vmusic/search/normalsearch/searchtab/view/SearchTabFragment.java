@@ -114,6 +114,7 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
                     addFragment.setFromFragment(SearchTabFragment.this);
                     Bundle bundle = new Bundle();
                     bundle.putLong("albumId",((SearchAlbumAdapter)homeAdapter).getData().get(position).getAlbumId());
+                    bundle.putString("type","album");
                     addFragment.setToFragment(SongListDetailFragment.getSongListDetailFragment(bundle));
                     RxBus.get().post("addFragment",addFragment);
                 }
@@ -130,7 +131,18 @@ public class SearchTabFragment extends BaseSwipeBackFragment implements ISearchT
                 }
             });
         }else if (type.equals(HomeFragmentType.SONGLIST)){
-            homeAdapter = new SearchSongListAdapter(getActivity());
+            homeAdapter = new SearchSongListAdapter(getActivity(), new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    AddFragment addFragment = new AddFragment();
+                    addFragment.setFromFragment(SearchTabFragment.this);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("albumId",((SearchSongListAdapter)homeAdapter).getData().get(position).get_id());
+                    bundle.putString("type","songlist");
+                    addFragment.setToFragment(SongListDetailFragment.getSongListDetailFragment(bundle));
+                    RxBus.get().post("addFragment",addFragment);
+                }
+            });
         }
 
         autoLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

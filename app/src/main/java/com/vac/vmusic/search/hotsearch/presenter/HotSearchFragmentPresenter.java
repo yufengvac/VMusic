@@ -27,6 +27,7 @@ public class HotSearchFragmentPresenter implements View.OnClickListener{
     }
     public void loadHistorySearch(WordWrapView wordWrapView){
         List<HistorySearch> historySearchList = DataSupport.findAll(HistorySearch.class);
+        wordWrapView.removeAllViews();
         for (int i =0;i<historySearchList.size();i++){
             BorderTextView borderTextView = new BorderTextView(iHotSearchFragment.getMyContext());
             String content = historySearchList.get(i).getContent();
@@ -36,6 +37,16 @@ public class HotSearchFragmentPresenter implements View.OnClickListener{
             borderTextView.setOnClickListener(this);
             wordWrapView.addView(borderTextView);
         }
+        if (wordWrapView.getChildCount()>0){
+            iHotSearchFragment.showDeleteIcon();
+        }else {
+            iHotSearchFragment.hideDeleteIcon();
+        }
+    }
+
+    public void deleteSearchHistory(){
+        DataSupport.deleteAll(HistorySearch.class);
+        iHotSearchFragment.reloadWordView();
     }
 
     @Override

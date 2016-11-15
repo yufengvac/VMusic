@@ -14,6 +14,7 @@ import com.vac.vmusic.R;
 import com.vac.vmusic.beans.LocalMusic;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.callback.OnRecyclerViewHeaderClickListener;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.views.MyManagerButton;
 import com.vac.vmusic.views.MyPlayButton;
@@ -21,6 +22,7 @@ import com.vac.vmusic.views.PlayingIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by vac on 16/11/3.
@@ -32,6 +34,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     private Context mContext;
     private List<LocalMusic> mData = new ArrayList<>();
     private OnItemClickListener clickListener;
+    private OnRecyclerViewHeaderClickListener onRecyclerViewHeaderClickListener;
 
     private final static int TYPE_HEADER = 1;
     private final static int TYPE_NORMAL = 2;
@@ -43,9 +46,10 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
     private TingSong currentTingSong;
 
     private HomeColorManager homeColorManager;
-    public LocalMusicAdapter(Context context, OnItemClickListener onItemClickListener){
+    public LocalMusicAdapter(Context context, OnItemClickListener onItemClickListener, OnRecyclerViewHeaderClickListener listener){
         this.mContext = context;
         this.clickListener = onItemClickListener;
+        this.onRecyclerViewHeaderClickListener = listener;
         homeColorManager = HomeColorManager.getHomeColorManager();
     }
     public void setData(List<LocalMusic> localMusics){
@@ -187,11 +191,14 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
             case R.id.head_play_music_my_play_btn:
             case R.id.head_play_music_my_play_text:
                 Log.i("TAG","随机播放列表");
+                int position= new Random().nextInt(mData.size());
+                onRecyclerViewHeaderClickListener.onMusicPlay(mData,position,OnRecyclerViewHeaderClickListener.TYPE_RANDOM);
                 break;
 
             case R.id.head_play_music_my_manager_btn:
             case R.id.head_play_music_my_manager_text:
                 Log.i("TAG","管理歌曲");
+                onRecyclerViewHeaderClickListener.onMusicManager(mData);
                 break;
         }
     }
