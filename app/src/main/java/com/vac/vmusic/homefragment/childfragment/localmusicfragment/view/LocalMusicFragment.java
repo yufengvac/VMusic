@@ -3,7 +3,6 @@ package com.vac.vmusic.homefragment.childfragment.localmusicfragment.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,28 +15,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.vac.vmusic.R;
 import com.vac.vmusic.base.BaseSwipeBackFragment;
 import com.vac.vmusic.beans.AddFragment;
-import com.vac.vmusic.beans.skin.Skin;
 import com.vac.vmusic.beans.skin.SkinPalette;
+import com.vac.vmusic.beans.songlist.SongListDetail;
 import com.vac.vmusic.downmusicfragment.view.DownMusicFragment;
+import com.vac.vmusic.homefragment.childfragment.localmusicfragment.adapter.MySongListAdapter;
 import com.vac.vmusic.homefragment.childfragment.localmusicfragment.presenter.LocalMusicFragmentPresenter;
 import com.vac.vmusic.nativemusicfragment.view.NativeMusicFragment;
 import com.vac.vmusic.skinfragment.activity.view.SkinActivity;
 import com.vac.vmusic.utils.AlphaUtil;
+import com.vac.vmusic.utils.DialogUtils;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.utils.PreferHelper;
 import com.vac.vmusic.utils.RxBus;
+import com.vac.vmusic.views.BorderTextView;
 import com.vac.vmusic.views.BounceScrollView;
-import com.vac.vmusic.views.DampView;
-import com.vac.vmusic.views.MyScrollView;
+import com.vac.vmusic.views.ListViewForScrollView;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -62,6 +60,13 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
     private ImageView imageView1,imageView2;
     private Drawable bg1,bg2;
 
+    private BorderTextView createSongListTv,manageSongListTv;
+    private LocalMusicFragmentPresenter localMusicFragmentPresenter;
+
+    private ListViewForScrollView songListListView;
+    private LinearLayout createSongListLinear;
+    private MySongListAdapter mySongListAdapter;
+    private TextView songListCountTv;
     public static LocalMusicFragment getLocalMusicFragment(Bundle bundle){
         LocalMusicFragment localMusicFragment = new LocalMusicFragment();
         if (bundle!=null){
@@ -98,9 +103,22 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
         favor_linear = (LinearLayout) view.findViewById(R.id.local_music_fra_module_favor);
         song_list_linear = (LinearLayout) view.findViewById(R.id.local_music_fra_crate_songlist);
         favor_song_list_linear = (LinearLayout) view.findViewById(R.id.local_music_fra_module_songlist_favor);
+
+        createSongListTv = (BorderTextView) view.findViewById(R.id.local_music_fra_createlist_textview);
+        manageSongListTv = (BorderTextView) view.findViewById(R.id.local_music_fra_managerlist_textview);
+
+        songListListView =(ListViewForScrollView) view.findViewById(R.id.local_music_fra_favor_listview);
+        songListCountTv = (TextView) view.findViewById(R.id.local_music_fra_song_list_count_text_view);
+
         initColor(true);
 
-        LocalMusicFragmentPresenter localMusicFragmentPresenter = new LocalMusicFragmentPresenter(this);
+        createSongListTv.setOnClickListener(this);
+        manageSongListTv.setOnClickListener(this);
+
+        createSongListLinear = (LinearLayout) view.findViewById(R.id.local_music_fra_createlist_linearlayour);
+        createSongListLinear.setOnClickListener(this);
+
+        localMusicFragmentPresenter = new LocalMusicFragmentPresenter(this);
         localMusicFragmentPresenter.watchMyScrollView();
         localMusicFragmentPresenter.getNativeMusicCount();
 
@@ -139,9 +157,16 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
         song_list_linear.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
         favor_song_list_linear.setBackgroundColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
+        createSongListTv.setBorderColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+        manageSongListTv.setBorderColor(HomeColorManager.getHomeColorManager().getCurrentColor());
+
+        if (mySongListAdapter!=null){
+            mySongListAdapter.notifyDataSetChanged();
+        }
+
         if (isInit&&!PreferHelper.getLastSkinUrl().isEmpty()){
-            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().centerCrop().into(imageView1);
-            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().centerCrop().into(imageView2);
+            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().placeholder(R.drawable.default_bg_big).centerCrop().into(imageView1);
+            Glide.with(getActivity()).load(PreferHelper.getLastSkinUrl()).dontAnimate().placeholder(R.drawable.default_bg_big).centerCrop().into(imageView2);
             bg1 = imageView1.getBackground().mutate();
             bg2 = imageView2.getBackground().mutate();
             bg1.setAlpha(255);
@@ -152,36 +177,6 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
 
     @Override
     public void changeSkin(final String url) {
-//        if (bg2.getAlpha()<20){
-//            Glide.with(getActivity()).load(url).centerCrop().dontAnimate().into(new GlideDrawableImageViewTarget(imageView2){
-//                @Override
-//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                    super.onResourceReady(resource, animation);
-//                    bg2 = resource;
-//                    imageView2.setImageDrawable(bg2);
-//                    bg1.setAlpha(255);
-//                    bg2.setAlpha(10);
-//                    Log.i("LocalMusicFragment","显示bg2,隐藏bg1");
-//                    AlphaUtil alphaUtil = new AlphaUtil(bg1,bg2);
-//                    alphaUtil.toExecute();
-//                }
-//            });
-//        }else {
-//            Glide.with(getActivity()).load(url).centerCrop().dontAnimate().into(new GlideDrawableImageViewTarget(imageView1){
-//                @Override
-//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                    super.onResourceReady(resource, animation);
-//                    bg1 = resource;
-//                    imageView1.setImageDrawable(bg1);
-//                    bg1.setAlpha(10);
-//                    bg2.setAlpha(255);
-//                    Log.i("LocalMusicFragment","======显示bg1,隐藏bg2");
-//                    AlphaUtil alphaUtil = new AlphaUtil(bg2,bg1);
-//                    alphaUtil.toExecute();
-//                }
-//            });
-//
-//        }
         Observable.create(new Observable.OnSubscribe<Drawable>() {
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {
@@ -226,6 +221,27 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
     }
 
     @Override
+    public void refreshMySonglist(List<SongListDetail> songListDetailList) {
+        String songListCountStr ;
+        if (songListDetailList==null||songListDetailList.size()==0){
+            songListListView.setVisibility(View.GONE);
+            createSongListLinear.setVisibility(View.VISIBLE);
+            songListCountStr = "0个";
+        }else {
+            songListListView.setVisibility(View.VISIBLE);
+            createSongListLinear.setVisibility(View.GONE);
+            if (mySongListAdapter==null){
+                mySongListAdapter = new MySongListAdapter(getMyContext());
+                songListListView.setAdapter(mySongListAdapter);
+            }
+
+            mySongListAdapter.setData(songListDetailList);
+            songListCountStr = songListDetailList.size()+"个";
+        }
+        songListCountTv.setText(songListCountStr);
+    }
+
+    @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
@@ -248,6 +264,22 @@ public class LocalMusicFragment extends BaseSwipeBackFragment implements ILocalM
             case R.id.local_music_bg:
             case R.id.local_music_bg1:
                 startActivity(new Intent(getActivity(), SkinActivity.class));
+                break;
+            case R.id.local_music_fra_createlist_textview:
+            case R.id.local_music_fra_createlist_linearlayour:
+                DialogUtils.showEditTextDialog(getActivity(), "新建歌单", "请输入歌单名字", new DialogUtils.OnDialogBtnClickListener() {
+                    @Override
+                    public void onBtnOk(String message) {
+                        localMusicFragmentPresenter.saveSongList(message);
+                    }
+
+                    @Override
+                    public void onBtnCancel() {
+
+                    }
+                });
+                break;
+            case R.id.local_music_fra_managerlist_textview:
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.vac.vmusic.downmusicfragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.vac.vmusic.beans.LocalMusic;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
 import com.vac.vmusic.callback.OnRecyclerViewHeaderClickListener;
+import com.vac.vmusic.songoptions.view.SongOptionActivity;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.views.MyManagerButton;
 import com.vac.vmusic.views.MyPlayButton;
@@ -142,6 +144,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
         private TextView name,singer,album,alias;
         private LinearLayout content;
         private ImageView qualityImageView,mvImageView,addSongListImageView;
+        private ImageView moreImageView;
 
         private MyPlayButton myPlayButton;
         private MyManagerButton myManagerButton;
@@ -170,6 +173,8 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
                 addSongListImageView = (ImageView) view.findViewById(R.id.item_search_song_add_songlist_imageview);
                 alias = (TextView) view.findViewById(R.id.item_home_alias);
 
+                moreImageView = (ImageView) view.findViewById(R.id.item_search_song_more_songlist_imageview);
+
                 playingIndicator = (PlayingIndicator) view.findViewById(R.id.item_search_song_playing_indicator);
                 playingIndicator.setIndicatorColor(HomeColorManager.getHomeColorManager().getCurrentColor());
 
@@ -178,6 +183,12 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
                     @Override
                     public void onClick(View view) {
                         clickListener.onItemClick(content,getLayoutPosition()-1);
+                    }
+                });
+                moreImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mContext.startActivity(new Intent(mContext, SongOptionActivity.class));
                     }
                 });
             }

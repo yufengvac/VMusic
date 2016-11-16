@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by vac on 16/10/21.
@@ -22,7 +23,7 @@ public class SplashScreenActivity extends BaseActivity{
     @Override
     public void initView() {
         getWindow().setBackgroundDrawable(null);
-        Observable.timer(3, TimeUnit.SECONDS,AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+        Observable.timer(3, TimeUnit.SECONDS,AndroidSchedulers.mainThread()).subscribeOn(Schedulers.computation()).subscribe(new Action1<Long>() {
             @Override
             public void call(Long aLong) {
                 beginStartActivity(SplashScreenActivity.this, MainActivity.class);

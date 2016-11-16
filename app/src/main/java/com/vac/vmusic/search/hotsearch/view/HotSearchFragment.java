@@ -72,7 +72,7 @@ public class HotSearchFragment extends BaseSwipeBackFragment implements IHotSear
         if (view.getId()==R.id.hot_search_fragment_history_search_delete_image_view){
             DialogUtils.showDialog(getActivity(), "确定删除搜索记录?", new DialogUtils.OnDialogBtnClickListener() {
                 @Override
-                public void onBtnOk() {
+                public void onBtnOk(String message) {
                     hotSearchFragmentPresenter.deleteSearchHistory();
                 }
 

@@ -52,7 +52,7 @@ public class HomeFragmentPresenter {
             @Override
             public void call(Integer scrollY) {
 
-                iHomeFragment.getTopContent().setBackgroundColor(homeColorManager.transferColorByScrollWithNoInitColor(scrollY));
+                iHomeFragment.getTopContent().setBackgroundColor(homeColorManager.transferColorByScroll(scrollY));
             }
         });
 

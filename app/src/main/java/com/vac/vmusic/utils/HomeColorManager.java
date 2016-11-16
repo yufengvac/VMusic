@@ -90,7 +90,7 @@ public class HomeColorManager {
             currentGreen = Math.abs(homeColor.getGreen()-0x10);
             currentBlue = Math.abs(homeColor.getBlue()-0x10);
 
-        }else if (scrollY==0){
+        }else if (scrollY<=0){
             scale = 0;
             currentAlpha = 0x30;
             currentRed = currentGreen= currentBlue = 0x0;

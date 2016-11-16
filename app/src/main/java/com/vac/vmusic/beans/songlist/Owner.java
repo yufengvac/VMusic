@@ -3,11 +3,13 @@ package com.vac.vmusic.beans.songlist;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by vac on 16/11/15.
  *
  */
-public class Owner implements Parcelable{
+public class Owner extends DataSupport implements Parcelable{
     private long user_id;
     private String nick_name;
     private String tag;

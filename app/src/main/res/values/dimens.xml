@@ -9,6 +9,8 @@
     <dimen name="main_home_padding">20dp</dimen>
     <dimen name="tab_max_width">500dp</dimen>
 
+    <dimen name="option_height">110dp</dimen>
+
     <dimen name="top_height">75dp</dimen>
     <dimen name="top_status_bar_height">20dp</dimen>
     <dimen name="top_bar_height">55dp</dimen>

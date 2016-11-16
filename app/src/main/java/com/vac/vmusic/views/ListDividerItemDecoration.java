@@ -58,7 +58,7 @@ public class ListDividerItemDecoration extends RecyclerView.ItemDecoration {
                     .getLayoutParams();
             final int top = child.getBottom() + params.bottomMargin;
             final int bottom = top + mDrawable.getIntrinsicHeight();
-            mDrawable.setBounds(left, top, right, bottom);
+            mDrawable.setBounds(left+30, top, right, bottom);
             mDrawable.draw(c);
         }
     }

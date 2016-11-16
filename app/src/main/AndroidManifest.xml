@@ -35,6 +35,9 @@
             android:theme="@style/BaseAppTheme.Dialog"/>
         <activity android:name=".mvdetail.view.MvDetailActivity"
                   android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"/>
+        <activity android:name=".songoptions.view.SongOptionActivity"
+                  android:theme="@style/BaseAppTheme.Dialog"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -44,4 +44,10 @@
         <item name="android:background">@color/light_black</item>
     </style>
 
+    <style name="song_options_textview">
+        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_horizontal_margin</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

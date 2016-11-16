@@ -235,6 +235,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@null"
+                android:visibility="visible"
                 android:layout_marginTop="10dp">
                 <LinearLayout
                     android:id="@+id/local_music_fra_module_favor"
@@ -305,6 +306,7 @@
                         android:textSize="@dimen/base_text_size_small"
                         android:text="@string/favor_song_list"/>
                     <TextView
+                        android:id="@+id/local_music_fra_song_list_count_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -315,6 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/img_setting_right_arrow"/>
             </LinearLayout>
         </LinearLayout>
@@ -345,16 +348,18 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:layout_height="match_parent">
-                    <TextView
-                        android:id="@+id/my_music_fra_createlist_textview"
+                    <com.vac.vmusic.views.BorderTextView
+                        android:id="@+id/local_music_fra_createlist_textview"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:text="@string/create"
                         android:gravity="center"
                         android:clickable="true"
                         android:textSize="@dimen/base_text_size_small"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
                         android:textColor="@color/colorBlack"/>
-                    <TextView
+                    <com.vac.vmusic.views.BorderTextView
+                        android:id="@+id/local_music_fra_managerlist_textview"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:text="@string/manager"
@@ -404,12 +409,14 @@
                     android:src="@drawable/img_setting_right_arrow"/>
             </LinearLayout> -->
             <com.vac.vmusic.views.ListViewForScrollView
-                android:id="@+id/my_music_fra_favor_listview"
+                android:id="@+id/local_music_fra_favor_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@android:color/transparent"
                 android:visibility="gone"
                 />
             <LinearLayout
+                android:id="@+id/local_music_fra_createlist_linearlayour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

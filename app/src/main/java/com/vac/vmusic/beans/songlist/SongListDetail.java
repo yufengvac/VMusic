@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vac.vmusic.beans.search.TingSong;
 
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -13,11 +16,13 @@ import java.util.List;
  *
  */
 @JsonIgnoreProperties(value = {"tags"})
-public class SongListDetail implements Parcelable{
+public class SongListDetail extends DataSupport implements Parcelable{
     private long songlist_id;
     private List<TingSong> songs;
     private String title;
     private String desc;
+
+    @Column(ignore = true)
     private SongListDetailImage image;
     private Owner owner;
     private int song_count;
