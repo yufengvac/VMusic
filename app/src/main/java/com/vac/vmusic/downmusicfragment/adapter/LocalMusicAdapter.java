@@ -188,7 +188,9 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.My
                 moreImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mContext.startActivity(new Intent(mContext, SongOptionActivity.class));
+                        Intent intent = new Intent(mContext,SongOptionActivity.class);
+                        intent.putExtra("TingSong",mData.get(getLayoutPosition()-1));
+                        mContext.startActivity(intent);
                     }
                 });
             }

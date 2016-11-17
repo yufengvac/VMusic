@@ -1,6 +1,7 @@
 package com.vac.vmusic.search.normalsearch.searchtab.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.vac.vmusic.beans.search.TingMV;
 import com.vac.vmusic.beans.search.TingSearchMV;
 import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.OnItemClickListener;
+import com.vac.vmusic.songoptions.view.SongOptionActivity;
 import com.vac.vmusic.utils.HomeColorManager;
 import com.vac.vmusic.utils.ViewUtil;
 
@@ -186,7 +188,7 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
         private ImageView qualityView, mvView;
         private ImageView addSongImageView;
         private LinearLayout content;
-
+        private ImageView optionsImageView;
         public MyViewHolder(View view) {
             super(view);
             if (view == footerView) {
@@ -211,6 +213,16 @@ public class SearchSongAdapter extends RecyclerView.Adapter<SearchSongAdapter.My
                     @Override
                     public void onClick(View view) {
                         clickListener.onItemClick(addSongImageView, getAdapterPosition());
+                    }
+                });
+
+                optionsImageView = (ImageView) view.findViewById(R.id.item_search_song_more_songlist_imageview);
+                optionsImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext,SongOptionActivity.class);
+                        intent.putExtra("TingSong",mData.get(getLayoutPosition()));
+                        mContext.startActivity(intent);
                     }
                 });
             }

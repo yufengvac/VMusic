@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -208,10 +209,10 @@ public class MainActivity extends BaseActivity implements IMainActivity , OnPlay
     @Override
     public void noInitMusic() {
         mainContent.setClickable(false);
-        myTriangle.setColor(getColor(R.color.colorGrey));
-        myPauseButton.setColor(getColor(R.color.colorGrey));
-        myMenuButton.setColor(getColor(R.color.colorGrey));
-        myProgressbar.setProgressColor(getColor(R.color.colorGrey));
+        myTriangle.setColor(ContextCompat.getColor(this,R.color.colorGrey));
+        myPauseButton.setColor(ContextCompat.getColor(this,R.color.colorGrey));
+        myMenuButton.setColor(ContextCompat.getColor(this,R.color.colorGrey));
+        myProgressbar.setProgressColor(ContextCompat.getColor(this,R.color.colorGrey));
         songNameView.setText("聆听音乐,畅想未来");
         singerNameView.setText("听我想听的歌");
     }

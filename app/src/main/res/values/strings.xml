@@ -39,4 +39,16 @@
 
     <string name="album_detail_produce_title">专辑简介</string>
 
+    <string name="options_favor">收藏</string>
+    <string name="options_add_song_list">加入歌单</string>
+    <string name="options_delete">删除</string>
+    <string name="options_share">分享</string>
+    <string name="options_download">下载</string>
+    <string name="options_play_next">插队播放</string>
+    <string name="options_singer">查看歌手</string>
+    <string name="options_album">查看专辑</string>
+    <string name="options_comment">评论</string>
+    <string name="options_info">歌曲信息</string>
+    <string name="options_cancel">取消</string>
+
 </resources>

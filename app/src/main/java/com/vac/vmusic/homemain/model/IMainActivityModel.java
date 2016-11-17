@@ -1,6 +1,7 @@
 package com.vac.vmusic.homemain.model;
 
 import com.vac.vmusic.beans.search.TingArtist;
+import com.vac.vmusic.beans.search.TingSong;
 import com.vac.vmusic.callback.RequestCallback;
 
 /**
@@ -9,4 +10,5 @@ import com.vac.vmusic.callback.RequestCallback;
  */
 public interface IMainActivityModel {
     void searchArtist(String q, RequestCallback<TingArtist> callback);
+    void loadPlayList(RequestCallback<TingSong> callback);
 }

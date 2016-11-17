@@ -24,6 +24,7 @@ import java.util.List;
  *
  */
 public class NativeMusicPresenter implements OnLocalMusicLoadListener,OnRecyclerViewHeaderClickListener{
+    private static final String TAG = NativeMusicPresenter.class.getSimpleName();
     private INativeMusicFragment iNativeMusicFragment;
     private NativeMusicModel nativeMusicModel;
     private LocalMusicAdapter localMusicAdapter;
@@ -47,7 +48,7 @@ public class NativeMusicPresenter implements OnLocalMusicLoadListener,OnRecycler
     public void onLocalMusicLoadListener(List<LocalMusic> localMusics) {
         localMusicList = localMusics;
         for (LocalMusic localMusic:localMusics){
-            Log.i("TAG",localMusic.toString());
+            Log.i(TAG,localMusic.toString());
         }
 
         View headView = LayoutInflater.from(iNativeMusicFragment.getMyContext()).inflate(R.layout.head_play_music,iNativeMusicFragment.getRecyclerView(),false);

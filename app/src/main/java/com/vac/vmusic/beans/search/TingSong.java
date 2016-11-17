@@ -364,10 +364,13 @@ public class TingSong extends DataSupport implements Parcelable{
             par3[i]  = urlList.get(i);
         }
 
-        Parcelable[] par4 = new Parcelable[llList.size()];
-        for (int i = 0; i < par4.length; i++) {
-            par4[i]  = llList.get(i);
+        if (llList!=null){
+            Parcelable[] par4 = new Parcelable[llList.size()];
+            for (int i = 0; i < par4.length; i++) {
+                par4[i]  = llList.get(i);
+            }
         }
+
     }
     public static final Creator<TingSong> CREATOR = new Creator<TingSong>() {
 

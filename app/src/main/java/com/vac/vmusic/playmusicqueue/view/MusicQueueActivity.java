@@ -28,7 +28,7 @@ import com.vac.vmusic.utils.ViewUtil;
  * Created by vac on 16/10/25.
  *
  */
-public class MusicQueueActivity extends BaseActivity implements IMusicQueueActivity,OnPlayMusicStateListener,OnItemClickListener{
+public class MusicQueueActivity extends BaseActivity implements IMusicQueueActivity,OnPlayMusicStateListener,OnItemClickListener,View.OnClickListener{
     private  RecyclerView recyclerView;
     private ImageView modeImageView;
     private TextView modeTextView;
@@ -48,6 +48,13 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
         recyclerView = (RecyclerView) findViewById(R.id.music_queue_activity_recycler_view);
         modeImageView = (ImageView) findViewById(R.id.music_queue_activity_mode_image_view);
         modeTextView = (TextView) findViewById(R.id.music_queue_activity_mode_text_view);
+
+        ImageView delete = (ImageView) findViewById(R.id.music_queue_activity_delete_image_view);
+        ImageView addSongList =(ImageView) findViewById(R.id.music_queue_activity_add_song_list_image_view);
+        ImageView download = (ImageView) findViewById(R.id.music_queue_activity_download_image_view);
+        delete.setOnClickListener(this);
+        addSongList.setOnClickListener(this);
+        download.setOnClickListener(this);
 
         musicQueueAdapter = new MusicQueueAdapter(this,this);
 
@@ -190,8 +197,23 @@ public class MusicQueueActivity extends BaseActivity implements IMusicQueueActiv
             if (view.getTag().equals("favor")){
                 musicQueueAdapter.favorSong(position);
             }else if (view.getTag().equals("remove")){
-
+//                getMusicBinder().removeOneSong(musicQueueAdapter.getData().get(position).getSongId());
+//                musicQueueAdapter.setData(getMusicBinder().getMusicPlayList());
             }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id){
+            case R.id.music_queue_activity_delete_image_view:
+
+                break;
+            case R.id.music_queue_activity_add_song_list_image_view:
+                break;
+            case R.id.music_queue_activity_download_image_view:
+                break;
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.vac.vmusic.playmusicqueue.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +89,8 @@ public class MusicQueueAdapter extends RecyclerView.Adapter<MusicQueueAdapter.My
             holder.singerView.setTextColor(color);
 
         }else {
-            holder.songNameView.setTextColor(mContext.getResources().getColor(R.color.colorBlack));
-            holder.singerView.setTextColor(mContext.getResources().getColor(R.color.colorDarkGrey));
+            holder.songNameView.setTextColor(ContextCompat.getColor(mContext,R.color.colorBlack));
+            holder.singerView.setTextColor(ContextCompat.getColor(mContext,R.color.colorDarkGrey));
 
         }
 

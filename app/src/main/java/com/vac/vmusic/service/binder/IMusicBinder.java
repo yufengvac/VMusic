@@ -38,4 +38,6 @@ public interface IMusicBinder {
     List<LyricSentence> getLyricSentenceList();
 
     TingSong getTingSongById(long songId);
+
+    void removeOneSong(long songId);
 }

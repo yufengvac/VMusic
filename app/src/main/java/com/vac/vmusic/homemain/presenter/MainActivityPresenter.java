@@ -43,26 +43,27 @@ public class MainActivityPresenter implements RequestCallback<TingArtist>{
     }
 
     public void loadLastMusicList(){
-        iMainActivity.initMusicList(DataSupport.findAll(TingSong.class,true));
-//        List<TingAudition> tingAuditions = DataSupport.findAll(TingAudition.class,true);
-//        for (TingAudition tingAudition:tingAuditions){
-//            Log.i("TAG",tingAudition.toString());
-//        }
+        mainActivityModel.loadPlayList(new RequestCallback<TingSong>() {
+            @Override
+            public void beforeRequest() {
 
-//        TingSong tingSong = DataSupport.find(TingSong.class,1,true);
-//        if (tingSong!=null){
-//            Log.i("TAG",tingSong.toString());
-//        }
-//        List<TingAudition> tingAuditions = DataSupport.findAll(TingAudition.class,true);
-//        for (int i=0;i<tingAuditions.size();i++){
-//            Log.i("TAG",tingAuditions.get(i).toString());
-//        }
+            }
 
-//        List<TingSong> tingSongList = DataSupport.findAll(TingSong.class,true);
-//        for (TingSong tingSong:tingSongList){
-//            Log.i("TAG",tingSong.toString());
-//        }
+            @Override
+            public void requestCompleted() {
 
+            }
+
+            @Override
+            public void requestSuccess(List<TingSong> data) {
+                iMainActivity.initMusicList(data);
+            }
+
+            @Override
+            public void requestError(String errorMsg) {
+
+            }
+        });
     }
 
     public void loadArtistPic(String singerName){

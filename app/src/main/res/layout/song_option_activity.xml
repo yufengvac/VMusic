@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/base_text_size"
         android:padding="@dimen/activity_padding"
-        android:text="大家"/>
+        android:text=""/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -26,35 +26,35 @@
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_favor"
-            android:text="收藏"/>
+            android:text="@string/options_favor"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             android:drawableTop="@drawable/icon_options_add_song_list"
             style="@style/song_options_textview"
-            android:text="加入歌单"/>
+            android:text="@string/options_add_song_list"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_delete"
-            android:text="删除"/>
+            android:text="@string/options_delete"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_share"
-            android:text="分享"/>
+            android:text="@string/options_share"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
-            android:drawableTop="@drawable/icon_options_ring"
-            android:text="设为铃声"/>
+            android:drawableTop="@drawable/icon_options_download"
+            android:text="@string/options_download"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -70,40 +70,41 @@
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_play_next"
-            android:text="插队播放"/>
+            android:text="@string/options_play_next"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_singer"
-            android:text="查看歌手"/>
+            android:text="@string/options_singer"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_album"
-            android:text="查看专辑"/>
+            android:text="@string/options_album"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_comment"
-            android:text="评论"/>
+            android:text="@string/options_comment"/>
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="@dimen/option_height"
             style="@style/song_options_textview"
             android:drawableTop="@drawable/icon_options_info"
-            android:text="歌曲信息"/>
+            android:text="@string/options_info"/>
     </LinearLayout>
     <Button
+        android:id="@+id/song_option_activity_cancel_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorWhite"
-        android:text="取消"
+        android:text="@string/options_cancel"
         android:textSize="@dimen/base_text_size"/>
 </LinearLayout>

@@ -28,6 +28,7 @@ import rx.schedulers.Schedulers;
  *
  */
 public class MusicBinder extends Binder implements IMusicBinder{
+    private static final String TAG = MusicBinder.class.getSimpleName();
     private IService iService;
     private List<OnPlayMusicStateListener> onPlayMusicStateListenerList;
 
@@ -79,7 +80,7 @@ public class MusicBinder extends Binder implements IMusicBinder{
     public void initToPlay(int position,TingSong tingSong){
         iService.setRequestMusicPosition(position);
         iService.setRequestPlayMusicId(tingSong.getSongId());
-        Log.i("TAG","requestMusicPosition="+position+",id="+tingSong.getSongId());
+        Log.i(TAG,"requestMusicPosition="+position+",id="+tingSong.getSongId());
     }
     @Override
     public void beginToPlay(int position,TingSong tingSong){
@@ -119,6 +120,8 @@ public class MusicBinder extends Binder implements IMusicBinder{
                 }
             }
 
+            iService.getPlayingMusicList().clear();
+            iService.getPlayingMusicList().addAll(tingSongList);
             if (isNeedSave) {
 
                 Observable.create(new Observable.OnSubscribe<Void>() {
@@ -155,14 +158,14 @@ public class MusicBinder extends Binder implements IMusicBinder{
                 }).doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.e("TAG","存储发生了错误,"+throwable.getMessage());
+                        Log.e(TAG,"存储发生了错误,"+throwable.getMessage());
                         throwable.printStackTrace();
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<Void>() {
                             @Override
                             public void call(Void aVoid) {
-                                Log.e("TAG","存储成功!");
+                                Log.e(TAG,"存储成功!");
                             }
                         });
 
@@ -173,8 +176,7 @@ public class MusicBinder extends Binder implements IMusicBinder{
 //            }else{
 //                iService.setPlayingMusicList(tingSongList,true);
 //            }
-            iService.getPlayingMusicList().clear();
-            iService.getPlayingMusicList().addAll(tingSongList);
+
 
         }
     }
@@ -256,5 +258,38 @@ public class MusicBinder extends Binder implements IMusicBinder{
     @Override
     public TingSong getTingSongById(long songId) {
         return iService.getTingSongById(songId);
+    }
+
+    @Override
+    public void removeOneSong(long songId) {
+//        List<TingSong> tingSongList = iService.getPlayingMusicList();
+//        TingSong tingSong = iService.getCurrentSong();
+//        int index=0;
+//        if (tingSong.getSongId()==songId){
+//            iService.requestToStop(true);
+//            for (int i=0;i<tingSongList.size();i++){
+//                if (tingSongList.get(i).getSongId()==songId){
+//                    tingSongList.remove(tingSongList.get(i));
+//                    index = i;
+//                    break;
+//                }
+//            }
+//            setMusicPlayList(tingSongList,false);
+//            if (index+1<getMusicPlayList().size()){
+//                beginToPlay(index+1,getMusicPlayList().get(index+1));
+//            }else {
+//                beginToPlay(0,getMusicPlayList().get(0));
+//            }
+//
+//        }else {
+//            for (int i=0;i<tingSongList.size();i++){
+//                if (tingSongList.get(i).getSongId()==songId){
+//                    tingSongList.remove(tingSongList.get(i));
+//                    break;
+//                }
+//            }
+//            iService.getPlayingMusicList().clear();
+//            iService.getPlayingMusicList().addAll(tingSongList);
+//        }
     }
 }
